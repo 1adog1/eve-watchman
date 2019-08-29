@@ -24,7 +24,8 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 * Set `/public` as Document Root in Apache.
 
 ## Relay Setup
-* Just run `relay.py` to get the monitoring started.
+* After setting up the configuration file make sure to connect to the webserver's home page at least once. 
+* Then just run `relay.py` to get the monitoring started.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:

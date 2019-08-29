@@ -1,0 +1,29 @@
+RewriteEngine On
+
+<IfModule mod_env.c>
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+</ifModule>
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+RewriteRule ^(.+)\.php$ /$1 [NC,L,R=301]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)/?$ /$1.php [END]
+
+ErrorDocument 403 /accessDenied/
+ErrorDocument 404 /accessDenied/
+ErrorDocument 500 /accessDenied/
+
+Options -Indexes
+
+<Files ".htaccess">
+  Deny from all
+</Files>
+
+<Files ".user.ini">
+  Deny from all
+</Files>

@@ -1,0 +1,14 @@
+Order deny,allow
+Deny from all
+
+<Files "TypeIDs.json">
+  Allow from all
+</Files>
+
+<Files "geographicInformation.json">
+  Allow from all
+</Files>
+
+<Files "geographicNames.json">
+  Allow from all
+</Files>

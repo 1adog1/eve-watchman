@@ -46,7 +46,7 @@
 			<div class="col-md-4">
 				<h2 class="ColumnHeader">Add a Configuration</h2>
 				<br>
-				<form method="post" action="/manage/dataController.php">
+				<form method="post" action="/manage/dataController">
 					<div class="form-group">
 						<label for="platform">Platform</label>
 						<select name="platform" class="custom-select" id="platform">

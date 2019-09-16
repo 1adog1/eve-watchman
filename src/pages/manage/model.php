@@ -77,7 +77,7 @@
 					<br>
 					<div class='collapse' id='" . $configurations["id"] . "'><br>" . $relayTypes . "</div>
 					</td>
-					<td><a href='/manage/dataController.php?todo=remove&id=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-md'><strong>X</strong></button></a></td>
+					<td><a href='/manage/dataController?todo=remove&id=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-md'><strong>X</strong></button></a></td>
 				
 				</tr>
 				";

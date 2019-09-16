@@ -86,7 +86,7 @@
 			</li>
 
 			<li class="nav-item mt-2">
-				<a href="/eveauth/logout.php?callback=<?php echo $_SERVER["REQUEST_URI"] ?>" class="btn btn-outline-danger" role="button">Logout</a>
+				<a href="/eveauth/logout?callback=<?php echo $_SERVER["REQUEST_URI"] ?>" class="btn btn-outline-danger" role="button">Logout</a>
 			</li>
 			
 		<?php endif; ?>

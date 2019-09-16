@@ -11,6 +11,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
   * [requests](https://pypi.org/project/requests/)
   * [PyYaml](https://pypi.org/project/PyYAML/)
   * [schedule](https://pypi.org/project/schedule/)
+  * [Python MySQL Connector](https://dev.mysql.com/downloads/connector/python/)
 * An SQL Server
   * If you are using MySQL, the Authentication Method **MUST** be the Legacy Version. PDO does not support the use of `caching_sha2_password` Authentication. 
 * A Registered Eve Online Application. 
@@ -26,6 +27,12 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 ## Relay Setup
 * After setting up the configuration file make sure to connect to the webserver's home page at least once. 
 * Then just run `relay.py` to get the monitoring started.
+
+### To Deploy the Relay on a Seperate Server
+In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
+* Make sure to connect to the webserver at least once after the `/config/config.php` file as been setup.
+* Take `relay.py`, `notifier.py`, `ESI.py`, and `testing.py` and add them to the new server. Treat whatever directory they're in as the "top directory" for the step below. 
+* Now, take the newly generated `config.json` file in `/config/` on the old server and add it to the directory `/config/` on the new server.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:
@@ -71,6 +78,10 @@ The following notifications are supported and configured according to the follow
 ### POS Management Events
 * TowerResourceAlertMsg
 * AllAnchoringMsg
+
+## ToDo
+* Add page for verifying / managing relay characters.
+* Allow multiple characters to be assigned to each configuration (reducing the potential error time). 
 
 ## Credits
 * Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.

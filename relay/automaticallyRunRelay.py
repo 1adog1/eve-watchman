@@ -1,0 +1,3 @@
+import relay
+
+relay.automateRelay()

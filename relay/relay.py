@@ -6,6 +6,7 @@ import os
 import time
 import requests
 import schedule
+import configparser
 
 import ESI
 import notifier
@@ -16,30 +17,42 @@ from datetime import timezone
 
 import mysql.connector as DatabaseConnector
 
-def dataFile():
 
-    filename = inspect.getframeinfo(inspect.currentframe()).filename
-    path = os.path.dirname(os.path.abspath(filename))
+#################
+# PATH OVERRIDE #
+#################
+pathOverride = False
+
+#If you need to run the python part of this app elsewhere for whatever reason, set pathOverride to an absolute path where the watchmanConfig.ini file will be contained. Otherwise, keep it set to False.
+
+def dataFile(pathOverride):
     
-    dataLocation = str(path)
+    if not pathOverride:
     
-    return(dataLocation)
-
-if Path(dataFile() + "/config/config.json").is_file():
-
-    with open(dataFile() + "/config/config.json", "r") as configFile:
-        configData = json.load(configFile)
+        filename = inspect.getframeinfo(inspect.currentframe()).filename
+        path = os.path.join(os.path.dirname(os.path.abspath(filename)), "..")
         
-        databaseInfo = configData["Database"]
-        appInfo = configData["App"]
+        dataLocation = str(path)
+        
+        return(dataLocation)
+    
+    else:
+        return(pathOverride)
+
+if Path(dataFile(pathOverride) + "/config/watchmanConfig.ini").is_file():
+    config = configparser.ConfigParser()
+    config.read(dataFile(pathOverride) + "/config/watchmanConfig.ini")
+    
+    databaseInfo = config["Database"]
+    appInfo = config["Authentication"]
     
 else:
-    raise Warning("Configuration file has not been generated!")
+    raise Warning("No Configuration File Found!")
     
-with open(dataFile() + "/resources/data/geographicInformation.json", "r") as geographyFile:
+with open(dataFile(pathOverride) + "/resources/data/geographicInformation.json", "r") as geographyFile:
     geographicInformation = json.load(geographyFile)
         
-with open(dataFile() + "/resources/data/TypeIDs.json", "r") as typeIDFile:
+with open(dataFile(pathOverride) + "/resources/data/TypeIDs.json", "r") as typeIDFile:
     typeIDList = json.load(typeIDFile)
 
 def startRelay():
@@ -52,7 +65,7 @@ def startRelay():
         readableCurrentTime = currentTime.strftime("%d %B, %Y - %H:%M:%S EVE")
         print("[" + readableCurrentTime + "] Monitoring Started!")
 
-        sq1Database = DatabaseConnector.connect(user=databaseInfo["Username"], password=databaseInfo["Password"], host=databaseInfo["Server"] , port=int(databaseInfo["Port"]), database=databaseInfo["Name"])
+        sq1Database = DatabaseConnector.connect(user=databaseInfo["DatabaseUsername"], password=databaseInfo["DatabasePassword"], host=databaseInfo["DatabaseServer"] , port=int(databaseInfo["DatabasePort"]), database=databaseInfo["DatabaseName"])
 
         firstCursor = sq1Database.cursor(buffered=True)
 
@@ -137,8 +150,13 @@ def startRelay():
     except:
         traceback.print_exc()
 
-schedule.every(150).seconds.do(startRelay)
-        
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+def automateRelay():
+    schedule.every(150).seconds.do(startRelay)
+
+    currentTime = datetime.now()
+    readableCurrentTime = currentTime.strftime("%d %B, %Y - %H:%M:%S EVE")
+    print(" --- [" + readableCurrentTime + "] EVE WATCHMAN - RELAY SUCCESSFULLY STARTED --- ")
+            
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

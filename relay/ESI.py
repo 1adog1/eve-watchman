@@ -3,7 +3,7 @@ def getAccessToken(appInfo, refreshToken):
     import requests
     import json
 
-    toHeader = appInfo["Client ID"] + ":" + appInfo["Client Secret"]
+    toHeader = appInfo["ClientID"] + ":" + appInfo["ClientSecret"]
     authHeader = "Basic " + base64.urlsafe_b64encode(toHeader.encode('utf-8')).decode()
     authBody = {"grant_type":"refresh_token","refresh_token":refreshToken}
 

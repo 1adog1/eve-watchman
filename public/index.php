@@ -3,7 +3,6 @@
 
 	require $_SERVER['DOCUMENT_ROOT'] . "/../src/auth/accessControl.php";
 	
-	createPythonConfig();
 	configureErrorChecking();
 
 	require $_SERVER['DOCUMENT_ROOT'] . "/../config/config.php";

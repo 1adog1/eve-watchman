@@ -209,24 +209,6 @@ function purgeCookies() {
 	}
 }
 
-function createPythonConfig() {
-	require $_SERVER['DOCUMENT_ROOT'] . "/../config/config.php";
-	
-	if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/../config/config.json") === true) {
-		
-		$databaseSplit = explode(":", $databaseServer);
-		$databaseHost = $databaseSplit[0];
-		$databasePort = $databaseSplit[1];
-		
-		$configArray = ["Database" => ["Server" => $databaseHost, "Port" => $databasePort, "Username" => $databaseUsername, "Password" => $databasePassword, "Name" => $databaseName], "App" => ["Client ID" => $clientid, "Client Secret" => $clientsecret]];
-		
-		$pythonConfig = fopen($_SERVER['DOCUMENT_ROOT'] . "/../config/config.json", "w");
-		fwrite($pythonConfig, json_encode($configArray));
-		fclose($pythonConfig);
-		
-	}	
-}
-
 function checkCache($cacheType, $cacheID) {
 	
 	$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM idcache WHERE type=:type AND id=:id");

@@ -18,21 +18,20 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
   * This can be setup via the [Eve Online Developers Site](https://developers.eveonline.com/).
 
 ## Webapp Setup
-* Setup the Configuration File in `/config/config.php` as needed.
+* Setup the Configuration File in `/config/watchmanConfig.ini` as needed.
 * Ensure Apache is configured to allow `.htaccess` files with use of the rewrite engine.
 * Ensure Apache is configured to allow https connections.
 * Ensure PHP is configured to allow `.user.ini` files. 
 * Set `/public` as Document Root in Apache.
 
 ## Relay Setup
-* After setting up the configuration file make sure to connect to the webserver's home page at least once. 
-* Then just run `relay.py` to get the monitoring started.
+* After setting up the `/config/watchmanConfig.ini` file you can either run `/relay/singleRunRelay.py` as a cronjob or `/relay/automaticallyRunRelay.py` once to begin relaying notifications. 
 
 ### To Deploy the Relay on a Seperate Server
 In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
-* Make sure to connect to the webserver at least once after the `/config/config.php` file as been setup.
-* Take `relay.py`, `notifier.py`, `ESI.py`, and `testing.py` and add them to the new server. Treat whatever directory they're in as the "top directory" for the step below. 
-* Now, take the newly generated `config.json` file in `/config/` on the old server and add it to the directory `/config/` on the new server.
+* Make sure to copy the `/config/watchmanConfig.ini` file somewhere python can access it after it has been setup.
+* Move the `/relay` folder to wherever you'll be running it from.
+* In `/relay/relay.py` change  the `pathOverride` variable to an absolute path where your copy of `watchmanConfig.ini` is being stored.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:

@@ -20,6 +20,8 @@ ErrorDocument 500 /accessDenied/
 
 Options -Indexes
 
+Allow from all
+
 <Files ".htaccess">
   Deny from all
 </Files>

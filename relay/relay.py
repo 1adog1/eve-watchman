@@ -25,23 +25,23 @@ pathOverride = False
 
 #If you need to run the python part of this app elsewhere for whatever reason, set pathOverride to an absolute path where the watchmanConfig.ini file will be contained. Otherwise, keep it set to False.
 
-def dataFile(pathOverride):
+def dataFile(pathOverride, extraFolder):
     
     if not pathOverride:
     
         filename = inspect.getframeinfo(inspect.currentframe()).filename
         path = os.path.join(os.path.dirname(os.path.abspath(filename)), "..")
         
-        dataLocation = str(path)
+        dataLocation = str(path) + extraFolder
         
         return(dataLocation)
     
     else:
         return(pathOverride)
 
-if Path(dataFile(pathOverride) + "/config/watchmanConfig.ini").is_file():
+if Path(dataFile(pathOverride, "/config") + "/watchmanConfig.ini").is_file():
     config = configparser.ConfigParser()
-    config.read(dataFile(pathOverride) + "/config/watchmanConfig.ini")
+    config.read(dataFile(pathOverride, "/config") + "/watchmanConfig.ini")
     
     databaseInfo = config["Database"]
     appInfo = config["Authentication"]
@@ -49,10 +49,10 @@ if Path(dataFile(pathOverride) + "/config/watchmanConfig.ini").is_file():
 else:
     raise Warning("No Configuration File Found!")
     
-with open(dataFile(pathOverride) + "/resources/data/geographicInformation.json", "r") as geographyFile:
+with open(dataFile(pathOverride, "/resources/data") + "/geographicInformation.json", "r") as geographyFile:
     geographicInformation = json.load(geographyFile)
         
-with open(dataFile(pathOverride) + "/resources/data/TypeIDs.json", "r") as typeIDFile:
+with open(dataFile(pathOverride, "/resources/data") + "/TypeIDs.json", "r") as typeIDFile:
     typeIDList = json.load(typeIDFile)
 
 def startRelay():

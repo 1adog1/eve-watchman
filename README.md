@@ -19,6 +19,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 ## Webapp Setup
 * Setup the Configuration File in `/config/watchmanConfig.ini` as needed.
+ * If you need to move this file you'll need to change the path it's accessed from in `/config/config.php`
 * Ensure Apache is configured to allow `.htaccess` files with use of the rewrite engine.
 * Ensure Apache is configured to allow https connections.
 * Ensure PHP is configured to allow `.user.ini` files. 
@@ -29,9 +30,9 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 ### To Deploy the Relay on a Seperate Server
 In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
-* Make sure to copy the `/config/watchmanConfig.ini` file somewhere python can access it after it has been setup.
+* Make sure to copy the `/config/watchmanConfig.ini` file along with the `/resources/data/geographicInformation.json` and `/resources/data/TypeIDs.json` files somewhere python can access it after it has been setup.
 * Move the `/relay` folder to wherever you'll be running it from.
-* In `/relay/relay.py` change  the `pathOverride` variable to an absolute path where your copy of `watchmanConfig.ini` is being stored.
+* In `/relay/relay.py` change  the `pathOverride` variable to an absolute path where your copies of the above 3 files are being stored.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:

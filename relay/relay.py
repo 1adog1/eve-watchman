@@ -21,9 +21,10 @@ import mysql.connector as DatabaseConnector
 #################
 # PATH OVERRIDE #
 #################
-pathOverride = False
+configPathOverride = False
+dataPathOverride = False
 
-#If you need to run the python part of this app elsewhere for whatever reason, set pathOverride to an absolute path where the watchmanConfig.ini file will be contained. Otherwise, keep it set to False.
+#If you need to run the python part of this app elsewhere for whatever reason, set the above two variables to absolute paths where the watchmanConfig.ini and two .json files will be contained respectively. Otherwise, keep them set to False.
 
 def dataFile(pathOverride, extraFolder):
     
@@ -39,9 +40,9 @@ def dataFile(pathOverride, extraFolder):
     else:
         return(pathOverride)
 
-if Path(dataFile(pathOverride, "/config") + "/watchmanConfig.ini").is_file():
+if Path(dataFile(configPathOverride, "/config") + "/watchmanConfig.ini").is_file():
     config = configparser.ConfigParser()
-    config.read(dataFile(pathOverride, "/config") + "/watchmanConfig.ini")
+    config.read(dataFile(configPathOverride, "/config") + "/watchmanConfig.ini")
     
     databaseInfo = config["Database"]
     appInfo = config["Authentication"]
@@ -49,10 +50,10 @@ if Path(dataFile(pathOverride, "/config") + "/watchmanConfig.ini").is_file():
 else:
     raise Warning("No Configuration File Found!")
     
-with open(dataFile(pathOverride, "/resources/data") + "/geographicInformation.json", "r") as geographyFile:
+with open(dataFile(dataPathOverride, "/resources/data") + "/geographicInformation.json", "r") as geographyFile:
     geographicInformation = json.load(geographyFile)
         
-with open(dataFile(pathOverride, "/resources/data") + "/TypeIDs.json", "r") as typeIDFile:
+with open(dataFile(dataPathOverride, "/resources/data") + "/TypeIDs.json", "r") as typeIDFile:
     typeIDList = json.load(typeIDFile)
 
 def startRelay():

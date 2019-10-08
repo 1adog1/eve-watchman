@@ -15,7 +15,7 @@
 	
 	determineAccess($_SESSION["AccessRoles"], $PageMinimumAccessLevel);	
 		
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["create_relay"]) and $_POST["create_relay"] == "true") {
 		
 		$notificationEvents = 
 		["upwell_attack" => ["StructureDestroyed", "StructureLostArmor", "StructureLostShields", "StructureUnderAttack"], 
@@ -86,14 +86,18 @@
 			$currentTime = time();
 			$platform = htmlspecialchars($_POST["platform"]);
 			$webhookToAdd = $_POST["hook_url"];
-			$targetID = htmlspecialchars($_POST["target_character"]);
+            $targetIDArray = [];
+            $targetIDArray[] = htmlspecialchars($_POST["target_character"]);
+			$targetID = json_encode($targetIDArray);
 			$targetChannel = htmlspecialchars($_POST["target_channel"]);
 			$pingType = htmlspecialchars($_POST["ping_type"]);
 			
-			$CharacterJson = file_get_contents("http://esi.evetech.net/latest/characters/" . $targetID . "/?datasource=tranquility");
-			$CharacterData = json_decode($CharacterJson, TRUE);
+			$CharacterJson = file_get_contents("http://esi.evetech.net/latest/characters/" . $targetIDArray[0] . "/?datasource=tranquility");
+			$CharacterData = json_decode($CharacterJson, true);
 			
-			$nameToAdd = htmlspecialchars($CharacterData["name"]);
+			$nameArrayToAdd = [];
+            $nameArrayToAdd[] = htmlspecialchars($CharacterData["name"]);
+            $nameToAdd = json_encode($nameArrayToAdd);
 			
 			$corpIDToAdd = $CharacterData["corporation_id"];
 			$corpToAdd = checkCache("Corporation", $corpIDToAdd);
@@ -182,9 +186,166 @@
 			die();				
 		}
 	}
+    elseif ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["add_character"])) {
+        
+        $toAddTo = htmlspecialchars($_POST["add_character"]);
+        $toAdd = htmlspecialchars($_POST["target_add_character"]);
+        
+        $CharacterJson = file_get_contents("http://esi.evetech.net/latest/characters/" . $toAdd . "/?datasource=tranquility");
+        $CharacterData = json_decode($CharacterJson, true);
+        
+        $nameToAdd = htmlspecialchars($CharacterData["name"]);
+        
+        $corpIDToAdd = $CharacterData["corporation_id"];
+        $corpToAdd = checkCache("Corporation", $corpIDToAdd);
+        
+        if (isset($CharacterData["alliance_id"])) {
+            $allianceIDToAdd = $CharacterData["alliance_id"];
+            $allianceToAdd = checkCache("Alliance", $allianceIDToAdd);
+        }
+        else {
+            $allianceIDToAdd = 0;
+            $allianceToAdd = "[No Alliance]";
+        }
+        
+        if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
+
+            $toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM configurations WHERE id = :id");
+            $toPull->bindParam(':id', $toAddTo);
+            $toPull->execute();
+            $configurationData = $toPull->fetchAll();
+
+            if (!empty($configurationData)) {
+
+                if (((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) and $corpIDToAdd == $configurationData[0]["corporationid"]) {
+                    
+                    $IDList = json_decode($configurationData[0]["targetid"], true);
+                    $nameList = json_decode($configurationData[0]["targetname"], true);
+                    
+                    if (!in_array($toAdd, $IDList)) {
+                    
+                        $IDList[] = $toAdd;
+                        $nameList[] = $nameToAdd;
+                    
+                    }
+                    else {
+                        
+                        header("Location: /manage/?error=character_already_a_target");
+                        ob_end_flush();
+                        die();
+                        
+                    }
+                    $IDListToAdd = json_encode(array_values($IDList));
+                    $nameListToAdd = json_encode(array_values($nameList));
+                
+                    $toUpdate = $GLOBALS['MainDatabase']->prepare("UPDATE configurations SET targetname=:targetname, targetid=:targetid WHERE id=:id");
+                    $toUpdate->bindParam(':targetname', $nameListToAdd);
+                    $toUpdate->bindParam(':targetid', $IDListToAdd);
+                    $toUpdate->bindParam(':id', $toAddTo);
+                    $toUpdate->execute();
+                    
+                    makeLogEntry("User Database Edit", $_SESSION["CurrentPage"], $_SESSION["Character Name"], "The character " . $toAdd . " has been added to " . $toAddTo . ".");
+                    
+                }
+                
+                else {
+                    
+                    header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+                    ob_end_flush();
+                    die();
+                    
+                }
+                
+            }
+            else {
+
+                header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+                ob_end_flush();
+                die();		
+                
+            }
+            
+        }
+
+        else {
+
+            header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+            ob_end_flush();
+            die();
+            
+        }
+        
+    }
 	else {
 		
-		if (isset($_GET["todo"]) and htmlspecialchars($_GET["todo"]) == "remove") {
+        if (isset($_GET["todo"]) and htmlspecialchars($_GET["todo"]) == "remove_character") {
+
+			$toRemoveFrom = htmlspecialchars($_GET["configid"]);
+            $toRemove = htmlspecialchars($_GET["id"]);
+			
+			$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM configurations WHERE id = :id");
+			$toPull->bindParam(':id', $toRemoveFrom);
+			$toPull->execute();
+			$configurationData = $toPull->fetchAll();
+			
+			if (!empty($configurationData)) {
+			
+				if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) {
+					                    
+                    $IDList = json_decode($configurationData[0]["targetid"], true);
+                    $nameList = json_decode($configurationData[0]["targetname"], true);
+                    
+                    if (in_array($toRemove, $IDList)) {
+                        
+                        $nameToRemove = checkCache("Character", $toRemove);
+                        if (($keyToRemove = array_search($toRemove, $IDList)) !== false) {
+                            unset($IDList[$keyToRemove]);
+                        }
+                        if (($keyNameToRemove = array_search($nameToRemove, $nameList)) !== false) {
+                            unset($nameList[$keyNameToRemove]);
+                        }
+                        
+                        $IDListToAdd = json_encode(array_values($IDList));
+                        $nameListToAdd = json_encode(array_values($nameList));
+                                            
+                        $toUpdate = $GLOBALS['MainDatabase']->prepare("UPDATE configurations SET targetname=:targetname, targetid=:targetid WHERE id=:id");
+                        $toUpdate->bindParam(':targetname', $nameListToAdd);
+                        $toUpdate->bindParam(':targetid', $IDListToAdd);
+                        $toUpdate->bindParam(':id', $toRemoveFrom);
+                        $toUpdate->execute();
+                        
+                        makeLogEntry("User Database Edit", $_SESSION["CurrentPage"], $_SESSION["Character Name"], "The character " . $toRemove . " has been removed from " . $toRemoveFrom . ".");
+                    }
+					else {
+                        
+					header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+					ob_end_flush();
+					die();	
+                        
+                    }
+				}
+				
+				else {
+					
+					header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+					ob_end_flush();
+					die();					
+					
+				}
+				
+			}
+			
+			else {
+
+				header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+				ob_end_flush();
+				die();
+				
+			}
+            
+        }
+        
+		elseif (isset($_GET["todo"]) and htmlspecialchars($_GET["todo"]) == "remove") {
 			
 			$toRemove = htmlspecialchars($_GET["id"]);
 			

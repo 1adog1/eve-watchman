@@ -1,6 +1,6 @@
 <?php
 
-	function generateOptions() {
+	function generateOptions($specifiedCorp = "All") {
 		
 		$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays");
 		$toPull->execute();
@@ -10,11 +10,16 @@
 			
 			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]") or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
 			
-				echo "<option value='" . $relayData["id"] . "'>" . $relayData["name"] . " [" . $relayData["corp"] . "]</option>";
-			
+                if ($specifiedCorp == "All"){
+            
+                    echo "<option value='" . $relayData["id"] . "'>" . $relayData["name"] . " [" . $relayData["corp"] . "]</option>";
+                }
+                elseif ($relayData["corpid"] == $specifiedCorp){
+            
+                    echo "<option value='" . $relayData["id"] . "'>" . $relayData["name"] . "</option>";
+                }
 			}
-		}
-		
+		}	
 	}
 	
 	function generateCharacterArray() {
@@ -69,7 +74,34 @@
 					<td>" . $configurations["type"] . "</td>
 					<td>" . $configurations["channel"] . "</td>
 					<td>" . $configurations["pingtype"] . "</td>
-					<td>" . $configurations["targetname"] . "</td>
+					<td>
+                    <br>
+                    <form method='post' action='/manage/dataController'>
+                        <select name='target_add_character' class='custom-select' id='target_add_character' style='width: 200px;'>
+                        
+                ";
+                
+                generateOptions($configurations["corporationid"]);
+                
+                echo "
+                        
+                        </select>
+                        <input type='hidden' name='add_character' id='add_character' value=" . $configurations["id"] . ">
+                        <br>
+                        <input type='submit' value='Add' class='btn btn-dark btn-small'>
+                    </form>
+                    </td>
+                    <td style='text-align: left;'>
+                ";
+                
+				foreach (json_decode($configurations["targetid"], true) as $throwaway => $targetids) {
+                    $targetName = checkCache("Character", $targetids);
+                    
+					echo ("<a href='dataController?todo=remove_character&id=" . urlencode($targetids) . "&configid=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-sm'><strong>X</strong></button></a> " . $targetName . "<br>");
+				}                
+                    
+                echo "
+                    </td>
 					<td>" . $configurations["alliance"] . "</td>
 					<td>" . $configurations["corporation"] . "</td>
 					<td class='small'>

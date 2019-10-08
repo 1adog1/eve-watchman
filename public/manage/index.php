@@ -173,7 +173,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-					
+                    
+                        <input type="hidden" name="create_relay" id="create_relay" value="true">
 						<input type="submit" value="Create Configuration" class="btn btn-dark btn-large">
 					
 					</div>
@@ -189,7 +190,8 @@
 					<th>Platform</th>
 					<th>Channel</th>
 					<th>Ping Type</th>
-					<th>Target</th>
+                    <th>Add Target</th>
+					<th>Targets</th>
 					<th>Alliance</th>
 					<th>Corporation</th>
 					<th>Whitelist</th>

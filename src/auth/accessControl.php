@@ -29,11 +29,15 @@ if (checkTableExists($GLOBALS['MainDatabase'], "relays") === false) {
 }
 
 if (checkTableExists($GLOBALS['MainDatabase'], "configurations") === false) {
-	$GLOBALS['MainDatabase']->exec("CREATE TABLE configurations (id TEXT, type TEXT, channel TEXT, url TEXT, pingtype TEXT, targetname TEXT, targetid BIGINT, whitelist MEDIUMTEXT, timestamp BIGINT, alliance TEXT, allianceid BIGINT, corporation TEXT, corporationid BIGINT)");
+	$GLOBALS['MainDatabase']->exec("CREATE TABLE configurations (id TEXT, type TEXT, channel TEXT, url TEXT, pingtype TEXT, targetname TEXT, targetid TEXT, whitelist MEDIUMTEXT, timestamp BIGINT, alliance TEXT, allianceid BIGINT, corporation TEXT, corporationid BIGINT)");
 }
 
 if (checkTableExists($GLOBALS['MainDatabase'], "notifications") === false) {
 	$GLOBALS['MainDatabase']->exec("CREATE TABLE notifications (timestamp BIGINT, type TEXT, configurationid TEXT, id BIGINT)");
+}
+
+if (checkTableExists($GLOBALS['MainDatabase'], "staggering") === false) {
+	$GLOBALS['MainDatabase']->exec("CREATE TABLE staggering (corporationid BIGINT, characters TEXT, frequency BIGINT, lastrun BIGINT, currentposition BIGINT)");
 }
 
 function checkLastPage() {

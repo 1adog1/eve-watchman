@@ -203,9 +203,9 @@ def startRelay():
                         configurationQuery = ("SELECT * FROM configurations")
                         secondCursor.execute(configurationQuery)
                         
-                        for (configurationID, configurationType, configurationChannel, configurationURL, configurationPingType, configurationTargetNames, configurationTargetID, configurationWhitelist, configurationTimestamp, configurationAlliance, configurationAllianceID, configurationCorporation, configurationCorporationID) in secondCursor:
+                        for (configurationID, configurationType, configurationChannel, configurationURL, configurationPingType, configurationTargetNames, configurationTargetIDs, configurationWhitelist, configurationTimestamp, configurationAlliance, configurationAllianceID, configurationCorporation, configurationCorporationID) in secondCursor:
                         
-                            targetList = json.loads(configurationTargetNames)
+                            targetList = json.loads(configurationTargetIDs)
                             
                             if str(toCheckID) in targetList:
                             

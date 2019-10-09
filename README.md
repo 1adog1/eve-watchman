@@ -27,6 +27,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 ## Relay Setup
 * After setting up the `/config/watchmanConfig.ini` file you can either run `/relay/singleRunRelay.py` as a cronjob or `/relay/automaticallyRunRelay.py` once to begin relaying notifications. 
+ * If running the relay as a cronjob, make sure to run it at a pace that can take advantage of staggering (Faster than or equal to `600 seconds / highest number of relay characters in a single corporation`).
 
 ### To Deploy the Relay on a Seperate Server
 In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
@@ -79,10 +80,7 @@ The following notifications are supported and configured according to the follow
 * TowerResourceAlertMsg
 * AllAnchoringMsg
 
-## ToDo
-* Add page for verifying / managing relay characters.
-* Allow multiple characters to be assigned to each configuration (reducing the potential error time). 
-
 ## Credits
 * Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.
 * The [Unofficial Notification Documentation](https://github.com/antihax/goesi/blob/master/notification/notification.go) by antihax was instrumental in creating many of the custom notifications.
+* Icons used in the Character Manager are from the [Octicon](https://github.com/primer/octicons/) project by GitHub.

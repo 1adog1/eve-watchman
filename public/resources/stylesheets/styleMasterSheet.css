@@ -31,6 +31,18 @@
 	width: auto%;
 }
 
+.successSVG {
+    filter: invert(30%) sepia(75%) saturate(3800%) hue-rotate(80deg) brightness(95%) contrast(100%);
+}
+
+.warnSVG {
+    filter: invert(80%) sepia(10%) saturate(5200%) hue-rotate(360deg) brightness(100%) contrast(100%);
+}
+
+.alertSVG {
+    filter: invert(35%) sepia(85%) saturate(6700%) hue-rotate(0deg) brightness(95%) contrast(95%);
+}
+
 #characterRoles {
 	white-space: pre-line;
 }

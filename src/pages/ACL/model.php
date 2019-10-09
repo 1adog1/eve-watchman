@@ -53,6 +53,12 @@ function showCharacterCard($ParsedName, $SearchID) {
 					<input type='checkbox' class='custom-control-input' name='configure_alliance' value='true' id='configure_alliance_" . $SearchID . "'> 
 					<label class='custom-control-label' for='configure_alliance_" . $SearchID . "'>Configure Alliance</label>
 				</div>
+                
+				<div class='custom-control custom-checkbox custom-control-inline'>
+					<input type='checkbox' class='custom-control-input' name='character_controller' value='true' id='character_controller_" . $SearchID . "'> 
+					<label class='custom-control-label' for='character_controller_" . $SearchID . "'>Character Controller</label>
+				</div>                
+                
 			</div>
 			
 			<input type='hidden' id='id' name='id' value='" . $SearchID . "'>

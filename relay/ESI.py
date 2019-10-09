@@ -82,7 +82,12 @@ def getStructureDetails(structureID, accessToken):
     
     structureData = json.loads(structureRequest.text)
     
-    return structureData
+    if "error" in structureData:
+        placeholderData = {"name":"[Unknown Structure]", "owner_id":1000001, "type_id":42601}
+        
+        return placeholderData
+    else:
+        return structureData
 
 def getCharacterData(characterID):
     import requests

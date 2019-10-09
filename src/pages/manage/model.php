@@ -8,7 +8,7 @@
 				
 		foreach ($relayData as $throwaway => $relayData) {
 			
-			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]") or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
+			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]" and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
 			
                 if ($specifiedCorp == "All"){
             
@@ -32,7 +32,7 @@
 		
 		foreach ($relayData as $throwaway => $relayData) {
 			
-			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]") or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
+			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]" and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
 			
 				$rolesString = "";
 				
@@ -60,7 +60,7 @@
 		
 		foreach ($configurationData as $throwaway => $configurations) {
 		
-			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurations["allianceid"] == $_SESSION["AllianceID"] and $configurations["alliance"] !== "[No Alliance]") or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurations["corporationid"] == $_SESSION["CorporationID"])) {
+			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurations["allianceid"] == $_SESSION["AllianceID"] and $configurations["alliance"] !== "[No Alliance]" and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurations["corporationid"] == $_SESSION["CorporationID"])) {
 				
 				$relayTypes = "";
 				

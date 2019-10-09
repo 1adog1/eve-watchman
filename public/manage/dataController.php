@@ -111,7 +111,7 @@
 				$allianceToAdd = "[No Alliance]";
 			}
 			
-			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
+			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
 				
 				if (($platform == "slack_webhook" and strpos($webhookToAdd, "https://hooks.slack.com/services/") === 0) or ($platform == "discord_webhook" and strpos($webhookToAdd, "https://discordapp.com/api/webhooks/") === 0)) {
 			
@@ -208,7 +208,7 @@
             $allianceToAdd = "[No Alliance]";
         }
         
-        if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
+        if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
 
             $toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM configurations WHERE id = :id");
             $toPull->bindParam(':id', $toAddTo);
@@ -217,7 +217,7 @@
 
             if (!empty($configurationData)) {
 
-                if (((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) and $corpIDToAdd == $configurationData[0]["corporationid"]) {
+                if (((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) and $corpIDToAdd == $configurationData[0]["corporationid"]) {
                     
                     $IDList = json_decode($configurationData[0]["targetid"], true);
                     $nameList = json_decode($configurationData[0]["targetname"], true);
@@ -290,7 +290,7 @@
 			
 			if (!empty($configurationData)) {
 			
-				if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) {
+				if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) {
 					                    
                     $IDList = json_decode($configurationData[0]["targetid"], true);
                     $nameList = json_decode($configurationData[0]["targetname"], true);
@@ -356,7 +356,7 @@
 			
 			if (!empty($configurationData)) {
 			
-				if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"]) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) {
+				if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $configurationData[0]["allianceid"] == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $configurationData[0]["corporationid"] == $_SESSION["CorporationID"])) {
 					
 					$toDelete = $GLOBALS['MainDatabase']->prepare("DELETE FROM configurations WHERE id=:id");
 					$toDelete->bindParam(':id', $toRemove);

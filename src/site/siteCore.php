@@ -4,7 +4,7 @@
 		
 		<?php 
 		
-		$pageList = ["Manager" => ["Required Roles" => ["Super Admin", "Configure Corp", "Configure Alliance"], "Link" => "/manage/"], "ACL Control" => ["Required Roles" => ["Super Admin", "ACL Admin"], "Link" => "/ACL/"], "Site Logs" => ["Required Roles" => ["Super Admin"], "Link" => "/logView/"]];
+		$pageList = ["Manager" => ["Required Roles" => ["Super Admin", "Configure Corp", "Configure Alliance"], "Link" => "/manage/"], "Character Manager" => ["Required Roles" => ["Super Admin", "ACL Admin", "Character Controller"], "Link" => "/characterManager/"], "ACL Control" => ["Required Roles" => ["Super Admin", "ACL Admin"], "Link" => "/ACL/"], "Site Logs" => ["Required Roles" => ["Super Admin"], "Link" => "/logView/"]];
 		
 		if ($_SESSION["AccessRoles"] != ["None"] and $_SESSION["AccessRoles"] != []) {
 			

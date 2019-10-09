@@ -49,6 +49,9 @@
 			if (isset($_POST["configure_alliance"]) and htmlspecialchars($_POST["configure_alliance"]) == "true") {
 				$rolesToAdd[] = "Configure Alliance";
 			}
+			if (isset($_POST["character_controller"]) and htmlspecialchars($_POST["character_controller"]) == "true") {
+				$rolesToAdd[] = "Character Controller";
+			}
 			
 			$rolesToAdd = json_encode($rolesToAdd);
 			

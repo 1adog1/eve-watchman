@@ -21,7 +21,7 @@
 					<td>" . $relays["name"] . "</td>
                     <td>" . $relays["corp"] . "</td>
                     <td>" . $relays["alliance"] . "</td>
-					<td class='small'>
+					<td class='small text-left'>
 					<button class='btn btn-dark btn-md' type='button' data-toggle='collapse' data-target='#roles_" . $relays["id"] . "' aria-expanded='false' aria-controls='collapseExample'>Show Roles</button>
 					<br>
 					<div class='collapse' id='roles_" . $relays["id"] . "'><br>" . $allRoles . "</div>
@@ -33,7 +33,7 @@
                 
                 echo "
                     </td>
-					<td><a href='/characterManager/dataController?todo=remove&id=" . urlencode($relays["id"]) . "'><button class='btn btn-dark btn-md'><strong>X</strong></button></a></td>
+					<td><a href='/characterManager/dataController?todo=remove&id=" . urlencode($relays["id"]) . "'><button class='btn btn-dark btn-md'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a></td>
 				</tr>
 				";
 				

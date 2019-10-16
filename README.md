@@ -83,4 +83,4 @@ The following notifications are supported and configured according to the follow
 ## Credits
 * Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.
 * The [Unofficial Notification Documentation](https://github.com/antihax/goesi/blob/master/notification/notification.go) by antihax was instrumental in creating many of the custom notifications.
-* Icons used in the Character Manager are from the [Octicon](https://github.com/primer/octicons/) project by GitHub.
+* Icons used across the webapp are from the [Octicon](https://github.com/primer/octicons/) project by GitHub.

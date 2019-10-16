@@ -74,8 +74,7 @@
 					<td>" . $configurations["type"] . "</td>
 					<td>" . $configurations["channel"] . "</td>
 					<td>" . $configurations["pingtype"] . "</td>
-					<td>
-                    <br>
+					<td class='text-left'>
                     <form method='post' action='/manage/dataController'>
                         <select name='target_add_character' class='custom-select' id='target_add_character' style='width: 200px;'>
                         
@@ -88,7 +87,7 @@
                         </select>
                         <input type='hidden' name='add_character' id='add_character' value=" . $configurations["id"] . ">
                         <br>
-                        <input type='submit' value='Add' class='btn btn-dark btn-small'>
+                        <input type='submit' value='Add' class='btn btn-dark btn-sm mt-2'>
                     </form>
                     </td>
                     <td style='text-align: left;'>
@@ -97,19 +96,19 @@
 				foreach (json_decode($configurations["targetid"], true) as $throwaway => $targetids) {
                     $targetName = checkCache("Character", $targetids);
                     
-					echo ("<a href='dataController?todo=remove_character&id=" . urlencode($targetids) . "&configid=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-sm'><strong>X</strong></button></a> " . $targetName . "<br>");
+					echo ("<div class='mt-2'><a href='dataController?todo=remove_character&id=" . urlencode($targetids) . "&configid=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-sm'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a> " . $targetName . "</div>");
 				}                
                     
                 echo "
                     </td>
 					<td>" . $configurations["alliance"] . "</td>
 					<td>" . $configurations["corporation"] . "</td>
-					<td class='small'>
-					<button class='btn btn-dark btn-md' type='button' data-toggle='collapse' data-target='#" . $configurations["id"] . "' aria-expanded='false' aria-controls='collapseExample'>Show Notifications</button>
+					<td class='small text-left'>
+					<button class='btn btn-dark btn-sm' type='button' data-toggle='collapse' data-target='#" . $configurations["id"] . "' aria-expanded='false' aria-controls='collapseExample'>Show Notifications</button>
 					<br>
 					<div class='collapse' id='" . $configurations["id"] . "'><br>" . $relayTypes . "</div>
 					</td>
-					<td><a href='/manage/dataController?todo=remove&id=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-md'><strong>X</strong></button></a></td>
+					<td><a href='/manage/dataController?todo=remove&id=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-md'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a></td>
 				
 				</tr>
 				";

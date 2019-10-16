@@ -19,7 +19,7 @@ function displayACL() {
 			<td align='center'><img class='AdminImage' src='https://imageserver.eveonline.com/character/" . $entity["entityid"] . "_64.jpg'></td>
 			<td align='center'><strong>" . $entity["entityname"] . "</strong></td>
 			<td align='center'><strong>" . $accessString . "</strong></td>
-			<td align='center'><a href='dataController?todo=remove&id=" . urlencode($entity["entityid"]) . "'><button class='btn btn-dark btn-sm'><strong>X</strong></button></a></td>
+			<td align='center'><a href='dataController?todo=remove&id=" . urlencode($entity["entityid"]) . "'><button class='btn btn-dark btn-sm'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a></td>
 		</tr>
 		";
 		

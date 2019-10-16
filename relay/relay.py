@@ -123,7 +123,7 @@ def checkStagger():
         
         sq1Database.commit()
 
-        print(changeCorps + " created.")
+        print(changeCorps + " created with a frequency of " + str(frequencyToAdd) + " seconds.")
 
     for changeCorps in toRegen:
         changeCursor = sq1Database.cursor(buffered=True)
@@ -142,7 +142,7 @@ def checkStagger():
         
         sq1Database.commit()
         
-        print(changeCorps + " regenerated.")
+        print(changeCorps + " regenerated with a new frequency of " + str(frequencyToUpdate) + " seconds.")
         
     for changeCorps in toDelete:
         changeCursor = sq1Database.cursor(buffered=True)

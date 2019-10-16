@@ -53,11 +53,11 @@
 					<th>Corporation</th>
 					<th>Alliance</th>
                     <th>Roles</th>
-                    <th>
-                        Check Status
-                        <form method="post" action="/characterManager/">
+                    <th class="text-left">
+                        <form method="post" action="/characterManager/" onsubmit="return confirm('Checking all characters may take up to 5 seconds per character. Doing this with a lot of characters could take some time. Do you wish to proceed?');">
+                            Check Status
                             <input type="hidden" name="check_character" id="check_character" value="All">
-                            <input type="submit" value="Check All" class="btn btn-dark btn-small">
+                            <input type="submit" value="Check All" class="btn btn-dark btn-small ml-5">
                         </form>
                     </th>
 					<th>Remove</th>

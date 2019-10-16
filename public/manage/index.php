@@ -43,7 +43,7 @@
 	<div class="container-fluid">
 		<br>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-xl-3">
 				<h2 class="ColumnHeader">Add a Configuration</h2>
 				<br>
 				<form method="post" action="/manage/dataController">
@@ -182,7 +182,7 @@
 				</form>
 			
 			</div>
-			<div class="col-md-8">
+			<div class="col-xl-9">
 				<h2 class="ColumnHeader">Configurations</h2>
 				<br>
 				<table style="width: 100%;">

@@ -12,7 +12,7 @@
 
 .ColumnHeader {
 	font-family: "Noto Sans", sans-serif;
-	font-size: 1.75vw;
+	font-size: 35px;
 	text-align: center;
 	color: #f1f1f1;
 }
@@ -85,7 +85,6 @@ a:active {
 
 tr {
 	font-family: "Noto Sans", sans-serif;
-	font-size: 0.75vw;
 	color: #f1f1f1;
 	padding: 0.5%;
 	border: thin solid rgba(25, 25, 25, 0.75);
@@ -95,7 +94,6 @@ tr {
 
 th {
 	font-family: "Noto Sans", sans-serif;
-	font-size: 0.75vw;
 	color: #f1f1f1;
 	padding: 0.5%;
 	border: thin solid rgba(25, 25, 25, 0.75);
@@ -106,7 +104,6 @@ th {
 
 td {
 	font-family: "Noto Sans", sans-serif;
-	font-size: 0.75vw;
 	color: #f1f1f1;
 	padding: 0.5%;
 	border: thin solid rgba(25, 25, 25, 0.75);

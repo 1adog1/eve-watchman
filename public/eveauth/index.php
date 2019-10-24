@@ -51,70 +51,91 @@
 					$CharacterJson = file_get_contents("http://esi.evetech.net/latest/characters/" . $characterID . "/?datasource=tranquility");
 					$CharacterData = json_decode($CharacterJson, true);
 					
-					$characterName = htmlspecialchars($CharacterData["name"]);
-					
-					$corpID = $CharacterData["corporation_id"];
-					$corpName = checkCache("Corporation", $corpID);
-					
-					if (isset($CharacterData["alliance_id"])) {
-					
-						$allianceID = $CharacterData["alliance_id"];
-						$allianceName = checkCache("Alliance", $allianceID);
-					}
-					else {
-						
-						$allianceID = 0;
-						$allianceName = "[No Alliance]";
-						
-					}
-					
-					$rolesJson = file_get_contents("https://esi.evetech.net/latest/characters/" . $characterID . "/roles/?datasource=tranquility&token=" . $authenticationToken);
-					$rolesData = json_decode($rolesJson, true);
-					$rolesToAdd = json_encode($rolesData["roles"]);
+                    if (isset($CharacterData["name"])) {
 
-					$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays WHERE id=:id");
-					$toPull->bindParam(':id', $characterID);
-					$toPull->execute();
-					$characterArrayData = $toPull->fetchAll();
-					
-					if (empty($characterArrayData)) {
-						
-						$toInsert = $GLOBALS['MainDatabase']->prepare("INSERT INTO relays (name, id, corpid, corp, refreshtoken, allianceid, alliance, roles) VALUES (:name, :id, :corpid, :corp, :refreshtoken, :allianceid, :alliance, :roles)");
-						$toInsert->bindParam(':name', $characterName);
-						$toInsert->bindParam(':id', $characterID);
-						$toInsert->bindParam(':corpid', $corpID);
-						$toInsert->bindParam(':corp', $corpName);
-						$toInsert->bindParam(':refreshtoken', $refreshToken);
-						$toInsert->bindParam(':allianceid', $allianceID);
-						$toInsert->bindParam(':alliance', $allianceName);
-						$toInsert->bindParam(':roles', $rolesToAdd);
-						
-						$toInsert->execute();
-						
-						$_SESSION["RelayStatus"] = "Added";
-						
-						makeLogEntry("User Database Edit", "Eve Authentication", "[Server Backend]", $characterID . " has been added as a relay character.");
-						
-					}
-					else {
-						
-						$toUpdate = $GLOBALS['MainDatabase']->prepare("UPDATE relays SET name = :name, corpid = :corpid, corp = :corp, refreshtoken = :refreshtoken, allianceid = :allianceid, alliance = :alliance, roles = :roles WHERE id = :id");
-						$toUpdate->bindParam(':name', $characterName);
-						$toUpdate->bindParam(':corpid', $corpID);
-						$toUpdate->bindParam(':corp', $corpName);
-						$toUpdate->bindParam(':refreshtoken', $refreshToken);
-						$toUpdate->bindParam(':allianceid', $allianceID);
-						$toUpdate->bindParam(':alliance', $allianceName);
-						$toUpdate->bindParam(':roles', $rolesToAdd);
-						$toUpdate->bindParam(':id', $characterID);
-						
-						$toUpdate->execute();
-						
-						$_SESSION["RelayStatus"] = "Updated";
-						
-						makeLogEntry("User Database Edit", "Eve Authentication", "[Server Backend]", $characterID . "'s relay information has been updated.");
-						
-					}
+                        $characterName = htmlspecialchars($CharacterData["name"]);
+                        
+                        $corpID = $CharacterData["corporation_id"];
+                        $corpName = checkCache("Corporation", $corpID);
+                        
+                        if (isset($CharacterData["alliance_id"])) {
+                        
+                            $allianceID = $CharacterData["alliance_id"];
+                            $allianceName = checkCache("Alliance", $allianceID);
+                        }
+                        else {
+                            
+                            $allianceID = 0;
+                            $allianceName = "[No Alliance]";
+                            
+                        }
+                        
+                        $rolesJson = file_get_contents("https://esi.evetech.net/latest/characters/" . $characterID . "/roles/?datasource=tranquility&token=" . $authenticationToken);
+                        $rolesData = json_decode($rolesJson, true);
+                        
+                        if (isset($rolesData["roles"])) {
+                            
+                            $rolesToAdd = json_encode($rolesData["roles"]);
+
+                            $toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays WHERE id=:id");
+                            $toPull->bindParam(':id', $characterID);
+                            $toPull->execute();
+                            $characterArrayData = $toPull->fetchAll();
+                            
+                            if (empty($characterArrayData)) {
+                                
+                                $toInsert = $GLOBALS['MainDatabase']->prepare("INSERT INTO relays (name, id, corpid, corp, refreshtoken, allianceid, alliance, roles) VALUES (:name, :id, :corpid, :corp, :refreshtoken, :allianceid, :alliance, :roles)");
+                                $toInsert->bindParam(':name', $characterName);
+                                $toInsert->bindParam(':id', $characterID);
+                                $toInsert->bindParam(':corpid', $corpID);
+                                $toInsert->bindParam(':corp', $corpName);
+                                $toInsert->bindParam(':refreshtoken', $refreshToken);
+                                $toInsert->bindParam(':allianceid', $allianceID);
+                                $toInsert->bindParam(':alliance', $allianceName);
+                                $toInsert->bindParam(':roles', $rolesToAdd);
+                                
+                                $toInsert->execute();
+                                
+                                $_SESSION["RelayStatus"] = "Added";
+                                
+                                makeLogEntry("User Database Edit", "Eve Authentication", "[Server Backend]", $characterID . " has been added as a relay character.");
+                                
+                            }
+                            else {
+                                
+                                $toUpdate = $GLOBALS['MainDatabase']->prepare("UPDATE relays SET name = :name, corpid = :corpid, corp = :corp, refreshtoken = :refreshtoken, allianceid = :allianceid, alliance = :alliance, roles = :roles WHERE id = :id");
+                                $toUpdate->bindParam(':name', $characterName);
+                                $toUpdate->bindParam(':corpid', $corpID);
+                                $toUpdate->bindParam(':corp', $corpName);
+                                $toUpdate->bindParam(':refreshtoken', $refreshToken);
+                                $toUpdate->bindParam(':allianceid', $allianceID);
+                                $toUpdate->bindParam(':alliance', $allianceName);
+                                $toUpdate->bindParam(':roles', $rolesToAdd);
+                                $toUpdate->bindParam(':id', $characterID);
+                                
+                                $toUpdate->execute();
+                                
+                                $_SESSION["RelayStatus"] = "Updated";
+                                
+                                makeLogEntry("User Database Edit", "Eve Authentication", "[Server Backend]", $characterID . "'s relay information has been updated.");
+                                
+                            }
+
+                        }
+                        else {
+
+                            checkForErrors();
+                            makeLogEntry("User Login", $_SESSION["CurrentPage"], $_SESSION["Character Name"], "Login Failure");
+                            
+                        }
+
+                    }
+                    else {
+                        
+                        checkForErrors();
+                        makeLogEntry("User Login", $_SESSION["CurrentPage"], $_SESSION["Character Name"], "Login Failure");
+                        
+                    }
 					
 				}
 				else {

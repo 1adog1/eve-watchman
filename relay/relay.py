@@ -115,7 +115,7 @@ def checkStagger():
         changeCursor = sq1Database.cursor(buffered=True)
 
         toGenerate[changeCorps].sort()
-        frequencyToAdd = int(600/len(toGenerate[changeCorps]))
+        frequencyToAdd = int(660/len(toGenerate[changeCorps]))
 
         generateQuery = ("INSERT INTO staggering (corporationid, characters, frequency, lastrun, currentposition) VALUES ({corporationid}, '{characters}', {frequency}, {lastrun}, {currentposition})").format(corporationid=int(changeCorps), characters=json.dumps(toGenerate[changeCorps]), frequency=frequencyToAdd, lastrun=0, currentposition=0)
         
@@ -129,7 +129,7 @@ def checkStagger():
         changeCursor = sq1Database.cursor(buffered=True)
         
         toRegen[changeCorps].sort()
-        frequencyToUpdate = int(600/len(toRegen[changeCorps]))
+        frequencyToUpdate = int(660/len(toRegen[changeCorps]))
         
         if len(toRegen[changeCorps]) <= oldPositions[changeCorps]:
             positionToUpdate = 0

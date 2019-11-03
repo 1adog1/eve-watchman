@@ -1,10 +1,12 @@
+import json
+import yaml
+import inspect
 import traceback
 import os
 import time
 import requests
 import schedule
-import inspect
-import json
+import configparser
 
 import ESI
 import notifier
@@ -15,30 +17,42 @@ from datetime import timezone
 
 import mysql.connector as DatabaseConnector
 
-def dataFile():
+#################
+# PATH OVERRIDE #
+#################
+configPathOverride = False
+dataPathOverride = False
 
-    filename = inspect.getframeinfo(inspect.currentframe()).filename
-    path = os.path.dirname(os.path.abspath(filename))
+#If you need to run the python part of this app elsewhere for whatever reason, set the above two variables to absolute paths where the watchmanConfig.ini and two .json files will be contained respectively. Otherwise, keep them set to False.
+
+def dataFile(pathOverride, extraFolder):
     
-    dataLocation = str(path)
+    if not pathOverride:
     
-    return(dataLocation)
-
-if Path(dataFile() + "/config/config.json").is_file():
-
-    with open(dataFile() + "/config/config.json", "r") as configFile:
-        configData = json.load(configFile)
+        filename = inspect.getframeinfo(inspect.currentframe()).filename
+        path = os.path.join(os.path.dirname(os.path.abspath(filename)), "..")
         
-        databaseInfo = configData["Database"]
-        appInfo = configData["App"]
+        dataLocation = str(path) + extraFolder
+        
+        return(dataLocation)
+    
+    else:
+        return(pathOverride)
+
+if Path(dataFile(configPathOverride, "/config") + "/watchmanConfig.ini").is_file():
+    config = configparser.ConfigParser()
+    config.read(dataFile(configPathOverride, "/config") + "/watchmanConfig.ini")
+    
+    databaseInfo = config["Database"]
+    appInfo = config["Authentication"]
     
 else:
-    raise Warning("Configuration file has not been generated!")
-
-with open(dataFile() + "/resources/data/geographicInformation.json", "r") as geographyFile:
+    raise Warning("No Configuration File Found!")
+    
+with open(dataFile(dataPathOverride, "/resources/data") + "/geographicInformation.json", "r") as geographyFile:
     geographicInformation = json.load(geographyFile)
         
-with open(dataFile() + "/resources/data/TypeIDs.json", "r") as typeIDFile:
+with open(dataFile(dataPathOverride, "/resources/data") + "/TypeIDs.json", "r") as typeIDFile:
     typeIDList = json.load(typeIDFile)
 
 refreshToken = ""

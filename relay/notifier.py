@@ -145,12 +145,7 @@ def MoonminingExtractionStarted(timestamp, fulldetails, typeidlist, geographicin
     moonDetails = ESI.getMoonDetails(fulldetails["moonID"])
     moonName = moonDetails["name"]
     
-    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Started A New Extraction!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nReady At: " + getRealTime(fulldetails["readyTime"]) + "\nOre Available: ```\n")
-    
-    for ores in fulldetails["oreVolumeByType"]:
-        notifyingMessage += (typeidlist[str(ores)] + ": " + "{:,}".format(int(fulldetails["oreVolumeByType"][ores])) + " m3\n")
-    
-    notifyingMessage += "```"
+    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Started A New Extraction!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nReady At: " + getRealTime(fulldetails["readyTime"]))
 
     return notifyingMessage
 

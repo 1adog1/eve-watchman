@@ -16,7 +16,7 @@ function displayACL() {
 		echo "
 		
 		<tr>	
-			<td align='center'><img class='AdminImage' src='https://imageserver.eveonline.com/character/" . $entity["entityid"] . "_64.jpg'></td>
+			<td align='center'><img class='AdminImage' src='https://images.evetech.net/characters/" . $entity["entityid"] . "/portrait'></td>
 			<td align='center'><strong>" . $entity["entityname"] . "</strong></td>
 			<td align='center'><strong>" . $accessString . "</strong></td>
 			<td align='center'><a href='dataController?todo=remove&id=" . urlencode($entity["entityid"]) . "'><button class='btn btn-dark btn-sm'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a></td>
@@ -32,7 +32,7 @@ function showCharacterCard($ParsedName, $SearchID) {
 	echo
 	"<div class='AdminCells'>
 		<div>
-		<img class='AdminImage' style='float: left;' src='https://imageserver.eveonline.com/character/" . $SearchID . "_64.jpg'>
+		<img class='AdminImage' style='float: left;' src='https://images.evetech.net/characters/" . $SearchID . "/portrait'>
 		</div>
 		<strong>" . $ParsedName . "</strong>
 		<br>

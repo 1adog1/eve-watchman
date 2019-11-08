@@ -13,7 +13,7 @@
 	$_SESSION["CurrentPage"] = "Access Denied";
 	checkCookies();
 
-	$characterImageLink = "https://imageserver.eveonline.com/Character/" . $_SESSION["CharacterID"] . "_128.jpg";
+	$characterImageLink = "https://images.evetech.net/characters/" . $_SESSION["CharacterID"] . "/portrait";
 	
 ?>
 

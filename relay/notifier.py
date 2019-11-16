@@ -505,7 +505,7 @@ def OrbitalAttacked(timestamp, fulldetails, typeidlist, geographicinformation, b
     planetName = planetDetails["name"]
     attackerString = ESI.getFullCharacterLink(fulldetails["aggressorID"], bolders)
 
-    notifyingMessage = (pinger + " Structure Alert - [" + timestamp + "]\n" + bolders + "A Customs Office Is Under Attack!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + planetName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nAttacker: " + attackerString + "\nHealth: " + str(round(float(fulldetails["shieldLevel"]), 2)) + "% Shield")
+    notifyingMessage = (pinger + " Structure Alert - [" + timestamp + "]\n" + bolders + "A Customs Office Is Under Attack!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + planetName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nAttacker: " + attackerString + "\nHealth: " + str(round((float(fulldetails["shieldLevel"]) * 100), 2)) + "% Shield")
 
     return notifyingMessage
 

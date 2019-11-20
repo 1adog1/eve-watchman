@@ -1,5 +1,11 @@
+import ESI
+import requests
+import json
+import time
+
+from datetime import datetime
+
 def StructureDestroyed(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -14,7 +20,6 @@ def StructureDestroyed(timestamp, fulldetails, typeidlist, geographicinformation
     return notifyingMessage
 
 def StructureLostArmor(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -32,7 +37,6 @@ def StructureLostArmor(timestamp, fulldetails, typeidlist, geographicinformation
     return notifyingMessage
 
 def StructureLostShields(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -50,7 +54,6 @@ def StructureLostShields(timestamp, fulldetails, typeidlist, geographicinformati
     return notifyingMessage
 
 def StructureUnderAttack(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -66,7 +69,6 @@ def StructureUnderAttack(timestamp, fulldetails, typeidlist, geographicinformati
     return notifyingMessage
 
 def MoonminingAutomaticFracture(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -88,7 +90,6 @@ def MoonminingAutomaticFracture(timestamp, fulldetails, typeidlist, geographicin
     return notifyingMessage
 
 def MoonminingExtractionCancelled(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -111,7 +112,6 @@ def MoonminingExtractionCancelled(timestamp, fulldetails, typeidlist, geographic
     return notifyingMessage
 
 def MoonminingExtractionFinished(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -133,7 +133,6 @@ def MoonminingExtractionFinished(timestamp, fulldetails, typeidlist, geographici
     return notifyingMessage
 
 def MoonminingExtractionStarted(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -150,7 +149,6 @@ def MoonminingExtractionStarted(timestamp, fulldetails, typeidlist, geographicin
     return notifyingMessage
 
 def MoonminingLaserFired(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -174,7 +172,6 @@ def MoonminingLaserFired(timestamp, fulldetails, typeidlist, geographicinformati
     return notifyingMessage
 
 def StructureAnchoring(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     from datetime import timezone, datetime
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
@@ -193,7 +190,6 @@ def StructureAnchoring(timestamp, fulldetails, typeidlist, geographicinformation
     return notifyingMessage
 
 def StructureFuelAlert(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -213,7 +209,6 @@ def StructureFuelAlert(timestamp, fulldetails, typeidlist, geographicinformation
     return notifyingMessage
 
 def StructureOnline(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -228,7 +223,6 @@ def StructureOnline(timestamp, fulldetails, typeidlist, geographicinformation, b
     return notifyingMessage
 
 def StructureUnanchoring(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     from datetime import timezone, datetime
 
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
@@ -247,7 +241,6 @@ def StructureUnanchoring(timestamp, fulldetails, typeidlist, geographicinformati
     return notifyingMessage
 
 def StructureServicesOffline(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -267,7 +260,6 @@ def StructureServicesOffline(timestamp, fulldetails, typeidlist, geographicinfor
     return notifyingMessage
 
 def StructureWentHighPower(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -282,7 +274,6 @@ def StructureWentHighPower(timestamp, fulldetails, typeidlist, geographicinforma
     return notifyingMessage
 
 def StructureWentLowPower(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
     structureType = typeidlist[str(structuredetails["type_id"])]
@@ -297,7 +288,6 @@ def StructureWentLowPower(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
 
 def StructuresReinforcementChanged(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     import calendar
         
     notifyingMessage = (pinger + " Structure Alert - [" + timestamp + "]\n" + bolders + "A Set of Structures Have Had Their Reinforcement Cycles Changed!" + bolders + "\nNew Reinforcement Hour: " + 
@@ -320,11 +310,7 @@ def StructuresReinforcementChanged(timestamp, fulldetails, typeidlist, geographi
     return notifyingMessage
 
 def OwnershipTransferred(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
-    structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
-    structureType = typeidlist[str(structuredetails["type_id"])]
-    structureName = structuredetails["name"]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
     transfererString = ESI.getFullCharacterLink(fulldetails["charID"], bolders)
@@ -353,12 +339,21 @@ def OwnershipTransferred(timestamp, fulldetails, typeidlist, geographicinformati
     else:
         newOwnerString = (getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(fulldetails["newOwnerCorpID"])), bolders))
 
+    
+    if fulldetails["oldOwnerCorpID"] == 1000132:
+        structureType = typeidlist[str(fulldetails["structureTypeID"])]
+        structureName = ("A Sovereignty Structure in " + systemName)
+    
+    else:
+        structuredetails = ESI.getStructureDetails(fulldetails["structureID"], accessToken)
+        structureType = typeidlist[str(structuredetails["type_id"])]
+        structureName = structuredetails["name"]
+        
     notifyingMessage = (pinger + " Structure Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Changed Ownership!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOld Owner: " + oldOwnerString + "\nNew Owner: " + newOwnerString + "\nTransferer: " + transfererString)
 
     return notifyingMessage
 
 def EntosisCaptureStarted(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -371,7 +366,6 @@ def EntosisCaptureStarted(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
 
 def SovCommandNodeEventStarted(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structureTypes = {"1" : "Territorial Claim Unit", "2" : "Infrastructure Hub"}
 
@@ -386,7 +380,6 @@ def SovCommandNodeEventStarted(timestamp, fulldetails, typeidlist, geographicinf
     return notifyingMessage
 
 def SovStructureReinforced(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     structureTypes = {"1" : "Territorial Claim Unit", "2" : "Infrastructure Hub"}
 
@@ -399,7 +392,6 @@ def SovStructureReinforced(timestamp, fulldetails, typeidlist, geographicinforma
     return notifyingMessage
 
 def SovStructureDestroyed(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -410,7 +402,6 @@ def SovStructureDestroyed(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
 
 def SovAllClaimAquiredMsg(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
@@ -427,7 +418,6 @@ def SovAllClaimAquiredMsg(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
 
 def SovAllClaimLostMsg(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
@@ -444,7 +434,6 @@ def SovAllClaimLostMsg(timestamp, fulldetails, typeidlist, geographicinformation
     return notifyingMessage
 
 def SovStructureSelfDestructRequested(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -465,7 +454,6 @@ def SovStructureSelfDestructRequested(timestamp, fulldetails, typeidlist, geogra
     return notifyingMessage
 
 def SovStructureSelfDestructFinished(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -476,7 +464,6 @@ def SovStructureSelfDestructFinished(timestamp, fulldetails, typeidlist, geograp
     return notifyingMessage
 
 def SovStructureSelfDestructCancel(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -497,7 +484,6 @@ def SovStructureSelfDestructCancel(timestamp, fulldetails, typeidlist, geographi
     return notifyingMessage
 
 def OrbitalAttacked(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
@@ -510,7 +496,6 @@ def OrbitalAttacked(timestamp, fulldetails, typeidlist, geographicinformation, b
     return notifyingMessage
 
 def OrbitalReinforced(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
 
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
@@ -523,7 +508,6 @@ def OrbitalReinforced(timestamp, fulldetails, typeidlist, geographicinformation,
     return notifyingMessage
 
 def TowerAlertMsg(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     posType = typeidlist[str(fulldetails["typeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -537,7 +521,6 @@ def TowerAlertMsg(timestamp, fulldetails, typeidlist, geographicinformation, bol
     return notifyingMessage
 
 def TowerResourceAlertMsg(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     posType = typeidlist[str(fulldetails["typeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -557,7 +540,6 @@ def TowerResourceAlertMsg(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
     
 def AllAnchoringMsg(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import ESI
     
     posType = typeidlist[str(fulldetails["typeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
@@ -620,6 +602,7 @@ def findFunction(type):
     return functionList[type]
 
 def getLink(text, url, bolders):
+
     if bolders == "**":
         link = "[" + text + "](" + url + ")"
     
@@ -629,7 +612,7 @@ def getLink(text, url, bolders):
     return link
     
 def getRealTime(intTime):
-    from datetime import datetime
+    
     if len(str(intTime)) >= 17:
         unixTime = int((int(intTime) / 10000000) - 11644473600)
     else:
@@ -640,7 +623,6 @@ def getRealTime(intTime):
     return readableTime
     
 def postToDiscord(messageToPost, webhookURL):
-    import requests, json, time
     
     totalErrors = 0
     
@@ -662,7 +644,6 @@ def postToDiscord(messageToPost, webhookURL):
     time.sleep(0.5)
 
 def postToSlack(messageToPost, webhookURL):
-    import requests, json, time
     
     toPost = requests.post(webhookURL, data={"payload" : json.dumps({"text" : messageToPost})})
         

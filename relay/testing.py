@@ -72,7 +72,11 @@ accessToken = ESI.getAccessToken(appInfo, refreshToken)
 #Target Corp ID: 98522659
 #OreDict: {22:100000000}
 #Planet ID: 40076017
-    
+
+#Possible Ownership Transferred Arguments:
+#{'charID': 3004045, 'newOwnerCorpID': 98199293, 'oldOwnerCorpID': 1000132, 'solarSystemID': 30001160, 'structureID': 1031786746698, 'structureName': '', 'structureTypeID': 32458}
+#{'charID': 92625869, 'newOwnerCorpID': 98444656, 'oldOwnerCorpID': 98177788, 'solarSystemID': 30001245, 'structureID': 1030900929122, 'structureName': "BUZ-DB - Dan & Kungan's Pleasure Dungeon", 'structureTypeID': 35833}
+
 functionList = {
 "EntosisCaptureStarted" : {"solarSystemID":30001198, "structureTypeID":32458},
 "StructureDestroyed" : {"solarsystemID":30000144,"structureID":1028858195912,"structureTypeID":35834},
@@ -92,7 +96,7 @@ functionList = {
 "StructureWentHighPower" : {"solarsystemID":30000144,"structureID":1028858195912,"structureTypeID":35834},
 "StructureWentLowPower" : {"solarsystemID":30000144,"structureID":1028858195912,"structureTypeID":35834},
 "StructuresReinforcementChanged" : {'allStructureInfo': [[1025688974365, 'Bittanshal - Starlight of the South', 35832]], 'hour': 0, 'numStructures': 1, 'timestamp': 132121315521418439, 'weekday': 4},
-"OwnershipTransferred" : {'charID': 92625869, 'newOwnerCorpID': 98444656, 'oldOwnerCorpID': 98177788, 'solarSystemID': 30001245, 'structureID': 1030900929122, 'structureName': "BUZ-DB - Dan & Kungan's Pleasure Dungeon", 'structureTypeID': 35833},
+"OwnershipTransferred" : {'charID': 3004045, 'newOwnerCorpID': 98199293, 'oldOwnerCorpID': 1000132, 'solarSystemID': 30001160, 'structureID': 1031786746698, 'structureName': '', 'structureTypeID': 32458},
 "SovCommandNodeEventStarted" : {"campaignEventType":2,"constellationID":20000175,"solarSystemID":30001198},
 "SovStructureReinforced" : {"campaignEventType":2,"solarSystemID":30001198,"decloakTime":132101258260000000},
 "SovStructureDestroyed" : {"solarSystemID":30001198,"structureTypeID":32458},

@@ -644,7 +644,24 @@ def postToDiscord(messageToPost, webhookURL):
     time.sleep(0.5)
 
 def postToSlack(messageToPost, webhookURL):
+    goodStatusCodes = ["200", "201", "202", "203", "204"]
+
+    totalErrors = 0
     
-    toPost = requests.post(webhookURL, data={"payload" : json.dumps({"text" : messageToPost})})
+    while True:
+    
+        toPost = requests.post(webhookURL, data={"payload" : json.dumps({"text" : messageToPost})})
         
+        if str(toPost.status_code) in goodStatusCodes:
+            break
+        else:
+            totalErrors += 1
+            
+            print("Error Sending Slack Message (Probably Due to Rate Limiting) - Trying Again")
+            
+            time.sleep(5)
+                        
+            if totalErrors == 10:
+                break
+                
     time.sleep(0.5)

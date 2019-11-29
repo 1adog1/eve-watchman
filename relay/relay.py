@@ -207,7 +207,7 @@ def startRelay():
                         
                             targetList = json.loads(configurationTargetIDs)
                             
-                            if str(toCheckID) in targetList:
+                            if str(toCheckID) in targetList or int(toCheckID) in targetList:
                             
                                 whitelist = json.loads(configurationWhitelist)
                             

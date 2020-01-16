@@ -93,13 +93,37 @@ def getCharacterData(characterID):
     import requests
     import json
     
-    characterRequest = requests.get("https://esi.evetech.net/latest/characters/" + str(characterID) + "/?datasource=tranquility")
-    characterData = json.loads(characterRequest.text)
-        
-    if "error" in characterData and characterData["error"] == "Invalid character ID!":
-        return False
+    headers = {"accept":"application/json", "Content-Type":"application/json"}
+    dataToCheck = json.dumps([characterID])
     
-    return characterData
+    characterAffilationRequest = requests.post("https://esi.evetech.net/latest/characters/affiliation/?datasource=tranquility", data=dataToCheck, headers=headers)
+        
+    if int(characterAffilationRequest.status_code) == 404:
+        return False
+        
+    else:
+
+        characterData = json.loads(characterAffilationRequest.text)[0]
+
+        namesToCheck = [characterData["character_id"], characterData["corporation_id"]]
+
+        if "alliance_id" in characterData:
+            namesToCheck.append(characterData["alliance_id"])
+        
+        nameDataToCheck = json.dumps(namesToCheck)
+        
+        characterNamesRequest = requests.post("https://esi.evetech.net/latest/universe/names/?datasource=tranquility", data=nameDataToCheck, headers=headers)
+        namesData = json.loads(characterNamesRequest.text)
+        
+        for eachName in namesData:
+            if eachName["category"] == "character":
+                characterData["name"] = eachName["name"]
+            if eachName["category"] == "corporation":
+                characterData["corporation_name"] = eachName["name"]
+            if eachName["category"] == "alliance":
+                characterData["alliance_name"] = eachName["name"]
+
+        return characterData
     
 def getCorpData(corporationID):
     import requests
@@ -137,14 +161,12 @@ def getFullCharacterLink(characterID, bolders):
         
     else:
         characterName = characterDetails["name"]
-        corpDetails = getCorpData(characterDetails["corporation_id"])
-        corpName = corpDetails["name"]
+        corpName = characterDetails["corporation_name"]
         
-        if "alliance_id" in corpDetails:
-            allianceDetails = getAllianceData(corpDetails["alliance_id"])
-            allianceName = allianceDetails["name"]
+        if "alliance_id" in characterDetails:
+            allianceName = characterDetails["alliance_name"]
             
-            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID)), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + notifier.getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(corpDetails["alliance_id"])), bolders) + "]")
+            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID)), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + notifier.getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]")
         
         else:
             characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID)), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ")")

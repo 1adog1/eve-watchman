@@ -441,15 +441,14 @@ def SovStructureSelfDestructRequested(timestamp, fulldetails, typeidlist, geogra
     
     characterDetails = ESI.getCharacterData(fulldetails["charID"])
     characterName = characterDetails["name"]
-    corpDetails = ESI.getCorpData(characterDetails["corporation_id"])
-    corpName = corpDetails["name"]    
-    if "alliance_id" in corpDetails:
-        allianceDetails = ESI.getAllianceData(corpDetails["alliance_id"])
-        allianceName = allianceDetails["name"]
+    corpName = characterDetails["corporation_name"]    
+    if "alliance_id" in characterDetails:
+        allianceName = characterDetails["alliance_name"]
     else:
+        characterDetails["alliance_id"] = 0
         allianceName = "[No Alliance]" 
         
-    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "A Self-Destruct Request Has Been Made For The " + structureType + " In " + systemName + "!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nRequested By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(corpDetails["alliance_id"])), bolders) + "]\nDestruction Time: " + getRealTime(fulldetails["destructTime"]))
+    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "A Self-Destruct Request Has Been Made For The " + structureType + " In " + systemName + "!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nRequested By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]\nDestruction Time: " + getRealTime(fulldetails["destructTime"]))
 
     return notifyingMessage
 
@@ -471,15 +470,14 @@ def SovStructureSelfDestructCancel(timestamp, fulldetails, typeidlist, geographi
     
     characterDetails = ESI.getCharacterData(fulldetails["charID"])
     characterName = characterDetails["name"]
-    corpDetails = ESI.getCorpData(characterDetails["corporation_id"])
-    corpName = corpDetails["name"]    
-    if "alliance_id" in corpDetails:
-        allianceDetails = ESI.getAllianceData(corpDetails["alliance_id"])
-        allianceName = allianceDetails["name"]
+    corpName = characterDetails["corporation_name"]    
+    if "alliance_id" in characterDetails:
+        allianceName = characterDetails["alliance_name"]
     else:
+        characterDetails["alliance_id"] = 0
         allianceName = "[No Alliance]"
         
-    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "The Self-Destruct Request For The " + structureType + " In " + systemName + " Has Been Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nCancelled By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(corpDetails["alliance_id"])), bolders) + "]")
+    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "The Self-Destruct Request For The " + structureType + " In " + systemName + " Has Been Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nCancelled By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]")
 
     return notifyingMessage
 

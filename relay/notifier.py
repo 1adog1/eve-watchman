@@ -98,16 +98,15 @@ def MoonminingExtractionCancelled(timestamp, fulldetails, typeidlist, geographic
     ownerName = ownerDetails["name"]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
-    cancellerDetails = ESI.getCharacterData(fulldetails["cancelledBy"])
     if fulldetails["cancelledBy"] == None:
-        cancellerName = "Unknown"
+        cancellerString = "Unknown"
     else:
-        cancellerName = cancellerDetails["name"]
+        cancellerString = ESI.getFullCharacterLink(fulldetails["cancelledBy"], bolders)
         
     moonDetails = ESI.getMoonDetails(fulldetails["moonID"])
     moonName = moonDetails["name"]
     
-    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Had Its Extraction Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nCancelled By: " + getLink(cancellerName, ("https://zkillboard.com/character/" + str(fulldetails["cancelledBy"])), bolders))
+    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Had Its Extraction Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nCancelled By: " + cancellerString)
 
     return notifyingMessage
 
@@ -141,10 +140,11 @@ def MoonminingExtractionStarted(timestamp, fulldetails, typeidlist, geographicin
     ownerName = ownerDetails["name"]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
+    starterString = ESI.getFullCharacterLink(fulldetails["startedBy"], bolders)
     moonDetails = ESI.getMoonDetails(fulldetails["moonID"])
     moonName = moonDetails["name"]
     
-    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Started A New Extraction!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nReady At: " + getRealTime(fulldetails["readyTime"]))
+    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Started A New Extraction!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nStarted By: " + starterString + "\nReady At: " + getRealTime(fulldetails["readyTime"]))
 
     return notifyingMessage
 
@@ -159,10 +159,9 @@ def MoonminingLaserFired(timestamp, fulldetails, typeidlist, geographicinformati
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
     moonDetails = ESI.getMoonDetails(fulldetails["moonID"])
     moonName = moonDetails["name"]
-    firerDetails = ESI.getCharacterData(fulldetails["firedBy"])
-    firerName = firerDetails["name"]
+    fireString = ESI.getFullCharacterLink(fulldetails["firedBy"], bolders)
     
-    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Been Manually Detonated!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nDetonated By: " + getLink(firerName, ("https://zkillboard.com/character/" + str(fulldetails["firedBy"])), bolders) + "\nOre Available: ```\n")
+    notifyingMessage = (pinger + " Moon Alert - [" + timestamp + "]\n" + bolders + structureName + " (" + structureType + ") Has Been Manually Detonated!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " (" + moonName.replace(systemName, "Planet") + ") [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nOwner: " + getLink(ownerName, ("http://evemaps.dotlan.net/corp/" + ownerName.replace(" ","_")), bolders) + "\nDetonated By: " + fireString + "\nOre Available: ```\n")
     
     for ores in fulldetails["oreVolumeByType"]:
         notifyingMessage += (typeidlist[str(ores)] + ": " + "{:,}".format(int(fulldetails["oreVolumeByType"][ores])) + " m3\n")
@@ -438,17 +437,9 @@ def SovStructureSelfDestructRequested(timestamp, fulldetails, typeidlist, geogra
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
-    
-    characterDetails = ESI.getCharacterData(fulldetails["charID"])
-    characterName = characterDetails["name"]
-    corpName = characterDetails["corporation_name"]    
-    if "alliance_id" in characterDetails:
-        allianceName = characterDetails["alliance_name"]
-    else:
-        characterDetails["alliance_id"] = 0
-        allianceName = "[No Alliance]" 
+    requesterString = ESI.getFullCharacterLink(fulldetails["charID"], bolders)
         
-    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "A Self-Destruct Request Has Been Made For The " + structureType + " In " + systemName + "!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nRequested By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]\nDestruction Time: " + getRealTime(fulldetails["destructTime"]))
+    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "A Self-Destruct Request Has Been Made For The " + structureType + " In " + systemName + "!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nRequested By: " + requesterString + "\nDestruction Time: " + getRealTime(fulldetails["destructTime"]))
 
     return notifyingMessage
 
@@ -467,17 +458,9 @@ def SovStructureSelfDestructCancel(timestamp, fulldetails, typeidlist, geographi
     structureType = typeidlist[str(fulldetails["structureTypeID"])]
     systemName = geographicinformation[str(fulldetails["solarSystemID"])]["name"]
     regionName = geographicinformation[str(fulldetails["solarSystemID"])]["region"]
-    
-    characterDetails = ESI.getCharacterData(fulldetails["charID"])
-    characterName = characterDetails["name"]
-    corpName = characterDetails["corporation_name"]    
-    if "alliance_id" in characterDetails:
-        allianceName = characterDetails["alliance_name"]
-    else:
-        characterDetails["alliance_id"] = 0
-        allianceName = "[No Alliance]"
+    cancellerString = ESI.getFullCharacterLink(fulldetails["charID"], bolders)
         
-    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "The Self-Destruct Request For The " + structureType + " In " + systemName + " Has Been Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nCancelled By: " + getLink(characterName, ("https://zkillboard.com/character/" + str(fulldetails["charID"])), bolders) + " (" + getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]")
+    notifyingMessage = (pinger + " Sovereignty Alert - [" + timestamp + "]\n" + bolders + "The Self-Destruct Request For The " + structureType + " In " + systemName + " Has Been Cancelled!" + bolders + "\nLocation: " + getLink(systemName, ("http://evemaps.dotlan.net/system/" + systemName.replace(" ","_")), bolders) + " [" + getLink(regionName, ("http://evemaps.dotlan.net/map/" + regionName.replace(" ","_") + "/" + systemName.replace(" ","_")), bolders) + "]\nCancelled By: " + cancellerString)
 
     return notifyingMessage
 

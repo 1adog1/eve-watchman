@@ -214,7 +214,7 @@ def startRelay():
                         configurationQuery = ("SELECT * FROM configurations")
                         secondCursor.execute(configurationQuery)
                         
-                        for (configurationID, configurationType, configurationChannel, configurationURL, configurationPingType, configurationTargetNames, configurationTargetIDs, configurationWhitelist, configurationTimestamp, configurationAlliance, configurationAllianceID, configurationCorporation, configurationCorporationID) in secondCursor:
+                        for (configurationID, configurationType, configurationChannel, configurationURL, configurationPingType, configurationWhitelist, configurationTimestamp, configurationAlliance, configurationAllianceID, configurationCorporation, configurationCorporationID) in secondCursor:
                                                     
                             if str(configurationCorporationID) == str(relayCorpID):
                             

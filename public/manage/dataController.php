@@ -107,17 +107,13 @@
 			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $allianceIDToAdd == $_SESSION["AllianceID"] and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $corpIDToAdd == $_SESSION["CorporationID"])) {
 				
 				if (($platform == "slack_webhook" and strpos($webhookToAdd, "https://hooks.slack.com/services/") === 0) or ($platform == "discord_webhook" and strpos($webhookToAdd, "https://discordapp.com/api/webhooks/") === 0)) {
-                    
-                    $blankValues = "";
-			
-					$toInsert = $GLOBALS['MainDatabase']->prepare("INSERT INTO configurations (id, type, channel, url, pingtype, targetname, targetid, whitelist, timestamp, alliance, allianceid, corporation, corporationid) VALUES (:id, :type, :channel, :url, :pingtype, :targetname, :targetid, :whitelist, :timestamp, :alliance, :allianceid, :corporation, :corporationid)");
+                    			
+					$toInsert = $GLOBALS['MainDatabase']->prepare("INSERT INTO configurations (id, type, channel, url, pingtype, whitelist, timestamp, alliance, allianceid, corporation, corporationid) VALUES (:id, :type, :channel, :url, :pingtype, :whitelist, :timestamp, :alliance, :allianceid, :corporation, :corporationid)");
 					$toInsert->bindParam(':id', $uniqueID);
 					$toInsert->bindParam(':type', $platform);
 					$toInsert->bindParam(':channel', $targetChannel);
 					$toInsert->bindParam(':url', $webhookToAdd);
 					$toInsert->bindParam(':pingtype', $pingType);
-					$toInsert->bindParam(':targetname', $blankValues);
-					$toInsert->bindParam(':targetid', $blankValues);
 					$toInsert->bindParam(':whitelist', $whitelistArray);
 					$toInsert->bindParam(':timestamp', $currentTime);
 					$toInsert->bindParam(':alliance', $allianceToAdd);

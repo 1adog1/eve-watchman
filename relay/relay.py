@@ -215,10 +215,8 @@ def startRelay():
                         secondCursor.execute(configurationQuery)
                         
                         for (configurationID, configurationType, configurationChannel, configurationURL, configurationPingType, configurationTargetNames, configurationTargetIDs, configurationWhitelist, configurationTimestamp, configurationAlliance, configurationAllianceID, configurationCorporation, configurationCorporationID) in secondCursor:
-                        
-                            targetList = json.loads(configurationTargetIDs)
-                            
-                            if str(toCheckID) in targetList or int(toCheckID) in targetList:
+                                                    
+                            if str(configurationCorporationID) == str(relayCorpID):
                             
                                 whitelist = json.loads(configurationWhitelist)
                             

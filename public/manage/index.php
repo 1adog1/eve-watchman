@@ -72,8 +72,8 @@
 					</div>
 					<div class="form-group">
 					
-						<label for="target_character">Target Character</label>
-						<select name="target_character" class="custom-select" id="target_character">
+						<label for="target_corporation">Target Corporation</label>
+						<select name="target_corporation" class="custom-select" id="target_corporation">
 						
 							<?php generateOptions(); ?>
 							
@@ -82,45 +82,54 @@
 							<br>
 							<strong>Selection Information</strong>
 							<br>
-							Name: <span id="characterName"></span>
+							Alliance: <span id="allianceName"></span>
 							<br>
-							Alliance: <span id="characterAlliance"></span>
-							<br>
-							Corporation: <span id="characterCorp"></span>
+							Corporation: <span id="corporationName"></span>
 							<br>
 							<br>
-							<button class="btn btn-dark btn-md" type="button" data-toggle="collapse" data-target="#characterRoles" aria-expanded="false" aria-controls="collapseExample">Show Player Roles</button>
+							<button class="btn btn-dark btn-md" type="button" data-toggle="collapse" data-target="#aggregateRoles" aria-expanded="false" aria-controls="collapseExample">Show Aggregate Roles</button>
 							<br>
-							<div class="collapse" id="characterRoles"></div>
+							<div class="collapse" id="aggregateRoles" style="white-space: pre-line;"></div>
 							<script>
 								
 								$(document).ready(function(){
 									
-									var relayJSON = <?php generateCharacterArray(); ?>;
-									var relayString = JSON.stringify(relayJSON);
-									var relays = JSON.parse(relayString);
-
-									var theData;
+									var relays = <?php generateCorporationArray(); ?>;
 									
-									for (theData of relays) {
-										if ($('#target_character').val() == theData["id"]) {
-											$('#characterName').text(theData["name"]);
-											$('#characterAlliance').text(theData["alliance"]);
-											$('#characterCorp').text(theData["corp"]);
-											$('#characterRoles').text(theData["roles"]);
+									for (theData in relays) {
+										if ($('#target_corporation').val() == relays[theData]["corpid"]) {
+                                            
+                                            var roleString = "";
+                                            
+                                            for (eachRole in relays[theData]["roles"]) {
+                                                
+                                                roleString += (eachRole + ": " + relays[theData]["roles"][eachRole] + "\n");
+                                                
+                                            }
+                                            
+											$('#allianceName').text(relays[theData]["alliance"]);
+											$('#corporationName').text(relays[theData]["corp"]);
+											$('#aggregateRoles').text(roleString);
 											
 										}
 									}
 									
-									$("#target_character").change(function(){
-										var theData;
-										
-										for (theData of relays) {
-											if ($('#target_character').val() == theData["id"]) {
-												$('#characterName').text(theData["name"]);
-												$('#characterAlliance').text(theData["alliance"]);
-												$('#characterCorp').text(theData["corp"]);
-												$('#characterRoles').text(theData["roles"]);
+									$("#target_corporation").change(function(){
+                                        
+										for (theData in relays) {
+											if ($('#target_corporation').val() == relays[theData]["corpid"]) {
+                                                
+                                                var roleString = "";
+                                                
+                                                for (eachRole in relays[theData]["roles"]) {
+                                                    
+                                                    roleString += (eachRole + ": " + relays[theData]["roles"][eachRole] + "\n");
+                                                    
+                                                }
+                                                
+												$('#allianceName').text(relays[theData]["alliance"]);
+												$('#corporationName').text(relays[theData]["corp"]);
+												$('#aggregateRoles').text(roleString);
 												
 											}
 										}
@@ -190,8 +199,7 @@
 					<th>Platform</th>
 					<th>Channel</th>
 					<th>Ping Type</th>
-                    <th>Add Target</th>
-					<th>Targets</th>
+					<th>Total Targets</th>
 					<th>Alliance</th>
 					<th>Corporation</th>
 					<th>Whitelist</th>

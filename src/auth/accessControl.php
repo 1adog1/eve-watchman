@@ -30,6 +30,8 @@ if (checkTableExists($GLOBALS['MainDatabase'], "relays") === false) {
 
 if (checkTableExists($GLOBALS['MainDatabase'], "configurations") === false) {
 	$GLOBALS['MainDatabase']->exec("CREATE TABLE configurations (id TEXT, type TEXT, channel TEXT, url TEXT, pingtype TEXT, targetname TEXT, targetid TEXT, whitelist MEDIUMTEXT, timestamp BIGINT, alliance TEXT, allianceid BIGINT, corporation TEXT, corporationid BIGINT)");
+    
+    //The targetname and targetid columns have been decrepatated, but still remain to prevent problems when querying the table in python. 
 }
 
 if (checkTableExists($GLOBALS['MainDatabase'], "notifications") === false) {

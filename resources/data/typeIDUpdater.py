@@ -3,6 +3,17 @@ import time
 import datetime
 import json
 
+def dataFile():
+	import inspect
+	import os
+
+	filename = inspect.getframeinfo(inspect.currentframe()).filename
+	path = os.path.dirname(os.path.abspath(filename))
+	
+	dataLocation = str(path)
+	
+	return(dataLocation)
+
 newTypeIDList = {}
 unknownIDs = []
 
@@ -29,7 +40,7 @@ while True:
 print("[" + str(datetime.datetime.now()) + "] " + str(len(unknownIDs)) + " IDs found in " + str(counter) + " pages... Checking for known IDs.\n\n")
     
 try:   
-    with open("TypeIDs.json") as knownData:
+    with open(dataFile() + "/TypeIDs.json") as knownData:
         typeIDList = json.load(knownData)
                 
 except:
@@ -86,7 +97,7 @@ print("[" + str(datetime.datetime.now()) + "] " + str(knownCounter) + " TypeIDs 
 
 print("TypeID List now contains " + str(len(newTypeIDList)) + " items.")
     
-with open("TypeIDs.json", "w", encoding="utf-8", errors="replace") as writeFile:
+with open(dataFile() + "/TypeIDs.json", "w", encoding="utf-8", errors="replace") as writeFile:
     json.dump(dict(sorted(newTypeIDList.items())), writeFile)
     
 print("File Update Successful!")

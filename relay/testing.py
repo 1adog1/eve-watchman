@@ -55,6 +55,21 @@ with open(dataFile(dataPathOverride, "/resources/data") + "/geographicInformatio
 with open(dataFile(dataPathOverride, "/resources/data") + "/TypeIDs.json", "r") as typeIDFile:
     typeIDList = json.load(typeIDFile)
 
+sq1Database = DatabaseConnector.connect(user=databaseInfo["DatabaseUsername"], password=databaseInfo["DatabasePassword"], host=databaseInfo["DatabaseServer"] , port=int(databaseInfo["DatabasePort"]), database=databaseInfo["DatabaseName"])
+
+def writeToLogs(logType, logMessage):
+
+    sq1Database = DatabaseConnector.connect(user=databaseInfo["DatabaseUsername"], password=databaseInfo["DatabasePassword"], host=databaseInfo["DatabaseServer"] , port=int(databaseInfo["DatabasePort"]), database=databaseInfo["DatabaseName"])
+
+    unixTime = time.time()
+    
+    logCursor = sq1Database.cursor(buffered=True)
+
+    logQuery = ("INSERT INTO logs (timestamp, type, page, actor, details, trueip, forwardip) VALUES (%s, %s, 'Relay', '[Server Backend]', %s, 'N/A', 'N/A')")
+    logCursor.execute(logQuery, (unixTime,logType,logMessage))
+    
+    sq1Database.commit()
+
 refreshToken = ""
 accessToken = ESI.getAccessToken(appInfo, refreshToken)
 
@@ -130,3 +145,6 @@ for things in functionList:
     print(finalMessage)
     print("\n\n")
     
+writeToLogs("Relay Test", "A test of the relay was successful!")
+
+print("Test Successfully Complete!")

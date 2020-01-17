@@ -1,28 +1,29 @@
 <?php
 
-	function generateOptions($specifiedCorp = "All") {
+	function generateOptions() {
 		
 		$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays");
 		$toPull->execute();
 		$relayData = $toPull->fetchAll();
+        
+        $knownCorps = [];
 				
 		foreach ($relayData as $throwaway => $relayData) {
 			
 			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]" and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
 			
-                if ($specifiedCorp == "All"){
+                if (!in_array($relayData["corpid"], $knownCorps)){
             
-                    echo "<option value='" . $relayData["id"] . "'>" . $relayData["name"] . " [" . $relayData["corp"] . "]</option>";
-                }
-                elseif ($relayData["corpid"] == $specifiedCorp){
-            
-                    echo "<option value='" . $relayData["id"] . "'>" . $relayData["name"] . "</option>";
+                    echo "<option value='" . $relayData["corpid"] . "'>" . $relayData["corp"] . " [" . $relayData["alliance"] . "]</option>";
+                    
+                    $knownCorps[] = $relayData["corpid"];
+                    
                 }
 			}
-		}	
+		}
 	}
 	
-	function generateCharacterArray() {
+	function generateCorporationArray() {
 		
 		$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays");
 		$toPull->execute();
@@ -33,19 +34,25 @@
 		foreach ($relayData as $throwaway => $relayData) {
 			
 			if ((in_array("Super Admin", $_SESSION["AccessRoles"])) or (in_array("Configure Alliance", $_SESSION["AccessRoles"]) and $relayData["allianceid"] == $_SESSION["AllianceID"] and $relayData["alliance"] !== "[No Alliance]" and $_SESSION["AllianceID"] !== 0) or (in_array("Configure Corp", $_SESSION["AccessRoles"]) and $relayData["corpid"] == $_SESSION["CorporationID"])) {
-			
-				$rolesString = "";
-				
+                
+                if (!isset($arrayObject[$relayData["corpid"]])) {
+                    $arrayObject[$relayData["corpid"]] = ["corp" => $relayData["corp"], "corpid" => $relayData["corpid"], "alliance" => $relayData["alliance"], "allianceid" => $relayData["allianceid"], "roles" => []];;
+                }
+                
 				foreach (json_decode($relayData["roles"], true) as $throwaway => $eachRole) {
 					
-					$rolesString .= (str_replace("_", " ", $eachRole) . "\n");
+					$formattedRole = (str_replace("_", " ", $eachRole));
+                    
+                    if (!isset($arrayObject[$relayData["corpid"]]["roles"][$formattedRole])) {
+                        
+                        $arrayObject[$relayData["corpid"]]["roles"][$formattedRole] = 0;
+                        
+                    }
+                    
+                    $arrayObject[$relayData["corpid"]]["roles"][$formattedRole] += 1;
 					
 				}
-				
-				$arrayObject[] = ["name" => $relayData["name"], "id" => $relayData["id"], "corp" => $relayData["corp"], "corpid" => $relayData["corpid"], "alliance" => $relayData["alliance"], "allianceid" => $relayData["allianceid"], "roles" => $rolesString];
-			
 			}
-			
 		}
 				
 		echo json_encode($arrayObject);
@@ -53,6 +60,22 @@
 	}
 	
 	function generateConfigurationArray() {
+        
+        $targetCounts = [];
+
+		$toQuery = $GLOBALS['MainDatabase']->prepare("SELECT * FROM relays");
+		$toQuery->execute();
+		$relayData = $toQuery->fetchAll();
+        
+        foreach ($relayData as $throwaway => $relays) {
+            
+            if (!isset($targetCounts[$relays["corpid"]])) {
+                $targetCounts[$relays["corpid"]] = 0;
+            }
+            
+            $targetCounts[$relays["corpid"]] += 1;
+            
+        }
 		
 		$toPull = $GLOBALS['MainDatabase']->prepare("SELECT * FROM configurations");
 		$toPull->execute();
@@ -74,33 +97,7 @@
 					<td>" . $configurations["type"] . "</td>
 					<td>" . $configurations["channel"] . "</td>
 					<td>" . $configurations["pingtype"] . "</td>
-					<td class='text-left'>
-                    <form method='post' action='/manage/dataController'>
-                        <select name='target_add_character' class='custom-select' id='target_add_character' style='width: 200px;'>
-                        
-                ";
-                
-                generateOptions($configurations["corporationid"]);
-                
-                echo "
-                        
-                        </select>
-                        <input type='hidden' name='add_character' id='add_character' value=" . $configurations["id"] . ">
-                        <br>
-                        <input type='submit' value='Add' class='btn btn-dark btn-sm mt-2'>
-                    </form>
-                    </td>
-                    <td style='text-align: left;'>
-                ";
-                
-				foreach (json_decode($configurations["targetid"], true) as $throwaway => $targetids) {
-                    $targetName = checkCache("Character", $targetids);
-                    
-					echo ("<div class='mt-2'><a href='dataController?todo=remove_character&id=" . urlencode($targetids) . "&configid=" . urlencode($configurations["id"]) . "'><button class='btn btn-dark btn-sm'><img src='/resources/images/octicons/trashcan.svg' class='alertSVG'></button></a> " . $targetName . "</div>");
-				}                
-                    
-                echo "
-                    </td>
+                    <td>" . $targetCounts[$configurations["corporationid"]] . "</td>
 					<td>" . $configurations["alliance"] . "</td>
 					<td>" . $configurations["corporation"] . "</td>
 					<td class='small text-left'>

@@ -171,6 +171,17 @@ def startRelay():
         print("[" + readableCurrentTime + "] Monitoring Started!\n")
 
         sq1Database = DatabaseConnector.connect(user=databaseInfo["DatabaseUsername"], password=databaseInfo["DatabasePassword"], host=databaseInfo["DatabaseServer"] , port=int(databaseInfo["DatabasePort"]), database=databaseInfo["DatabaseName"])
+        
+        def writeToLogs(logType, logMessage):
+        
+            unixTime = time.time()
+            
+            logCursor = sq1Database.cursor(buffered=True)
+
+            logQuery = ("INSERT INTO logs (timestamp, type, page, actor, details, trueip, forwardip) VALUES (%s, %s, 'Relay', '[Server Backend]', %s, 'N/A', 'N/A')")
+            logCursor.execute(logQuery, (unixTime,logType,logMessage))
+            
+            sq1Database.commit()
 
         initialCursor = sq1Database.cursor(buffered=True)
         staggerQuery = ("SELECT * FROM staggering")
@@ -254,7 +265,11 @@ def startRelay():
                                             
                                             sq1Database.commit()
                                             
-                                            print(notifications["type"] + " Notification Sent for " + configurationCorporation + "!")
+                                            successString = (notifications["type"] + " Notification Sent for " + configurationCorporation + " to " + configurationChannel + "!")
+                                            
+                                            writeToLogs("Relay Sent", successString)
+                                            
+                                            print(successString)
                     
                         charactersChecked += 1
                     
@@ -287,6 +302,12 @@ def startRelay():
         
     except:
         traceback.print_exc()
+        
+        error = traceback.format_exc()
+        try:
+            writeToLogs("Relay Error", error)
+        except:
+            print("Failed to write a log entry!")
 
 def automateRelay():
     schedule.every(30).seconds.do(startRelay)

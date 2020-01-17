@@ -138,6 +138,36 @@ function checkFilter($logDetails) {
 
 			}
 		}
+        
+		if (isset($_POST["r_sent"]) and $_POST["r_sent"] == "true") {
+			if ($logDetails["type"] == "Relay Sent"){
+
+				if (($dateFilter === true and $logDetails["timestamp"] <= $endDate and $logDetails["timestamp"] >= $startDate) or $dateFilter === false) {
+					
+					if ((isset($_POST["CharacterName"]) and htmlspecialchars($_POST["CharacterName"]) != "" and strpos($logDetails["actor"], htmlspecialchars($_POST["CharacterName"])) !== false) or (!isset($_POST["CharacterName"]) or htmlspecialchars($_POST["CharacterName"]) == "")) {
+						
+						$toShow = true;
+						
+					}
+				}
+
+			}
+		}
+        
+		if (isset($_POST["r_error"]) and $_POST["r_error"] == "true") {
+			if ($logDetails["type"] == "Relay Error"){
+
+				if (($dateFilter === true and $logDetails["timestamp"] <= $endDate and $logDetails["timestamp"] >= $startDate) or $dateFilter === false) {
+					
+					if ((isset($_POST["CharacterName"]) and htmlspecialchars($_POST["CharacterName"]) != "" and strpos($logDetails["actor"], htmlspecialchars($_POST["CharacterName"])) !== false) or (!isset($_POST["CharacterName"]) or htmlspecialchars($_POST["CharacterName"]) == "")) {
+						
+						$toShow = true;
+						
+					}
+				}
+
+			}
+		}
 		
 		if (isset($_POST["all"]) and $_POST["all"] == "true") {
 			

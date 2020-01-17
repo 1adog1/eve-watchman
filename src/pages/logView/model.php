@@ -35,27 +35,13 @@ function displayLogs($logArray, $maxTableRows) {
 				
 				echo "
 				<tr>
-					<td align='center'>
-						" . date("F jS, Y <br> H:i:s e", $logDetails["timestamp"]) . "
-					</td>
-					<td align='center'>
-						" . $logDetails["type"] . "
-					</td>
-					<td align='center'>
-						" . $logDetails["page"] . "
-					</td>
-					<td align='center'>
-						" . $logDetails["actor"] . "
-					</td>
-					<td align='center'>
-						" . $logDetails["details"] . "
-					</td>
-					<td align='center'>
-						" . $logDetails["trueip"] . "
-					</td>
-					<td align='center'>
-						" . $logDetails["forwardip"] . "
-					</td>																	
+					<td align='center'>" . date("F jS, Y <br> H:i:s e", $logDetails["timestamp"]) . "</td>
+					<td align='center'>" . $logDetails["type"] . "</td>
+					<td align='center'>" . $logDetails["page"] . "</td>
+					<td align='center'>" . $logDetails["actor"] . "</td>
+					<td align='center'>" . $logDetails["details"] . "</td>
+					<td align='center'>" . $logDetails["trueip"] . "</td>
+					<td align='center'>" . $logDetails["forwardip"] . "</td>																	
 				</tr>
 				";
 			

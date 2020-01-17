@@ -41,7 +41,7 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-xl-3">
 				<br>
 				<h2 class="ColumnHeader">Filter Logs</h2>
 				<hr>
@@ -86,6 +86,16 @@
 							<input type="checkbox" class="custom-control-input" name="p_errors" value="true" id="p_errors"> 
 							<label class="custom-control-label" for="p_errors">Page Errors</label>
 						</div>
+                        
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="r_sent" value="true" id="r_sent"> 
+							<label class="custom-control-label" for="r_sent">Relays Sent</label>
+						</div>
+                        
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="r_error" value="true" id="r_error"> 
+							<label class="custom-control-label" for="r_error">Relay Errors</label>
+						</div>
 					</div>
 					
 					
@@ -110,19 +120,19 @@
 				</form>
 			
 			</div>
-			<div class="col-md-9">
+			<div class="col-xl-9">
 				<br>
 				<h2 class="ColumnHeader">Log Entries</h2>
 				<hr>
-				<table style="width: 100%;">
+				<table style="width: 100%; white-space: pre-line; word-break: break-word;">
 					<tr>
-						<th align="center">Timestamp</th>
-						<th align="center">Type</th>
-						<th align="center">Page</th>
-						<th align="center">Actor</th>
-						<th align="center">Details</th>
-						<th align="center">Real IP Address</th>
-						<th align="center">Forwarded IP Address</th>
+						<th align="center" style="width: 15%;">Timestamp</th>
+						<th align="center" style="width: 10%;">Type</th>
+						<th align="center" style="width: 10%;">Page</th>
+						<th align="center" style="width: 10%;">Actor</th>
+						<th align="center" style="width: 35%;">Details</th>
+						<th align="center" style="width: 10%;">Real IP Address</th>
+						<th align="center" style="width: 10%;">Forwarded IP Address</th>
 					</tr>
 				<?php
 				

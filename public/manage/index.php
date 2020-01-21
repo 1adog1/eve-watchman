@@ -157,6 +157,7 @@
 						</div>
 					
 					</div>
+                    <br>
 					<div class="form-group">
 						<label for="selection">Selection Type</label>
 						<select name="selection" class="custom-select" id="selection">
@@ -165,7 +166,6 @@
 						</select>
 					</div>                    
 					<div class="form-group" id="select_groups">
-						<br>
 						<strong>Events to Relay</strong>
 						<br>
 						<div class="custom-control custom-checkbox">
@@ -206,7 +206,6 @@
 						</div>
 					</div>
                     <div class="form-group" id="select_individual" hidden>
-						<br>
 						<strong>Notifications to Relay</strong>
 						<br>
 						<div class="custom-control custom-checkbox">

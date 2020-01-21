@@ -30,51 +30,162 @@
 		
 		$whitelistArray = [];
 		
-		$toLoopArray = [];
-		
-		if (isset($_POST["upwell_attack"]) and htmlspecialchars($_POST["upwell_attack"]) == "true") {
-			$toLoopArray[] = "upwell_attack";
-		}
-		
-		if (isset($_POST["moon_detonation"]) and htmlspecialchars($_POST["moon_detonation"]) == "true") {
-			$toLoopArray[] = "moon_detonation";
-		}
-		
-		if (isset($_POST["moon_management"]) and htmlspecialchars($_POST["moon_management"]) == "true") {
-			$toLoopArray[] = "moon_management";
-		}
-		
-		if (isset($_POST["upwell_management"]) and htmlspecialchars($_POST["upwell_management"]) == "true") {
-			$toLoopArray[] = "upwell_management";
-		}
+        if (isset($_POST["selection"]) and htmlspecialchars($_POST["selection"]) == "groups") {
+            
+            $toLoopArray = [];
+        
+            if (isset($_POST["upwell_attack"]) and htmlspecialchars($_POST["upwell_attack"]) == "true") {
+                $toLoopArray[] = "upwell_attack";
+            }
+            
+            if (isset($_POST["moon_detonation"]) and htmlspecialchars($_POST["moon_detonation"]) == "true") {
+                $toLoopArray[] = "moon_detonation";
+            }
+            
+            if (isset($_POST["moon_management"]) and htmlspecialchars($_POST["moon_management"]) == "true") {
+                $toLoopArray[] = "moon_management";
+            }
+            
+            if (isset($_POST["upwell_management"]) and htmlspecialchars($_POST["upwell_management"]) == "true") {
+                $toLoopArray[] = "upwell_management";
+            }
 
-		if (isset($_POST["sov_attacks"]) and htmlspecialchars($_POST["sov_attacks"]) == "true") {
-			$toLoopArray[] = "sov_attacks";
-		}
-		
-		if (isset($_POST["sov_management"]) and htmlspecialchars($_POST["sov_management"]) == "true") {
-			$toLoopArray[] = "sov_management";
-		}
-		
-		if (isset($_POST["custom_office"]) and htmlspecialchars($_POST["custom_office"]) == "true") {
-			$toLoopArray[] = "custom_office";
-		}
-		
-		if (isset($_POST["pos_attack"]) and htmlspecialchars($_POST["pos_attack"]) == "true") {
-			$toLoopArray[] = "pos_attack";
-		}
-		
-		if (isset($_POST["pos_management"]) and htmlspecialchars($_POST["pos_management"]) == "true") {
-			$toLoopArray[] = "pos_management";
-		}
-		
-		foreach ($toLoopArray as $throwaway => $qualifiers) {
-			
-			foreach ($notificationEvents[$qualifiers] as $secondThrowaway => $notifications) {
-				$whitelistArray[] = $notifications;
-			}
-			
-		}
+            if (isset($_POST["sov_attacks"]) and htmlspecialchars($_POST["sov_attacks"]) == "true") {
+                $toLoopArray[] = "sov_attacks";
+            }
+            
+            if (isset($_POST["sov_management"]) and htmlspecialchars($_POST["sov_management"]) == "true") {
+                $toLoopArray[] = "sov_management";
+            }
+            
+            if (isset($_POST["custom_office"]) and htmlspecialchars($_POST["custom_office"]) == "true") {
+                $toLoopArray[] = "custom_office";
+            }
+            
+            if (isset($_POST["pos_attack"]) and htmlspecialchars($_POST["pos_attack"]) == "true") {
+                $toLoopArray[] = "pos_attack";
+            }
+            
+            if (isset($_POST["pos_management"]) and htmlspecialchars($_POST["pos_management"]) == "true") {
+                $toLoopArray[] = "pos_management";
+            }
+            
+            foreach ($toLoopArray as $throwaway => $qualifiers) {
+                
+                foreach ($notificationEvents[$qualifiers] as $secondThrowaway => $notifications) {
+                    $whitelistArray[] = $notifications;
+                }
+                
+            }
+        
+        }
+        elseif (isset($_POST["selection"]) and htmlspecialchars($_POST["selection"]) == "individual") {
+            
+            if (isset($_POST["StructureDestroyed"]) and htmlspecialchars($_POST["StructureDestroyed"]) == "true") {
+                $whitelistArray[] = "StructureDestroyed";
+            }
+            if (isset($_POST["StructureLostArmor"]) and htmlspecialchars($_POST["StructureLostArmor"]) == "true") {
+                $whitelistArray[] = "StructureLostArmor";
+            }
+            if (isset($_POST["StructureLostShields"]) and htmlspecialchars($_POST["StructureLostShields"]) == "true") {
+                $whitelistArray[] = "StructureLostShields";
+            }
+            if (isset($_POST["StructureUnderAttack"]) and htmlspecialchars($_POST["StructureUnderAttack"]) == "true") {
+                $whitelistArray[] = "StructureUnderAttack";
+            }
+            if (isset($_POST["MoonminingAutomaticFracture"]) and htmlspecialchars($_POST["MoonminingAutomaticFracture"]) == "true") {
+                $whitelistArray[] = "MoonminingAutomaticFracture";
+            }
+            if (isset($_POST["MoonminingLaserFired"]) and htmlspecialchars($_POST["MoonminingLaserFired"]) == "true") {
+                $whitelistArray[] = "MoonminingLaserFired";
+            }
+            if (isset($_POST["MoonminingExtractionCancelled"]) and htmlspecialchars($_POST["MoonminingExtractionCancelled"]) == "true") {
+                $whitelistArray[] = "MoonminingExtractionCancelled";
+            }
+            if (isset($_POST["MoonminingExtractionFinished"]) and htmlspecialchars($_POST["MoonminingExtractionFinished"]) == "true") {
+                $whitelistArray[] = "MoonminingExtractionFinished";
+            }
+            if (isset($_POST["MoonminingExtractionStarted"]) and htmlspecialchars($_POST["MoonminingExtractionStarted"]) == "true") {
+                $whitelistArray[] = "MoonminingExtractionStarted";
+            }
+            if (isset($_POST["StructureAnchoring"]) and htmlspecialchars($_POST["StructureAnchoring"]) == "true") {
+                $whitelistArray[] = "StructureAnchoring";
+            }
+            if (isset($_POST["StructureFuelAlert"]) and htmlspecialchars($_POST["StructureFuelAlert"]) == "true") {
+                $whitelistArray[] = "StructureFuelAlert";
+            }
+            if (isset($_POST["StructureOnline"]) and htmlspecialchars($_POST["StructureOnline"]) == "true") {
+                $whitelistArray[] = "StructureOnline";
+            }
+            if (isset($_POST["StructureUnanchoring"]) and htmlspecialchars($_POST["StructureUnanchoring"]) == "true") {
+                $whitelistArray[] = "StructureUnanchoring";
+            }
+            if (isset($_POST["StructureServicesOffline"]) and htmlspecialchars($_POST["StructureServicesOffline"]) == "true") {
+                $whitelistArray[] = "StructureServicesOffline";
+            }
+            if (isset($_POST["StructureWentHighPower"]) and htmlspecialchars($_POST["StructureWentHighPower"]) == "true") {
+                $whitelistArray[] = "StructureWentHighPower";
+            }
+            if (isset($_POST["StructureWentLowPower"]) and htmlspecialchars($_POST["StructureWentLowPower"]) == "true") {
+                $whitelistArray[] = "StructureWentLowPower";
+            }
+            if (isset($_POST["StructuresReinforcementChanged"]) and htmlspecialchars($_POST["StructuresReinforcementChanged"]) == "true") {
+                $whitelistArray[] = "StructuresReinforcementChanged";
+            }
+            if (isset($_POST["OwnershipTransferred"]) and htmlspecialchars($_POST["OwnershipTransferred"]) == "true") {
+                $whitelistArray[] = "OwnershipTransferred";
+            }
+            if (isset($_POST["EntosisCaptureStarted"]) and htmlspecialchars($_POST["EntosisCaptureStarted"]) == "true") {
+                $whitelistArray[] = "EntosisCaptureStarted";
+            }
+            if (isset($_POST["SovCommandNodeEventStarted"]) and htmlspecialchars($_POST["SovCommandNodeEventStarted"]) == "true") {
+                $whitelistArray[] = "SovCommandNodeEventStarted";
+            }
+            if (isset($_POST["SovStructureReinforced"]) and htmlspecialchars($_POST["SovStructureReinforced"]) == "true") {
+                $whitelistArray[] = "SovStructureReinforced";
+            }
+            if (isset($_POST["SovStructureDestroyed"]) and htmlspecialchars($_POST["SovStructureDestroyed"]) == "true") {
+                $whitelistArray[] = "SovStructureDestroyed";
+            }
+            if (isset($_POST["SovAllClaimAquiredMsg"]) and htmlspecialchars($_POST["SovAllClaimAquiredMsg"]) == "true") {
+                $whitelistArray[] = "SovAllClaimAquiredMsg";
+            }
+            if (isset($_POST["SovAllClaimLostMsg"]) and htmlspecialchars($_POST["SovAllClaimLostMsg"]) == "true") {
+                $whitelistArray[] = "SovAllClaimLostMsg";
+            }
+            if (isset($_POST["SovStructureSelfDestructRequested"]) and htmlspecialchars($_POST["SovStructureSelfDestructRequested"]) == "true") {
+                $whitelistArray[] = "SovStructureSelfDestructRequested";
+            }
+            if (isset($_POST["SovStructureSelfDestructFinished"]) and htmlspecialchars($_POST["SovStructureSelfDestructFinished"]) == "true") {
+                $whitelistArray[] = "SovStructureSelfDestructFinished";
+            }
+            if (isset($_POST["SovStructureSelfDestructCancel"]) and htmlspecialchars($_POST["SovStructureSelfDestructCancel"]) == "true") {
+                $whitelistArray[] = "SovStructureSelfDestructCancel";
+            }
+            if (isset($_POST["OrbitalAttacked"]) and htmlspecialchars($_POST["OrbitalAttacked"]) == "true") {
+                $whitelistArray[] = "OrbitalAttacked";
+            }
+            if (isset($_POST["OrbitalReinforced"]) and htmlspecialchars($_POST["OrbitalReinforced"]) == "true") {
+                $whitelistArray[] = "OrbitalReinforced";
+            }
+            if (isset($_POST["TowerAlertMsg"]) and htmlspecialchars($_POST["TowerAlertMsg"]) == "true") {
+                $whitelistArray[] = "TowerAlertMsg";
+            }
+            if (isset($_POST["TowerResourceAlertMsg"]) and htmlspecialchars($_POST["TowerResourceAlertMsg"]) == "true") {
+                $whitelistArray[] = "TowerResourceAlertMsg";
+            }
+            if (isset($_POST["AllAnchoringMsg"]) and htmlspecialchars($_POST["AllAnchoringMsg"]) == "true") {
+                $whitelistArray[] = "AllAnchoringMsg";
+            }
+
+        }
+        else {
+            
+            header("Location: /manage/?error=please_do_not_mess_with_the_form_html");
+            ob_end_flush();
+            die();
+            
+        }
 		
 		if (!empty($whitelistArray)) {
 
@@ -162,7 +273,7 @@
 				else {
 					header("Location: /manage/?error=bad_webhook_url");
 					ob_end_flush();
-					die();					
+					die();
 				}
 			}
 			else {
@@ -174,7 +285,7 @@
 		else {
 			header("Location: /manage/?error=whitelist_empty");
 			ob_end_flush();
-			die();				
+			die();
 		}
 	}
 	else {

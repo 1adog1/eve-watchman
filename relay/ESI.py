@@ -88,6 +88,20 @@ def getStructureDetails(structureID, accessToken):
         return placeholderData
     else:
         return structureData
+        
+def getSystemName(geographicinformation, systemID):
+    try:
+        return geographicinformation[systemID]["name"]
+        
+    except:
+        return ("Unknown System " + str(systemID))
+    
+def getRegionName(geographicinformation, systemID):
+    try:
+        return geographicinformation[systemID]["region"]
+        
+    except:
+        return ("Unknown System " + str(systemID))
 
 def getCharacterData(characterID):
     import requests

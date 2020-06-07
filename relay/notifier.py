@@ -287,10 +287,9 @@ def StructureWentLowPower(timestamp, fulldetails, typeidlist, geographicinformat
     return notifyingMessage
 
 def StructuresReinforcementChanged(timestamp, fulldetails, typeidlist, geographicinformation, bolders, pinger, accessToken):
-    import calendar
         
     notifyingMessage = (pinger + " Citadel Reinforcement Change - [" + timestamp + "]\n" + bolders + "A Set of Structures Have Had Their Reinforcement Cycles Changed!" + bolders + "\nNew Reinforcement Hour: " + 
-    "{:02}".format(fulldetails["hour"]) + ":00\nNew Reinforcement Day: " + calendar.day_name[fulldetails["weekday"]] + "\nOverview of Affected Structures: \n```\n")
+    "{:02}".format(fulldetails["hour"]) + ":00\nOverview of Affected Structures: \n```\n")
     
     structureDict = {}
     

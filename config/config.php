@@ -1,6 +1,6 @@
 <?php
 
-    $configArray = parse_ini_file("watchmanConfig.ini");
+    $configArray = parse_ini_file("/var/app/watchmanConfig.ini");
 
 	//AUTHENTICATION CONFIGURATION
 	$clientid = $configArray["ClientID"];

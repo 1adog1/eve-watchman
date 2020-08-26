@@ -21,7 +21,7 @@ import mysql.connector as DatabaseConnector
 #################
 # PATH OVERRIDE #
 #################
-configPathOverride = False
+configPathOverride = "/var/app/"
 dataPathOverride = False
 
 #If you need to run the python part of this app elsewhere for whatever reason, set the above two variables to absolute paths where the watchmanConfig.ini and two .json files will be contained respectively. Otherwise, keep them set to False.

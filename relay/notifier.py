@@ -584,7 +584,7 @@ def findFunction(type):
 def getLink(text, url, bolders):
 
     if bolders == "**":
-        link = "[" + text + "](" + url + ")"
+        link = "[" + text + "](<" + url + ">)"
     
     else:
         link = "<" + url + "|" + text + ">"

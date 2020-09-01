@@ -180,9 +180,9 @@ def getFullCharacterLink(characterID, bolders):
         if "alliance_id" in characterDetails:
             allianceName = characterDetails["alliance_name"]
             
-            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID)), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + notifier.getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]")
+            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID) + "/"), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ") [" + notifier.getLink(allianceName, ("http://evemaps.dotlan.net/alliance/" + str(characterDetails["alliance_id"])), bolders) + "]")
         
         else:
-            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID)), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ")")
+            characterString = (notifier.getLink(characterName, ("https://zkillboard.com/character/" + str(characterID) + "/"), bolders) + " (" + notifier.getLink(corpName, ("http://evemaps.dotlan.net/corp/" + str(characterDetails["corporation_id"])), bolders) + ")")
             
     return characterString

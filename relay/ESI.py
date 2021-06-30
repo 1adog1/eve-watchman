@@ -112,10 +112,7 @@ def getCharacterData(characterID):
     
     characterAffilationRequest = requests.post("https://esi.evetech.net/latest/characters/affiliation/?datasource=tranquility", data=dataToCheck, headers=headers)
         
-    if int(characterAffilationRequest.status_code) == 404:
-        return False
-        
-    else:
+    if characterAffilationRequest.status_code == requests.codes.ok:
 
         characterData = json.loads(characterAffilationRequest.text)[0]
 
@@ -138,6 +135,10 @@ def getCharacterData(characterID):
                 characterData["alliance_name"] = eachName["name"]
 
         return characterData
+        
+    else:
+    
+        return False
     
 def getCorpData(corporationID):
     import requests

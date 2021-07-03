@@ -6,3 +6,6 @@
 
 # caches
 /relay/__pycache__/
+
+# IDEs
+/.idea

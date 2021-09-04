@@ -1,0 +1,8 @@
+# config
+/config/config.ini
+
+# changelog
+changes.txt
+
+# caches
+__pycache__/

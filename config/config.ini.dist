@@ -1,0 +1,40 @@
+[Eve Authentication]
+ClientID = 
+ClientSecret = 
+ClientScopes = 
+;Client Scopes is a string of space-separated scopes that the site requires to function. This site requires:
+;
+DefaultScopes = ""
+;Default Scopes is a string a space-separated scopes required for the site's default login process. 
+ClientRedirect = 
+;The callback is handled by the backend rather than a specific page. It MUST include the URL Parameter 'core_action=callback'.
+AuthType = Neucore
+;Eve: Controls access by character, corporation, and alliance.
+;Neucore: Uses Brave Neucore groups to control page access.
+SuperAdmins = 
+;Super Admins is a set of comma-separated character IDs in integer form. No comma is required for only one group name.
+
+[NeuCore Authentication]
+AppID = 
+AppSecret = 
+AppURL = 
+;Please include a trailing / in the URL; for example https://neucore.com/
+
+[Database]
+DatabaseServer = 127.0.0.1
+;When using a MySQL Server on localhost you may need to use 127.0.0.1 instead for this variable.
+DatabasePort = 2580
+DatabaseUsername = 
+DatabasePassword = 
+DatabaseName = 
+;This database will be created automatically on connection, it does not need to be created manually.
+
+[Website]
+AuthCookieName = AuthID
+SessionTime = 43200
+;Session Time is an integer of seconds after logging in that a character's session will be invalidated.
+AuthCacheTime = 0
+;Auth Cache Time is an integer of seconds for which the outside data used to determine access roles is valid for.  
+MaxTableRows = 2500
+;Max Table Rows is the maximum amount of rows a table will display.
+StoreVisitorIPs = false

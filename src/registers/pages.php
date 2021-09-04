@@ -29,6 +29,8 @@
         linkToUse: "home",
         nameToUse: "Homepage",
         codeToUse: "Home",
+        useModel: true,
+        useController: true,
         inNav: false    //Keep this value false as the navbar branding links back to home already.
     );
     
@@ -43,6 +45,27 @@
     
     
     
+
+    $this->registerPage(
+        linkToUse: "relay_management",
+        nameToUse: "Relay Management",
+        codeToUse: "Relays",
+        useModel: true,
+        useController: true,
+        useAPI: true,
+        loginRequired: true, 
+        accessRoles: ["Super Admin", "Configure Corporation", "Configure Alliance"]
+    );
+    
+    $this->registerPage(
+        linkToUse: "character_management",
+        nameToUse: "Character Management",
+        codeToUse: "Characters",
+        useModel: true,
+        useAPI: true,
+        loginRequired: true, 
+        accessRoles: ["Super Admin", "Configure Characters"]
+    );
     
     //ADMINISTRATON PAGE
     $this->registerPage(

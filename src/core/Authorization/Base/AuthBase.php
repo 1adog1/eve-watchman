@@ -107,6 +107,24 @@
         
         protected function loginSuccess($characterID) {
             
+            $actor = $characterID;
+            $logString = "A relay character was successfully added, but an error occurred while getting their name.";
+            
+            $namesCall = $this->esiHandler->call(endpoint: "/universe/names/", ids: [$characterID], retries: 1);
+            
+            if ($namesCall["Success"]) {
+                
+                foreach ($namesCall["Data"] as $eachName) {
+                    
+                    $actor = $eachName["name"];
+                    $logString = ($eachName["name"] . " successfully added as a relay character.");
+                    
+                }
+                
+            }
+            
+            $this->authorizationLogger->make_log_entry("Relay Character Added", "Authorization Handler", $actor, $logString);
+            
             $returnURL = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
             
             header("Location: " . $returnURL);
@@ -280,7 +298,12 @@
                                     if ($loginData["Type"] === "Default") {
                                     
                                         $this->loginSuccess($accessCharacterID);
-                                    
+                                        
+                                    }
+                                    else {
+                                        
+                                        self::loginSuccess($accessCharacterID);
+                                        
                                     }
                                     
                                 }

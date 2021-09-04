@@ -46,7 +46,7 @@
         
         <div class="container-fluid">
         
-            <a class="navbar-brand mb-1" href="/">App Name</a>
+            <a class="navbar-brand mb-1" href="/">Eve Watchman</a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContents" aria-controls="navbarContents" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

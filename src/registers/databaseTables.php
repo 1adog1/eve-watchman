@@ -25,5 +25,51 @@
             );
             
     */
+    
+    $siteDatabase->register(
+        "servers",
+        ["Name" => "id", "Type" => "TEXT"], 
+        ["Name" => "type", "Type" => "TEXT"], 
+        ["Name" => "name", "Type" => "TEXT"]
+    );
+    
+    $siteDatabase->register(
+        "channels",
+        ["Name" => "id", "Type" => "TEXT"], 
+        ["Name" => "type", "Type" => "TEXT"], 
+        ["Name" => "serverid", "Type" => "TEXT"], 
+        ["Name" => "name", "Type" => "TEXT"], 
+        ["Name" => "url", "Type" => "TEXT"]
+    );
+    
+    $siteDatabase->register(
+        "relays",
+        ["Name" => "id", "Type" => "TEXT"], 
+        ["Name" => "type", "Type" => "TEXT"], 
+        ["Name" => "channelid", "Type" => "TEXT"], 
+        ["Name" => "channeltype", "Type" => "TEXT"], 
+        ["Name" => "pingtype", "Type" => "TEXT"], 
+        ["Name" => "whitelist", "Type" => "LONGTEXT"], 
+        ["Name" => "timestamp", "Type" => "BIGINT"], 
+        ["Name" => "corporationid", "Type" => "BIGINT"], 
+        ["Name" => "corporation", "Type" => "TEXT"]
+    );
+    
+    $siteDatabase->register(
+        "notifications",
+        ["Name" => "id", "Type" => "BIGINT"], 
+        ["Name" => "relayid", "Type" => "TEXT"], 
+        ["Name" => "type", "Type" => "TEXT"], 
+        ["Name" => "timestamp", "Type" => "BIGINT"]
+    );
+    
+    $siteDatabase->register(
+        "staggering",
+        ["Name" => "corporationid", "Type" => "BIGINT"], 
+        ["Name" => "characters", "Type" => "LONGTEXT"], 
+        ["Name" => "frequency", "Type" => "BIGINT"], 
+        ["Name" => "lastrun", "Type" => "BIGINT"], 
+        ["Name" => "currentposition", "Type" => "BIGINT"]
+    );
 
 ?>

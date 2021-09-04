@@ -22,5 +22,24 @@
             );
             
     */
+    
+            $siteLogger->register(
+                "relay-character-logins", 
+                "Relay Character Logins", 
+                "Relay Character Added"
+            );
+    
+            $siteLogger->register(
+                "relayed-notifications", 
+                "Relayed Notifications", 
+                "Relay Sent"
+            );
+            
+            $siteLogger->register(
+                "relay-errors", 
+                "Relay Errors", 
+                "Unknown Relay Error", 
+                "Notification Parse Failure"
+            );
 
 ?>

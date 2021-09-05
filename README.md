@@ -1,10 +1,8 @@
-# [Alpha] Project Overhaul
+# [WIP] Eve Watchman
 
-Project Overhaul is a new web application framework specifically designed for Eve Online applications. It replaces the *Access Control* framework that was used in my early projects with a much more robust object-oriented design. 
+Eve Watchman is a web app for Eve Online allowing corporations and alliances to receive notifications relating to their structures and sovereignty. It includes a GUI allowing for the management of notifications at the corporation and alliance levels, and can send notifications to both Discord and Slack through their respective Webhook functionalities.
 
-This framework features built-in user authentication and access control that can be altered in-app, using either Eve Online Affiliations (Character, Corporation, Alliance) or Brave NeuCore Groups, with these different methods being interchangeable with a simple update of a config value. It also features an easy to use logging interface and a robust, in-app view and filter for log entries. 
-
-This framework is currently in Alpha. It works, but may contain bugs, and much of the functionality is not yet documented. It also still needs some optimization to improve load times. 
+This Branch is a Work-In-Progress rewrite of the application using a new custom framework.
 
 ## Requirements
 
@@ -24,38 +22,3 @@ The core of this framework requires the following:
 * [When Using The Neucore Authentication Method] A Neucore Application
   * The application needs the `app-chars` and `app-groups` roles added, along with any groups that you want to be able to set access roles for.
 
-## The Basics
-
-### Functionality Goals
-
-### File Structure
-
-### Expandability
-
-## Initial Configuration
-
-### Config File
-
-### Database
-
-### Authentication
-
-#### Custom Access Roles
-
-### Logging
-
-#### Custom Log Types
-
-## Creating Pages
-
-### Registering a Page
-
-### View Classes
-
-### Model Classes
-
-### Controller Classes
-
-### API Classes
-
-### Local Resources

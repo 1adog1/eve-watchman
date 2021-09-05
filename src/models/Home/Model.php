@@ -28,9 +28,8 @@
             
             if ($this->loginStatus) {
             
-                $relayQuery = $this->databaseConnection->prepare("SELECT * FROM refreshtokens WHERE type=:type AND characterid=:characterid");
-                $relayQuery->bindValue(":type", "Relay");
-                $relayQuery->bindParam(":characterid", $this->characterData["Character ID"], \PDO::PARAM_INT);
+                $relayQuery = $this->databaseConnection->prepare("SELECT * FROM relaycharacters WHERE id=:id");
+                $relayQuery->bindParam(":id", $this->characterData["Character ID"], \PDO::PARAM_INT);
                 $relayQuery->execute();
                 $relayData = $relayQuery->fetch();
                 

@@ -21,6 +21,12 @@
     );
     
     $this->register(
+        endpoint: "/characters/{character_id}/roles/", 
+        method: "character_roles", 
+        requiredArguments: ["character_id"]
+    );
+    
+    $this->register(
         endpoint: "/search/", 
         method: "search", 
         requiredArguments: ["categories", "search"]

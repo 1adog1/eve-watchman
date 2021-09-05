@@ -17,6 +17,17 @@
             
         }
         
+        protected function character_roles(array $arguments) {
+            
+            return $this->makeRequest(
+                endpoint: "/characters/{character_id}/roles/", 
+                url: ($this->esiURL . "latest/characters/" . $arguments["character_id"] . "/roles/?datasource=tranquility"), 
+                accessToken: $this->accessToken, 
+                retries: (isset($arguments["retries"]) ? $arguments["retries"] : 0)
+            );
+            
+        }
+        
         protected function search(array $arguments) {
             
             $categories = implode(",", $arguments["categories"]);

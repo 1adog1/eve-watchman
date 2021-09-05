@@ -107,24 +107,6 @@
         
         protected function loginSuccess($characterID) {
             
-            $actor = $characterID;
-            $logString = "A relay character was successfully added, but an error occurred while getting their name.";
-            
-            $namesCall = $this->esiHandler->call(endpoint: "/universe/names/", ids: [$characterID], retries: 1);
-            
-            if ($namesCall["Success"]) {
-                
-                foreach ($namesCall["Data"] as $eachName) {
-                    
-                    $actor = $eachName["name"];
-                    $logString = ($eachName["name"] . " successfully added as a relay character.");
-                    
-                }
-                
-            }
-            
-            $this->authorizationLogger->make_log_entry("Relay Character Added", "Authorization Handler", $actor, $logString);
-            
             $returnURL = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
             
             header("Location: " . $returnURL);
@@ -300,8 +282,9 @@
                                         $this->loginSuccess($accessCharacterID);
                                         
                                     }
-                                    else {
+                                    elseif ($loginData["Type"] === "Relay") {
                                         
+                                        self::addRelayCharacter($accessCharacterID, $accessToken);
                                         self::loginSuccess($accessCharacterID);
                                         
                                     }
@@ -444,6 +427,140 @@
             else {
                 
                 trigger_error("Failed to query database while trying to refresh a token.", E_USER_ERROR);
+                
+            }
+            
+        }
+        
+        private function prepareRelayCharacter($characterID, $accessToken) {
+            
+            $characterData = [
+                "ID" => null, 
+                "Name" => null, 
+                "Corporation ID" => null, 
+                "Corporation Name" => null, 
+                "Alliance ID" => null, 
+                "Alliance Name" => null, 
+                "Roles" => null
+            ];
+            
+            $authedEsiHandler = new \Ridley\Objects\ESI\Handler($this->authorizationConnection, $accessToken);
+            
+            $affiliationsCall = $authedEsiHandler->call(endpoint: "/characters/affiliation/", characters: [$characterID], retries: 1);
+            
+            if ($affiliationsCall["Success"]) {
+                
+                $namesToGet = [];
+                
+                foreach ($affiliationsCall["Data"] as $eachCharacter) {
+                    
+                    $characterData["ID"] = $eachCharacter["character_id"];
+                    $namesToGet[] = $eachCharacter["character_id"];
+                    $characterData["Corporation ID"] = $eachCharacter["corporation_id"];
+                    $namesToGet[] = $eachCharacter["corporation_id"];
+                    
+                    if (isset($eachCharacter["alliance_id"])) {
+                        
+                        $characterData["Alliance ID"] = $eachCharacter["alliance_id"];
+                        $namesToGet[] = $eachCharacter["alliance_id"];
+                        
+                    }
+                }
+                
+            }
+            else {
+                
+                trigger_error("Affiliations call failed while trying to add or update relay character.", E_USER_ERROR);
+                
+            }
+            
+            $namesCall = $authedEsiHandler->call(endpoint: "/universe/names/", ids: $namesToGet, retries: 1);
+            
+            if ($namesCall["Success"]) {
+                
+                foreach ($namesCall["Data"] as $eachName) {
+                    
+                    if ($eachName["category"] === "character" and $eachName["id"] === $characterData["ID"]) {
+                        
+                        $characterData["Name"] = $eachName["name"];
+                        
+                    }
+                    if ($eachName["category"] === "corporation" and $eachName["id"] === $characterData["Corporation ID"]) {
+                        
+                        $characterData["Corporation Name"] = $eachName["name"];
+                        
+                    }
+                    if ($eachName["category"] === "alliance" and $eachName["id"] === $characterData["Alliance ID"]) {
+                        
+                        $characterData["Alliance Name"] = $eachName["name"];
+                        
+                    }
+                    
+                }
+                
+            }
+            else {
+                
+                trigger_error("Names call failed while trying to add or update relay character.", E_USER_ERROR);
+                
+            }
+            
+            $rolesCall = $authedEsiHandler->call(endpoint: "/characters/{character_id}/roles/", character_id: $characterData["ID"], retries: 1);
+            
+            if ($rolesCall["Success"]) {
+                
+                $characterData["Roles"] = $rolesCall["Data"]["roles"];
+                
+            }
+            else {
+                
+                trigger_error("Names call failed while trying to add or update relay character.", E_USER_ERROR);
+                
+            }
+            
+            return $characterData;
+            
+        }
+        
+        private function addRelayCharacter($characterID, $accessToken) {
+            
+            $characterData = $this->prepareRelayCharacter($characterID, $accessToken);
+            
+            $logString = ("Character: " . $characterData["Name"] . " (" . $characterData["Corporation Name"] . ")" . ((!is_null($characterData["Alliance Name"])) ? (" [" . $characterData["Alliance Name"]. "]") : "") . "\nRoles: (" . implode(", ", $characterData["Roles"]) . ")");
+            
+            $checkCharacters = $this->authorizationConnection->prepare("SELECT * FROM relaycharacters WHERE id=:id");
+            $checkCharacters->bindParam(":id", $characterID);
+            $checkCharacters->execute();
+            $characterResults = $checkCharacters->fetch(\PDO::FETCH_ASSOC);
+            
+            if (empty($characterResults)) {
+                
+                $insertCharacter = $this->authorizationConnection->prepare("INSERT INTO relaycharacters (id, name, corporationid, corporationname, allianceid, alliancename, roles) VALUES (:id, :name, :corporationid, :corporationname, :allianceid, :alliancename, :roles)");
+                $insertCharacter->bindParam(":id", $characterData["ID"]);
+                $insertCharacter->bindParam(":name", $characterData["Name"]);
+                $insertCharacter->bindValue(":corporationid", $characterData["Corporation ID"]);
+                $insertCharacter->bindParam(":corporationname", $characterData["Corporation Name"]);
+                $insertCharacter->bindParam(":allianceid", $characterData["Alliance ID"]);
+                $insertCharacter->bindParam(":alliancename", $characterData["Alliance Name"]);
+                $insertCharacter->bindValue(":roles", json_encode($characterData["Roles"]));
+                $insertCharacter->execute();
+                
+                $this->authorizationLogger->make_log_entry("Relay Character Added", "Authorization Handler", $characterData["Name"], $logString);
+                
+            }
+            else {
+                
+                $updateCharacter = $this->authorizationConnection->prepare("UPDATE relaycharacters SET name=:name, corporationid=:corporationid, corporationname=:corporationname, allianceid=:allianceid, alliancename=:alliancename, roles=:roles WHERE id=:id");
+                $updateCharacter->bindParam(":name", $characterData["Name"]);
+                $updateCharacter->bindValue(":corporationid", $characterData["Corporation ID"]);
+                $updateCharacter->bindParam(":corporationname", $characterData["Corporation Name"]);
+                $updateCharacter->bindParam(":allianceid", $characterData["Alliance ID"]);
+                $updateCharacter->bindParam(":alliancename", $characterData["Alliance Name"]);
+                $updateCharacter->bindValue(":roles", json_encode($characterData["Roles"]));
+                $updateCharacter->bindParam(":id", $characterData["ID"]);
+                $updateCharacter->execute();
+                
+                $this->authorizationLogger->make_log_entry("Relay Character Updated", "Authorization Handler", $characterData["Name"], $logString);
                 
             }
             

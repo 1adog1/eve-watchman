@@ -26,7 +26,8 @@
             $siteLogger->register(
                 "relay-character-logins", 
                 "Relay Character Logins", 
-                "Relay Character Added"
+                "Relay Character Added", 
+                "Relay Character Updated"
             );
     
             $siteLogger->register(

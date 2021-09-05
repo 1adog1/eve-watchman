@@ -43,6 +43,17 @@
     );
     
     $siteDatabase->register(
+        "relaycharacters",
+        ["Name" => "id", "Type" => "BIGINT"], 
+        ["Name" => "name", "Type" => "TEXT"], 
+        ["Name" => "corporationid", "Type" => "BIGINT"], 
+        ["Name" => "corporationname", "Type" => "TEXT"], 
+        ["Name" => "allianceid", "Type" => "BIGINT"], 
+        ["Name" => "alliancename", "Type" => "TEXT"], 
+        ["Name" => "roles", "Type" => "LONGTEXT"]
+    );
+    
+    $siteDatabase->register(
         "relays",
         ["Name" => "id", "Type" => "TEXT"], 
         ["Name" => "type", "Type" => "TEXT"], 

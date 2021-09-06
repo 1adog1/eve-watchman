@@ -43,8 +43,8 @@
                     curl_setopt($curlPost, CURLOPT_URL, "https://login.eveonline.com/oauth/token/");
                     curl_setopt($curlPost, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($curlPost, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/json", "Authorization:" . $encodedAuthorization]);
-                    curl_setopt($curlPost, CURLOPT_POSTFIELDS, json_encode(["grant_type" => "refresh_token", "refresh_token" => $authenticationCode]));
+                    curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/x-www-form-urlencoded", "Authorization:" . $encodedAuthorization]);
+                    curl_setopt($curlPost, CURLOPT_POSTFIELDS, http_build_query(["grant_type" => "refresh_token", "refresh_token" => $authenticationCode]));
 
                     $response = json_decode(curl_exec($curlPost), true);
 

@@ -20,10 +20,10 @@
 			$authenticationCode = htmlspecialchars($_GET["code"]);
 
 			$curlPost = curl_init();
-			curl_setopt($curlPost, CURLOPT_URL, "https://login.eveonline.com/oauth/token/");
+			curl_setopt($curlPost, CURLOPT_URL, "https://login.eveonline.com/v2/oauth/token");
 			curl_setopt($curlPost, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curlPost, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/x-www-form-urlencoded", "Authorization:" . $encodedAuthorization]);
+			curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/x-www-form-urlencoded", "Authorization:" . $encodedAuthorization, "Host:login.eveonline.com"]);
 			curl_setopt($curlPost, CURLOPT_POSTFIELDS, http_build_query(["grant_type" => "authorization_code", "code" => $authenticationCode]));
 
 			$response = json_decode(curl_exec($curlPost), true);
@@ -34,19 +34,18 @@
 				$refreshToken = $response["refresh_token"];
 				
 				curl_close($curlPost);
-
-				$curlGet = curl_init();
-				curl_setopt($curlGet, CURLOPT_URL, "https://login.eveonline.com/oauth/verify/");
-				curl_setopt($curlGet, CURLOPT_HTTPGET, true);
-				curl_setopt($curlGet, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($curlGet, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($curlGet, CURLOPT_HTTPHEADER, ["Authorization: Bearer " . $authenticationToken]);
-
-				$response = json_decode(curl_exec($curlGet), true);
-								
-				if (isset($response["Scopes"]) and strpos($response["Scopes"], "esi-universe.read_structures.v1") !== false and strpos($response["Scopes"], "esi-characters.read_corporation_roles.v1") !== false and strpos($response["Scopes"], "esi-characters.read_notifications.v1") !== false) {
+                
+                $accessArray = explode(".", $authenticationToken);
+                $accessHeader = json_decode(base64_decode($accessArray[0]), true);
+                $accessPayload = json_decode(base64_decode($accessArray[1]), true);
+                $accessSignature = $accessArray[2];
+                
+                $accessSubject = explode(":", $accessPayload["sub"]);
+                $accessCharacterID = $accessSubject[2];
+                
+                if (isset($accessPayload["scp"]) and !array_diff(["esi-universe.read_structures.v1", "esi-characters.read_corporation_roles.v1", "esi-characters.read_notifications.v1"], $accessPayload["scp"])) {
 					
-					$characterID = $response["CharacterID"];
+					$characterID = $accessCharacterID;
 					
 					$CharacterJson = file_get_contents("http://esi.evetech.net/latest/characters/" . $characterID . "/?datasource=tranquility");
 					$CharacterData = json_decode($CharacterJson, true);
@@ -140,10 +139,8 @@
 				}
 				else {
 				
-					$_SESSION["CharacterID"] = $response["CharacterID"];
+					$_SESSION["CharacterID"] = $accessCharacterID;
 					
-					curl_close($curlGet);
-
 					checkCookies();
 				
 					makeLogEntry("User Login", $_SESSION["CurrentPage"], $_SESSION["Character Name"], "Login Success");

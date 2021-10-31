@@ -40,12 +40,28 @@
 		
 			$bytes = random_bytes(8);
 			$_SESSION["UniqueState"] = bin2hex($bytes);
+            
+            $relayquerystring = http_build_query([
+                "response_type" => "code", 
+                "redirect_uri" => $clientredirect, 
+                "client_id" => $clientid, 
+                "scope" => $clientscopes, 
+                "state" => $_SESSION["UniqueState"]
+            ]);
+            
+            $managementquerystring = http_build_query([
+                "response_type" => "code", 
+                "redirect_uri" => $clientredirect, 
+                "client_id" => $clientid, 
+                "scope" => "", 
+                "state" => $_SESSION["UniqueState"]
+            ]);
 			
 		?>
 		
 		<li class="nav-item mt-2 mr-2" style="text-align: center;">
 			<strong>Relay Character Login</strong>
-			<a href="https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri=<?php echo $clientredirect; ?>&client_id=<?php echo $clientid; ?>&scope=<?php echo $clientscopes; ?>&state=<?php echo $_SESSION["UniqueState"]; ?>">
+			<a href="https://login.eveonline.com/v2/oauth/authorize/?<?php echo $relayquerystring; ?>">
 				<img class="LoginImage" src="../../resources/images/sso_image.png">
 			</a>		
 		</li>
@@ -54,7 +70,7 @@
 		
 			<li class="nav-item mt-2 mr-2" style="text-align: center;">
 				<strong>Management Login</strong>
-				<a href="https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri=<?php echo $clientredirect; ?>&client_id=<?php echo $clientid; ?>&scope=&state=<?php echo $_SESSION["UniqueState"]; ?>">
+				<a href="https://login.eveonline.com/v2/oauth/authorize/?<?php echo $managementquerystring; ?>">
 					<img class="LoginImage" src="../../resources/images/sso_image.png">
 				</a>
 			</li>

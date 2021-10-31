@@ -182,7 +182,17 @@ def startRelay():
             logCursor.execute(logQuery, (unixTime,logType,logMessage))
             
             sq1Database.commit()
-
+            logCursor.close()
+        
+        def updateRefreshToken(characterID, refreshToken):
+            updateCursor = sq1Database.cursor(buffered=True)
+            
+            updateStatement = "UPDATE relays SET refreshtoken=%s WHERE id=%s"
+            updateCursor.execute(updateStatement, (refreshToken, characterID))
+            
+            sq1Database.commit()
+            updateCursor.close()
+        
         initialCursor = sq1Database.cursor(buffered=True)
         staggerQuery = ("SELECT * FROM staggering")
         initialCursor.execute(staggerQuery)
@@ -205,9 +215,15 @@ def startRelay():
 
                 for (relayName, relayID, relayCorpID, relayCorp, relayRefreshToken, relayAllianceID, relayAlliance, relayRoles) in firstCursor:
 
-                    accessToken = ESI.getAccessToken(appInfo, relayRefreshToken)
+                    authData = ESI.getAccessToken(appInfo, relayRefreshToken)
                     
-                    if accessToken != "Bad Token":
+                    if authData != "Bad Token":
+                        
+                        accessToken = authData["access_token"]
+                        
+                        if authData["refresh_token"] != relayRefreshToken:
+                            updateRefreshToken(relayID, authData["refresh_token"])
+                        
                         notificationDict = ESI.getNotifications(relayID, accessToken)
                         
                         secondCursor = sq1Database.cursor(buffered=True)

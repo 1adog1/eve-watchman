@@ -1,5 +1,14 @@
 <?php
 
+    function updateRefreshToken($characterID, $refreshToken) {
+        
+        $toUpdate = $GLOBALS['MainDatabase']->prepare("UPDATE relays SET refreshtoken=:refreshtoken WHERE id=:id");
+        $toUpdate->bindParam(":refreshtoken", $refreshToken);
+        $toUpdate->bindParam(":id", $characterID);
+        $toUpdate->execute();
+        
+    }
+
     function runCharacterCheck($idToCheck) {
         
         if (($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["check_character"])) and ($_POST["check_character"] == $idToCheck or $_POST["check_character"] == "All")) {
@@ -40,17 +49,30 @@
                     $authenticationCode = $eachRelay["refreshtoken"];
 
                     $curlPost = curl_init();
-                    curl_setopt($curlPost, CURLOPT_URL, "https://login.eveonline.com/oauth/token/");
+                    curl_setopt($curlPost, CURLOPT_URL, "https://login.eveonline.com/v2/oauth/token");
                     curl_setopt($curlPost, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($curlPost, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/x-www-form-urlencoded", "Authorization:" . $encodedAuthorization]);
+                    curl_setopt($curlPost, CURLOPT_HTTPHEADER, ["Content-Type:application/x-www-form-urlencoded", "Authorization:" . $encodedAuthorization, "Host:login.eveonline.com"]);
                     curl_setopt($curlPost, CURLOPT_POSTFIELDS, http_build_query(["grant_type" => "refresh_token", "refresh_token" => $authenticationCode]));
 
                     $response = json_decode(curl_exec($curlPost), true);
 
                     if (isset($response["access_token"])) {
-                    
-                        $authenticationToken = $response["access_token"];                   
+                        
+                        if ($response["refresh_token"] !== $eachRelay["refreshtoken"]) {
+                            
+                            updateRefreshToken($eachRelay["id"], $response["refresh_token"]);
+                            
+                            echo "<img src='/resources/images/octicons/check.svg' class='successSVG'> Refresh Token Rotated!<br>";
+                            
+                        }
+                        else {
+                            
+                            echo "<img src='/resources/images/octicons/check.svg' class='successSVG'> ESI Access Good!<br>";
+                            
+                        }
+                        
+                        $authenticationToken = $response["access_token"];
                         
                         curl_close($curlPost);
                         
@@ -66,8 +88,6 @@
                         sort($rolesToCheck);
                         
                         curl_close($curlGet);
-                        
-                        echo "<img src='/resources/images/octicons/check.svg' class='successSVG'> ESI Access Good!<br>";
                         
                     }
                         

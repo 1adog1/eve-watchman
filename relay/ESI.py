@@ -4,14 +4,14 @@ def getAccessToken(appInfo, refreshToken):
     import json
 
     toHeader = appInfo["ClientID"] + ":" + appInfo["ClientSecret"]
-    authHeader = "Basic " + base64.urlsafe_b64encode(toHeader.encode('utf-8')).decode()
+    authHeader = "Basic " + base64.urlsafe_b64encode(toHeader.encode("utf-8")).decode()
     authBody = {"grant_type":"refresh_token","refresh_token":refreshToken}
 
-    accessPOST = requests.post("https://login.eveonline.com/oauth/token", headers={"Accept-Charset":'UTF-8', "content-type":"application/x-www-form-urlencoded", "Authorization":authHeader}, data=authBody)
+    accessPOST = requests.post("https://login.eveonline.com/v2/oauth/token", headers={"Host":"login.eveonline.com", "content-type":"application/x-www-form-urlencoded", "Authorization":authHeader}, data=authBody)
     accessResponse = json.loads(accessPOST.text)
     
     try:
-        return accessResponse["access_token"]
+        return accessResponse
     except:
         return "Bad Token"
         
@@ -41,7 +41,9 @@ def getADM(structureTypeID, systemID):
                 return structures["vulnerability_occupancy_level"]
             else:
                 return 0
-        
+    
+    return 0
+    
 def getPlanetDetails(planetID):
     import requests
     import json

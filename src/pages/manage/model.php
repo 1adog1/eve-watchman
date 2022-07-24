@@ -90,6 +90,8 @@
 				foreach (json_decode($configurations["whitelist"], true) as $throwaway => $types) {
 					$relayTypes .= ($types . "<br>");
 				}
+                
+                $targets = isset($targetCounts[$configurations["corporationid"]]) ? $targetCounts[$configurations["corporationid"]] : 0;
 				
 				echo "
 				<tr>
@@ -97,7 +99,7 @@
 					<td>" . $configurations["type"] . "</td>
 					<td>" . $configurations["channel"] . "</td>
 					<td>" . $configurations["pingtype"] . "</td>
-                    <td>" . $targetCounts[$configurations["corporationid"]] . "</td>
+                    <td>" . $targets . "</td>
 					<td>" . $configurations["alliance"] . "</td>
 					<td>" . $configurations["corporation"] . "</td>
 					<td class='small text-left'>

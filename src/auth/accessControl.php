@@ -313,13 +313,17 @@ function configureErrorChecking() {
 function checkForErrors() {
 	
 	$lastError = error_get_last();
-	
-	if ($lastError["type"] === E_ERROR) {
-		makeLogEntry("Critical Error", $lastError["file"], $_SESSION["Character Name"], $lastError["message"] . " on line " . $lastError["line"]);
-	}
-	if ($lastError["type"] === E_WARNING or $lastError["type"] === E_NOTICE) {
-		makeLogEntry("Page Error", $lastError["file"], $_SESSION["Character Name"], $lastError["message"] . " on line " . $lastError["line"]);
-	}
+    
+    if (!is_null($lastError)) {
+        
+        if ($lastError["type"] === E_ERROR) {
+            makeLogEntry("Critical Error", $lastError["file"], $_SESSION["Character Name"], $lastError["message"] . " on line " . $lastError["line"]);
+        }
+        if ($lastError["type"] === E_WARNING or $lastError["type"] === E_NOTICE) {
+            makeLogEntry("Page Error", $lastError["file"], $_SESSION["Character Name"], $lastError["message"] . " on line " . $lastError["line"]);
+        }
+        
+    }
 	
 	error_clear_last();
 	

@@ -15,7 +15,7 @@
                         <h4 class="alert-heading">Welcome to Eve Watchman!</h4>
                         <hr>
                         <p>Eve Watchman is an app designed for relaying Eve Online notifications to Discord or Slack.</p>
-                        <p>To configure the application, use the login on the navbar. To add a relay character, use the login below: </p>
+                        <p>To configure the application or check if your character is authed for relaying, use the login on the navbar. To add or update a relay character, use the login below: </p>
                         <hr>
                         Login a Relay Character: 
                         <a href="home/?action=login">

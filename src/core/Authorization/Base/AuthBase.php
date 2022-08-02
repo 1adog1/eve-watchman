@@ -535,9 +535,10 @@
             
             if (empty($characterResults)) {
                 
-                $insertCharacter = $this->authorizationConnection->prepare("INSERT INTO relaycharacters (id, name, corporationid, corporationname, allianceid, alliancename, roles) VALUES (:id, :name, :corporationid, :corporationname, :allianceid, :alliancename, :roles)");
+                $insertCharacter = $this->authorizationConnection->prepare("INSERT INTO relaycharacters (id, name, status, corporationid, corporationname, allianceid, alliancename, roles) VALUES (:id, :name, :status, :corporationid, :corporationname, :allianceid, :alliancename, :roles)");
                 $insertCharacter->bindParam(":id", $characterData["ID"]);
                 $insertCharacter->bindParam(":name", $characterData["Name"]);
+                $insertCharacter->bindValue(":status", "Valid");
                 $insertCharacter->bindValue(":corporationid", $characterData["Corporation ID"]);
                 $insertCharacter->bindParam(":corporationname", $characterData["Corporation Name"]);
                 $insertCharacter->bindParam(":allianceid", $characterData["Alliance ID"]);
@@ -550,8 +551,9 @@
             }
             else {
                 
-                $updateCharacter = $this->authorizationConnection->prepare("UPDATE relaycharacters SET name=:name, corporationid=:corporationid, corporationname=:corporationname, allianceid=:allianceid, alliancename=:alliancename, roles=:roles WHERE id=:id");
+                $updateCharacter = $this->authorizationConnection->prepare("UPDATE relaycharacters SET name=:name, status=:status, corporationid=:corporationid, corporationname=:corporationname, allianceid=:allianceid, alliancename=:alliancename, roles=:roles WHERE id=:id");
                 $updateCharacter->bindParam(":name", $characterData["Name"]);
+                $updateCharacter->bindValue(":status", "Valid");
                 $updateCharacter->bindValue(":corporationid", $characterData["Corporation ID"]);
                 $updateCharacter->bindParam(":corporationname", $characterData["Corporation Name"]);
                 $updateCharacter->bindParam(":allianceid", $characterData["Alliance ID"]);

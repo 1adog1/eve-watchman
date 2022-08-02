@@ -1,0 +1,32 @@
+; These values will show up in the "About" pane of your app's "Admin" page. They can be used in creating upgrade guides and implementing bugfixes.
+
+[App]
+; These values denote your application's current version. The major, minor, and patch versions will be shown joined by the chosen delimiter symbol(s).
+major_version = Firetower
+minor_version = 0
+patch_version = 0
+delimiter = " - "
+github_link = https://github.com/1adog1/eve-watchman/
+
+[Overhaul]
+; These values denote the version of the Project Overhaul Template your app is based on.
+major_version = Clay
+minor_version = 0
+patch_version = 0
+delimiter = " – "
+github_link = https://github.com/1adog1/project-overhaul/
+
+[Bootstrap]
+major_version = 5
+minor_version = 1
+patch_version = 3
+
+[Bootstrap Icons]
+major_version = 1
+minor_version = 7
+patch_version = 2
+
+[jQuery]
+major_version = 3
+minor_version = 5
+patch_version = 1

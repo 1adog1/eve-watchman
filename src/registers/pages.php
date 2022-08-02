@@ -62,6 +62,7 @@
         nameToUse: "Character Management",
         codeToUse: "Characters",
         useModel: true,
+        useController: true,
         useAPI: true,
         loginRequired: true, 
         accessRoles: ["Super Admin", "Configure Characters"]

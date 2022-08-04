@@ -1,6 +1,6 @@
-from Notification_Utilities import NotificationUtilities
-from Notification_Type_Register import TypeRegister
-from Notification_Types import TypeFormatter
+from Notifications.Notification_Utilities import NotificationUtilities
+from Notifications.Notification_Type_Register import TypeRegister
+from Notifications.Notification_Types import TypeFormatter
 import yaml
 
 class Notification(NotificationUtilities, TypeRegister, TypeFormatter):

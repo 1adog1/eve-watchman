@@ -1,3 +1,0 @@
-import relay
-
-relay.main()

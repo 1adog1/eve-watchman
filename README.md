@@ -4,7 +4,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Firetower - 0 - 0**
+**Current Version: Firetower - 1 - 0**
 
 ## Requirements
 
@@ -28,6 +28,7 @@ The core of this framework requires the following:
   * See `/config/config.ini.dist` for a list of required scopes.
 * [When Using The Neucore Authentication Method] A Neucore Application
   * The application needs the `app-chars` and `app-groups` roles added, along with any groups that you want to be able to set access roles for.
+  * _NOTE: It is not currently recommended to use this authentication method, as access is tied to the corporation / alliance of the logged-in character. An update to make this authentication method viable is planned for the future._
 
 ## Webapp Setup
   * Rename the Configuration File in `/config/config.ini.dist` to `/config/config.ini` and setup as needed.
@@ -35,14 +36,14 @@ The core of this framework requires the following:
   * Ensure the two config variables in the Requirements section above are set.
 
 ## Relay Setup
-  * After setting up the `/config/config.ini` file and accessing the webserver at least once, you can run `/scripts/Python/runRelay.py` as a cronjob to begin relaying notifications.
+  * After setting up the `/config/config.ini` file and accessing the webserver at least once, you can run `/scripts/Python/run.py` as a cronjob to begin relaying notifications.
    * It's recommended to run this script once a minute, or at an even higher frequency if you have the capability.
 
 ### To Deploy the Relay on a Separate Server
    In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
    * Make sure to copy the `/config/config.ini` file somewhere python can access it.
    * Move the `/scripts/Python/` folder to wherever you'll be running it from.
-   * In `relay.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
+   * In `/Relay/main.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:

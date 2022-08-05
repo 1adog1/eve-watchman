@@ -25,73 +25,72 @@ The core of this framework requires the following:
   * If you are using MySQL, the Authentication Method **MUST** be the Legacy Version. PDO does not support the use of `caching_sha2_password` Authentication.
 * A Registered Eve Online Application.
   * This can be setup via the [Eve Online Developers Site](https://developers.eveonline.com/).
-  * See `/config/config.ini.dist` for a list of required scopes.
+  * See the [Configuration File](/config/config.ini.dist) for important details about setting this up.
 * [When Using The Neucore Authentication Method] A Neucore Application
   * The application needs the `app-chars` and `app-groups` roles added, along with any groups that you want to be able to set access roles for.
   * _NOTE: It is not currently recommended to use this authentication method, as access is tied to the corporation / alliance of the logged-in character. An update to make this authentication method viable is planned for the future._
 
-## Webapp Setup
-  * Rename the Configuration File in `/config/config.ini.dist` to `/config/config.ini` and setup as needed.
-   * If you need to move this file you'll need to change the path it's accessed from in `/config/config.php`
-  * Ensure the two config variables in the Requirements section above are set.
+## Web App Setup
+* Rename the Configuration File in `/config/config.ini.dist` to `/config/config.ini` and setup as needed.
+  * If you need to move this file you'll need to change the path it's accessed from in `/config/config.php`
 
 ## Relay Setup
-  * After setting up the `/config/config.ini` file and accessing the webserver at least once, you can run `/scripts/Python/run.py` as a cronjob to begin relaying notifications.
-   * It's recommended to run this script once a minute, or at an even higher frequency if you have the capability.
+* After setting up the `/config/config.ini` file and accessing the webserver at least once, you can run `/scripts/Python/run.py` as a cronjob to begin relaying notifications.
+  * It's recommended to run this script once a minute, or at an even higher frequency if you have the capability.
 
 ### To Deploy the Relay on a Separate Server
    In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
-   * Make sure to copy the `/config/config.ini` file somewhere python can access it.
-   * Move the `/scripts/Python/` folder to wherever you'll be running it from.
-   * In `/Relay/main.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
+* Make sure to copy the `/config/config.ini` file somewhere python can access it.
+* Move the `/scripts/Python/` folder to wherever you'll be running it from.
+* In `/Relay/main.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:
 
 ### Upwell Attack/Reinforcement Events
-  * StructureDestroyed
-  * StructureLostArmor
-  * StructureLostShields
-  * StructureUnderAttack
+* StructureDestroyed
+* StructureLostArmor
+* StructureLostShields
+* StructureUnderAttack
 ### Upwell Management Events
-  * StructureAnchoring
-  * StructureFuelAlert
-  * StructureOnline
-  * StructureUnanchoring
-  * StructureServicesOffline
-  * StructureWentHighPower
-  * StructureWentLowPower
-  * StructureImpendingAbandonmentAssetsAtRisk
-  * StructuresReinforcementChanged
-  * OwnershipTransferred
+* StructureAnchoring
+* StructureFuelAlert
+* StructureOnline
+* StructureUnanchoring
+* StructureServicesOffline
+* StructureWentHighPower
+* StructureWentLowPower
+* StructureImpendingAbandonmentAssetsAtRisk
+* StructuresReinforcementChanged
+* OwnershipTransferred
 ### Moon Detonations
-  * MoonminingAutomaticFracture
-  * MoonminingLaserFired
+* MoonminingAutomaticFracture
+* MoonminingLaserFired
 ### Moon Management
-  * MoonminingExtractionCancelled
-  * MoonminingExtractionFinished
-  * MoonminingExtractionStarted
+* MoonminingExtractionCancelled
+* MoonminingExtractionFinished
+* MoonminingExtractionStarted
 ### Sovereignty Attacks/Reinforcement
-  * EntosisCaptureStarted
-  * SovCommandNodeEventStarted
-  * SovStructureReinforced
-  * SovStructureDestroyed
+* EntosisCaptureStarted
+* SovCommandNodeEventStarted
+* SovStructureReinforced
+* SovStructureDestroyed
 ### Sovereignty Management
-  * SovAllClaimAquiredMsg
-  * SovAllClaimLostMsg
-  * SovStructureSelfDestructRequested
-  * SovStructureSelfDestructFinished
-  * SovStructureSelfDestructCancel
+* SovAllClaimAquiredMsg
+* SovAllClaimLostMsg
+* SovStructureSelfDestructRequested
+* SovStructureSelfDestructFinished
+* SovStructureSelfDestructCancel
 ### Customs Office Events
-  * OrbitalAttacked
-  * OrbitalReinforced
+* OrbitalAttacked
+* OrbitalReinforced
 ### POS Attack Events
-  * TowerAlertMsg
+* TowerAlertMsg
 ### POS Management Events
-  * TowerResourceAlertMsg
-  * AllAnchoringMsg
+* TowerResourceAlertMsg
+* AllAnchoringMsg
 
 ## Credits
-  * Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.
-  * The [Unofficial Notification Documentation](https://github.com/antihax/goesi/blob/master/notification/notification.go) by antihax was instrumental in creating many of the custom notifications.
-  * Icons used across the web app are from the [Bootstrap Icons](https://icons.getbootstrap.com/) project.
+* Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.
+* The [Unofficial Notification Documentation](https://github.com/antihax/goesi/blob/master/notification/notification.go) by antihax was instrumental in creating many of the custom notifications.
+* Icons used across the web app are from the [Bootstrap Icons](https://icons.getbootstrap.com/) project.

@@ -43,7 +43,7 @@ else:
 
 def getTimeMark():
 
-        currentTime = datetime.now()
+        currentTime = datetime.now(timezone.utc)
         return currentTime.strftime("%d %B, %Y - %H:%M:%S EVE")
 
 def makeLogEntry(passedDatabase, logType, logStatement):

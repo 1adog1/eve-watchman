@@ -2,20 +2,19 @@
 ClientID =
 ClientSecret =
 ClientScopes =
-;Client Scopes is a string of space-separated scopes that the site requires to function. This site requires:
-; esi-search.search_structures.v1
+;Client Scopes is a string of space-separated scopes that are used for relay characters. The following are required:
 ; esi-universe.read_structures.v1
 ; esi-characters.read_corporation_roles.v1
 ; esi-characters.read_notifications.v1
 DefaultScopes = esi-search.search_structures.v1
-;Default Scopes is a string a space-separated scopes required for the site's default login process. esi-search.search_structures.v1 is required for ESI search functionality.
+;Default Scopes is a string a space-separated scopes required for the web app's default login process. 'esi-search.search_structures.v1' is required for ESI search functionality.
 ClientRedirect =
-;The callback is handled by the backend rather than a specific page. It MUST include the URL Parameter 'core_action=callback'.
+;The callback is handled by the backend rather than a specific page. It can be any page, but MUST include the URL Parameter 'core_action=callback'.
 AuthType = Eve
 ;Eve: Controls access by character, corporation, and alliance.
 ;Neucore: Uses Brave Neucore groups to control page access. (NOT RECOMMENDED - Access is linked to the corporation / alliance of the logged in character.)
 SuperAdmins =
-;Super Admins is a set of comma-separated character IDs in integer form. No comma is required for only one group name.
+;Super Admins is a set of comma-separated character IDs in integer form. No comma is required for only one id.
 
 [NeuCore Authentication]
 AppID =

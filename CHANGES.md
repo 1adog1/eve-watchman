@@ -61,6 +61,6 @@ Changes for each version along with any requirements to update from the previous
 
 1. Shut down the Web App and Relay.
 2. Delete the old project folder and drop the old database (backing up as desired).
-3. Start a new project folder and sync it up with the `overhaul/master` branch of the repository.
+3. Start a new project folder and sync it up with the `main` branch of the repository.
 4. Setup `/config/config.ini`. Make sure to use a different Eve Online application and database name than your previous instance of the app used to use.
 5. Continue following the instructions over in the [README](README.md) to setup the app from scratch.

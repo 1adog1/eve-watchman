@@ -40,7 +40,27 @@ if Path(configPath + "/config.ini").is_file():
 
 else:
 
-    raise Warning("No Configuration File Found!")
+    try:
+
+        databaseInfo = {}
+        databaseInfo["DatabaseServer"] = os.environ["ENV_WATCHMAN_DATABASE_SERVER"]
+        databaseInfo["DatabasePort"] = os.environ["ENV_WATCHMAN_DATABASE_PORT"]
+        databaseInfo["DatabaseUsername"] = os.environ["ENV_WATCHMAN_DATABASE_USERNAME"]
+        databaseInfo["DatabasePassword"] = os.environ["ENV_WATCHMAN_DATABASE_PASSWORD"]
+        databaseInfo["DatabaseName"] = os.environ["ENV_WATCHMAN_DATABASE_NAME"]
+
+        EveAuthInfo = {}
+        EveAuthInfo["ClientID"] = os.environ["ENV_WATCHMAN_EVE_CLIENT_ID"]
+        EveAuthInfo["ClientSecret"] = os.environ["ENV_WATCHMAN_EVE_CLIENT_SECRET"]
+        EveAuthInfo["ClientScopes"] = os.environ["ENV_WATCHMAN_EVE_CLIENT_SCOPES"] if "ENV_WATCHMAN_EVE_CLIENT_SCOPES" in os.environ else "esi-universe.read_structures.v1 esi-characters.read_corporation_roles.v1 esi-characters.read_notifications.v1"
+        EveAuthInfo["DefaultScopes"] = os.environ["ENV_WATCHMAN_EVE_DEFAULT_SCOPES"] if "ENV_WATCHMAN_EVE_DEFAULT_SCOPES" in os.environ else "esi-search.search_structures.v1"
+        EveAuthInfo["ClientRedirect"] = os.environ["ENV_WATCHMAN_EVE_CLIENT_REDIRECT"]
+        EveAuthInfo["AuthType"] = os.environ["ENV_WATCHMAN_EVE_AUTH_TYPE"] if "ENV_WATCHMAN_EVE_AUTH_TYPE" in os.environ else "Eve"
+        EveAuthInfo["SuperAdmins"] = os.environ["ENV_WATCHMAN_EVE_SUPER_ADMINS"]
+
+    except:
+
+        raise Warning("No Configuration File or Required Environment Variables Found!")
 
 sq1Database = DatabaseConnector.connect(
     user=databaseInfo["DatabaseUsername"],

@@ -4,7 +4,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Firetower - 1 - 0**
+**Current Version: Firetower - 2 - 0**
 
 ## Requirements
 
@@ -43,6 +43,12 @@ The core of this framework requires the following:
 * Make sure to copy the `/config/config.ini` file somewhere python can access it.
 * Move the `/scripts/Python/` folder to wherever you'll be running it from.
 * In `/Relay/main.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
+
+## Using Environment Variables Instead of a Config File
+* You can find environment variable keys associated with each config value in the comments of `/config/config.ini.dist`.
+* Some variables are required, some have defaults, and some are only needed in specific circumstances. These are listed in the comments of the file.
+* The web app and relay each only support either Environment Variables or a Config File, not both.
+  * The Config File always takes priority. To use Environment Variables, delete `/config/config.ini` if it exists.
 
 ## Supported Notifications
 The following notifications are supported and configured according to the following categories:

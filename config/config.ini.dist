@@ -1,40 +1,60 @@
 [Eve Authentication]
 ClientID =
+;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_ID - (REQUIRED)
 ClientSecret =
+;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_SECRET - (REQUIRED)
 ClientScopes =
+;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_SCOPES - (DEFAULT "esi-universe.read_structures.v1 esi-characters.read_corporation_roles.v1 esi-characters.read_notifications.v1")
 ;Client Scopes is a string of space-separated scopes that are used for relay characters. The following are required:
 ; esi-universe.read_structures.v1
 ; esi-characters.read_corporation_roles.v1
 ; esi-characters.read_notifications.v1
 DefaultScopes = esi-search.search_structures.v1
+;When Using Environment Variables: ENV_WATCHMAN_EVE_DEFAULT_SCOPES - (DEFAULT "esi-search.search_structures.v1")
 ;Default Scopes is a string a space-separated scopes required for the web app's default login process. 'esi-search.search_structures.v1' is required for ESI search functionality.
 ClientRedirect =
+;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_REDIRECT - (REQUIRED)
 ;The callback is handled by the backend rather than a specific page. It can be any page, but MUST include the URL Parameter 'core_action=callback'.
 AuthType = Eve
+;When Using Environment Variables: ENV_WATCHMAN_EVE_AUTH_TYPE - (DEFAULT "Eve")
 ;Eve: Controls access by character, corporation, and alliance.
 ;Neucore: Uses Brave Neucore groups to control page access. (NOT RECOMMENDED - Access is linked to the corporation / alliance of the logged in character.)
 SuperAdmins =
+;When Using Environment Variables: ENV_WATCHMAN_EVE_SUPER_ADMINS - (REQUIRED)
 ;Super Admins is a set of comma-separated character IDs in integer form. No comma is required for only one id.
 
 [NeuCore Authentication]
 AppID =
+;When Using Environment Variables: ENV_WATCHMAN_NEUCORE_APP_ID - (REQUIRED WHEN USING NEUCORE)
 AppSecret =
+;When Using Environment Variables: ENV_WATCHMAN_NEUCORE_APP_SECRET - (REQUIRED WHEN USING NEUCORE)
 AppURL =
+;When Using Environment Variables: ENV_WATCHMAN_NEUCORE_APP_URL - (REQUIRED WHEN USING NEUCORE)
 ;Please include a trailing / in the URL; for example https://neucore.com/
 
 [Database]
 DatabaseServer = 127.0.0.1
+;When Using Environment Variables: ENV_WATCHMAN_DATABASE_SERVER - (REQUIRED)
 ;When using a MySQL Server on localhost you may need to use 127.0.0.1 instead for this variable.
 DatabasePort = 2580
+;When Using Environment Variables: ENV_WATCHMAN_DATABASE_PORT - (REQUIRED)
 DatabaseUsername =
+;When Using Environment Variables: ENV_WATCHMAN_DATABASE_USERNAME - (REQUIRED)
 DatabasePassword =
+;When Using Environment Variables: ENV_WATCHMAN_DATABASE_PASSWORD - (REQUIRED)
 DatabaseName =
+;When Using Environment Variables: ENV_WATCHMAN_DATABASE_NAME - (REQUIRED)
 ;This database will be created automatically on connection, it does not need to be created manually.
 
 [Website]
-AuthCookieName = AuthID
+AuthCookieName = WatchmanAuthID
+;When Using Environment Variables: ENV_WATCHMAN_WEBSITE_AUTH_COOKIE - (DEFAULT "WatchmanAuthID")
 SessionTime = 43200
+;When Using Environment Variables: ENV_WATCHMAN_WEBSITE_SESSION_TIME - (DEFAULT "43200")
 ;Session Time is an integer of seconds after logging in that a character's session will be invalidated.
 AuthCacheTime = 0
+;When Using Environment Variables: ENV_WATCHMAN_WEBSITE_AUTH_CACHE_TIME - (DEFAULT "0")
 ;Auth Cache Time is an integer of seconds for which the outside data used to determine access roles is valid for.
-StoreVisitorIPs = false
+StoreVisitorIPs = 0
+;When Using Environment Variables: ENV_WATCHMAN_WEBSITE_STORE_IPS - (DEFAULT "0")
+;Evaluates using boolval, assuming input is a string.

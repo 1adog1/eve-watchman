@@ -2,6 +2,19 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Minor Version Firetower-2-0 Update
+
+### App Core
+
+* Added support for the use of Environment Variables instead of a Config file.
+
+### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. See the [Configuration File](/config/config.ini.dist) for a list of environment keys if you'd like to switch.
+4. Restart operation of the Relay.
+
 ## Minor Version Firetower-1-0 Update
 
 ### Relay Script

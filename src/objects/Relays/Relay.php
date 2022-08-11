@@ -92,8 +92,8 @@
                 <td><?php echo htmlspecialchars($this->type); ?></td>
                 <td><?php echo htmlspecialchars($this->server); ?></td>
                 <td><?php echo htmlspecialchars($this->channel); ?></td>
-                <td><?php echo htmlspecialchars($this->corporationName); ?></td>
-                <td><?php echo htmlspecialchars($this->allianceName); ?></td>
+                <td><?php echo htmlspecialchars($this->corporationName ?? ""); ?></td>
+                <td><?php echo htmlspecialchars($this->allianceName ?? ""); ?></td>
                 <td><?php echo htmlspecialchars(count($this->whiteList)); ?></td>
             </tr>
 

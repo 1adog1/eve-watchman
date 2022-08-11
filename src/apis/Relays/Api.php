@@ -487,9 +487,9 @@
                         $webhook = new \Ridley\Objects\Relays\Webhooks\Slack\Webhook($this->databaseConnection, $incomingURL);
 
                         $webhookData["Server ID"] = $webhook->serverID;
-                        $webhookData["Server Name"] = htmlspecialchars($webhook->serverName);
+                        $webhookData["Server Name"] = htmlspecialchars($webhook->serverName ?? "");
                         $webhookData["Channel ID"] = $webhook->channelID;
-                        $webhookData["Channel Name"] = htmlspecialchars($webhook->channelName);
+                        $webhookData["Channel Name"] = htmlspecialchars($webhook->channelName ?? "");
 
                     }
                     elseif (
@@ -508,9 +508,9 @@
                         if ($webhook->webhookVerified) {
 
                             $webhookData["Server ID"] = $webhook->serverID;
-                            $webhookData["Server Name"] = htmlspecialchars($webhook->serverName);
+                            $webhookData["Server Name"] = htmlspecialchars($webhook->serverName ?? "");
                             $webhookData["Channel ID"] = $webhook->channelID;
-                            $webhookData["Channel Name"] = htmlspecialchars($webhook->channelName);
+                            $webhookData["Channel Name"] = htmlspecialchars($webhook->channelName ?? "");
 
                         }
                         else {

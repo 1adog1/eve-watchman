@@ -2,11 +2,23 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Patch Version Firetower-2-2 Update
+
+### Web App
+
+* Fixed deprecated code involving passing null to non-nullable functions. 
+
+### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Patch Version Firetower-2-1 Update
 
 ### Web App
 
-* Fixed deprecated code in the page handler. 
+* Fixed deprecated code in the page handler.
 
 ### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
 

@@ -283,14 +283,13 @@ class TypeFormatter(object):
         self.outputData["Title"] = "A Customs Office is Under Attack!"
         self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarSystemID"], planetID=notificationData["planetID"])
         self.outputData["Fields"]["Attacker"] = self.getEntityLink(notificationData["aggressorID"])
-        self.outputData["Fields"]["Health Remaining"] = "{shield:.2%}".format(shield=notificationData["shieldLevel"])
+        self.outputData["Fields"]["Shield Remaining"] = "{shield:.2%}".format(shield=notificationData["shieldLevel"])
 
     def OrbitalReinforced(self, notificationData):
 
         self.outputData["Title"] = "A Customs Office Has Been Reinforced!"
         self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarSystemID"], planetID=notificationData["planetID"])
         self.outputData["Fields"]["Attacker"] = self.getEntityLink(notificationData["aggressorID"])
-        self.outputData["Fields"]["Health Remaining"] = "{shield:.2%}".format(shield=notificationData["shieldLevel"])
         self.outputData["Fields"]["Vulnerable At"] = self.parseTimestamp(notificationData["reinforceExitTime"])
 
     def TowerAnchoring(self, notificationData):

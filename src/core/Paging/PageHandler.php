@@ -154,7 +154,7 @@
             $parsedURL = parse_url($rawURL, PHP_URL_PATH);
             $parsedPath = preg_split(
                 pattern: "@/@",
-                subject: $parsedURL,
+                subject: ($parsedURL ?? ""),
                 flags: PREG_SPLIT_NO_EMPTY
             );
 
@@ -250,11 +250,17 @@
 
         private function grantAccess($pageData) {
 
-            if ($this->getLastPage() !== $pageData["Name"]) {
+            $lastPage = $this->getLastPage();
+
+            if ($lastPage !== $pageData["Name"]) {
 
                 $this->updateLastPage($pageData["Name"]);
 
-                $this->pageHandlingLogger->make_log_entry("Access Granted", $pageData["Name"], $this->userName, ("Login Status (Required / Provided): " . ($pageData["Login Required"] ? "True" : "False") . " / " . ($this->isLoggedIn ? "True" : "False") . "\nRoles (Required / Provided): (" . implode(", ", $pageData["Access Roles"]) . ") / (" . implode(", ", $this->userAccessRoles) . ")"));
+                if ($lastPage !== false or $pageData["Name"] !== "Homepage") {
+
+                    $this->pageHandlingLogger->make_log_entry("Access Granted", $pageData["Name"], $this->userName, ("Login Status (Required / Provided): " . ($pageData["Login Required"] ? "True" : "False") . " / " . ($this->isLoggedIn ? "True" : "False") . "\nRoles (Required / Provided): (" . implode(", ", $pageData["Access Roles"]) . ") / (" . implode(", ", $this->userAccessRoles) . ")"));
+
+                }
 
             }
 

@@ -2,11 +2,29 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Patch Version Firetower-2-3 Update
+
+### Relay Script
+
+* Fixed a parsing error with OrbitalReinforced notifications.
+* Updated text of OrbitalAttacked notifications changing "Health" to "Shield" remaining.
+
+### Web App
+
+* The app no longer logs first-time connections to the homepage.
+* Fixed deprecated code involving passing null to the subject argument of preg_split.
+
+### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Patch Version Firetower-2-2 Update
 
 ### Web App
 
-* Fixed deprecated code involving passing null to non-nullable functions. 
+* Fixed deprecated code involving passing null to non-nullable functions.
 
 ### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
 

@@ -1,6 +1,12 @@
 import ESI
 import json
 import time
+from datetime import datetime, timezone
+
+def getEntityTimeMark():
+
+        currentTime = datetime.now(timezone.utc)
+        return currentTime.strftime("%d %B, %Y - %H:%M:%S EVE")
 
 class Corporation:
 
@@ -32,7 +38,11 @@ class Corporation:
 
         if self.initialized and int(time.time()) >= self.nextcleanup and self.currentposition == 0:
 
+            print("[{Time}] Starting Cleanup of {Corporation}...".format(Time=getEntityTimeMark(), Corporation=self.name))
+
             for eachID in self.characters:
+
+                print("[{Time}] Started Updating Stats for {Character}...".format(Time=getEntityTimeMark(), Character=self.characters[eachID].name))
 
                 self.characters[eachID].setupESI()
                 self.characters[eachID].getUpdatedInfo()
@@ -41,7 +51,11 @@ class Corporation:
 
                     self.valids.remove(eachID)
 
+                print("[{Time}] Finished Updating Stats for {Character}.".format(Time=getEntityTimeMark(), Character=self.characters[eachID].name))
+
             self.progressCleanup()
+
+            print("[{Time}] Finished Cleanup of {Corporation}.\n".format(Time=getEntityTimeMark(), Corporation=self.name))
 
         if set(self.valids) != set(self.original_valids):
 

@@ -40,6 +40,8 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
             "Time": incoming_time
         }
 
+        self.parseFailure = False
+
         self.timestamp = incoming_time
         self.ldap_timestamp = int((int(self.timestamp) + 11644473600) * 10000000)
         self.type = incoming_type
@@ -50,17 +52,16 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
         NotificationUtilities.__init__(self, database_connection, access_token)
         TypeRegister.__init__(self)
 
-    def shouldItRelay(self, approved_notifications, recent_pos_fuel_alerts = []):
+    def shouldItRelay(self, recent_pos_fuel_alerts = []):
 
         return (
-            self.type in approved_notifications
-            and (
+            (
                 self.type != "StructureImpendingAbandonmentAssetsAtRisk"
                 or self.data["isCorpOwned"]
             )
             and (
                 self.type != "TowerResourceAlertMsg"
-                or int(self.data["moonID"]) in recent_pos_fuel_alerts
+                or int(self.data["moonID"]) not in recent_pos_fuel_alerts
             )
         )
 
@@ -81,6 +82,7 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
 
                 self.outputData["Title"] = "A " + self.type + " Notification Failed to Parse!"
                 self.outputData["Fields"] = {"Raw Data": str(self.data)}
+                self.parseFailure = True
 
         else:
 

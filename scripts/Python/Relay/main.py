@@ -157,7 +157,7 @@ def run():
 
                         notificationTimestamp = int(datetime.strptime(eachNotification["timestamp"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp())
 
-                        if notificationTimestamp >= relaytime and int(eachNotification["notification_id"]) not in alreadySent and "text" in eachNotification:
+                        if notificationTimestamp >= relaytime and eachNotification["type"] in notificationWhitelist and int(eachNotification["notification_id"]) not in alreadySent and "text" in eachNotification:
 
                             notificationData = Notification(
                                 sq1Database,
@@ -170,13 +170,13 @@ def run():
                                 ESIAuth.getAccessToken(currentCorporation.valids[currentCorporation.currentposition], retries=1)
                             )
 
-                            if notificationData.shouldItRelay(notificationWhitelist):
+                            if notificationData.shouldItRelay():
 
                                 print("[{Time}] Approved to relay, formatting...".format(Time=getTimeMark()))
                                 notificationData.formatForRelaying()
                                 print("[{Time}] Formatting Complete.".format(Time=getTimeMark()))
 
-                                if notificationData.outputData["Title"].endswith("Notification Failed to Parse!") and "Raw Data" in notificationData.outputData["Fields"] and len(notificationData.outputData["Fields"]) == 1:
+                                if notificationData.parseFailure:
 
                                     parseFailureNotice = "A(n) {type} notification for {corp} failed to parse when being formatted for delivery to the {channel} channel of the {server} {platform} server.".format(
                                         type=eachNotification["type"],

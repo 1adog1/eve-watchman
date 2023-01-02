@@ -326,3 +326,61 @@ class TypeFormatter(object):
             armor=notificationData["armorValue"],
             structure=notificationData["hullValue"]
         )
+
+    def CorpTaxChange(self, notificationData):
+
+        corpData = self.getCorporationAffiliation(notificationData["corpID"])
+
+        self.outputData["Title"] = "{corporation} Has Changed Their Tax Rate!".format(corporation=corpData["Corporation"])
+        self.outputData["Fields"]["Corporation"] = self.getCorpLink(corpData)
+        self.outputData["Fields"]["Change"] = "{old:.2f}% ➜ {new:.2f}%".format(
+            old=notificationData["oldTaxRate"],
+            new=notificationData["newTaxRate"]
+        )
+
+    def CorpNewCEO(self, notificationData):
+
+        corpData = self.getCorporationAffiliation(notificationData["corpID"])
+
+        self.outputData["Title"] = "{corporation}'s CEO Has Retired!".format(corporation=corpData["Corporation"])
+        self.outputData["Fields"]["Corporation"] = self.getCorpLink(corpData)
+        self.outputData["Fields"]["Change"] = "{old} ➜ {new}".format(
+            old=self.getEntityLink(notificationData["oldCeoID"]),
+            new=self.getEntityLink(notificationData["newCeoID"])
+        )
+
+    def CEORightsRevoked(self, notificationData):
+
+        corpData = self.getCorporationAffiliation(notificationData["corpID"])
+
+        self.outputData["Title"] = "A CEO Vote Has Been Called!"
+        self.outputData["Fields"]["Running Character"] = self.getEntityLink(notificationData["charID"])
+        self.outputData["Fields"]["Corporation"] = self.getCorpLink(corpData)
+        self.outputData["Fields"]["Notice"] = "The existing CEO has been stripped of their privileges for the duration of the vote."
+
+    def CorpVote(self, notificationData):
+
+        self.outputData["Title"] = "A Corporation Vote Has Been Called!"
+        self.outputData["Fields"]["Subject"] = str(notificationData["subject"])
+        self.outputData["Fields"]["Description"] = "```\n{body}\n```".format(
+            body=str(notificationData["body"])
+        )
+        self.outputData["Fields"]["Notice"] = "Vote Subjects and Descriptions are user-generated. Only the in-game voting options will accurately reveal what type of vote this is."
+
+    def CorpNewsMessage(self, notificationData):
+
+        knownTypes = {2: "Create Shares", 3: "Expel Shareholder"}
+
+        corpData = self.getCorporationAffiliation(notificationData["corpID"])
+
+        self.outputData["Title"] = "The Results of a Corporation Vote Have Been Implemented!"
+        self.outputData["Fields"]["Vote Type"] = knownTypes[int(notificationData["voteType"])] if int(notificationData["voteType"]) in knownTypes else "Unknown"
+        self.outputData["Fields"]["Successful"] = str(bool(int(notificationData["inEffect"])))
+        
+        if int(notificationData["voteType"]) == 2:
+            self.outputData["Fields"]["Shares"] = notificationData["parameter"]
+
+        elif int(notificationData["voteType"]) == 3:
+            self.outputData["Fields"]["Character to Expel"] = self.getEntityLink(notificationData["parameter"])
+
+        self.outputData["Fields"]["Corporation"] = self.getCorpLink(corpData)

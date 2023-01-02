@@ -54,6 +54,12 @@
             );
 
             $siteLogger->register(
+                "suppressed-notifications",
+                "Suppressed Notifications",
+                "Relay Suppressed"
+            );
+
+            $siteLogger->register(
                 "relay-errors",
                 "Relay Errors",
                 "Unknown Relay Error",

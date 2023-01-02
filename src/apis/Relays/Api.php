@@ -43,7 +43,12 @@
             "OrbitalReinforced",
             "TowerAlertMsg",
             "TowerResourceAlertMsg",
-            "AllAnchoringMsg"
+            "AllAnchoringMsg",
+            "CorpTaxChangeMsg",
+            "CorpNewCEOMsg",
+            "CorpVoteCEORevokedMsg", 
+            "CorpVoteMsg",
+            "CorpNewsMsg"
         ];
 
         private $approvedPingValues = [

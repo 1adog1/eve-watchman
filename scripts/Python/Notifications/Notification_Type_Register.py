@@ -169,6 +169,31 @@ class TypeRegister(object):
             method = "TowerUnderAttack"
         )
 
+        self.register(
+            type = "CorpTaxChangeMsg",
+            method = "CorpTaxChange"
+        )
+
+        self.register(
+            type = "CorpNewCEOMsg",
+            method = "CorpNewCEO"
+        )
+
+        self.register(
+            type = "CorpVoteCEORevokedMsg",
+            method = "CEORightsRevoked"
+        )
+
+        self.register(
+            type = "CorpVoteMsg",
+            method = "CorpVote"
+        )
+
+        self.register(
+            type = "CorpNewsMsg",
+            method = "CorpNewsMessage"
+        )
+
 
     def register(self, type, method):
 

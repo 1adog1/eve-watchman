@@ -84,8 +84,8 @@ testingData = {}
 #Slack or Discord
 testingPlatform = "Slack"
 
-#Webhook URL corresponding to the platform in testingPlatform, or None to not relay.
-testingWebhook = None
+#Webhook URL corresponding to the platform in testingPlatform.
+testingWebhook = ""
 
 #none (string), here, channel, or everyone
 testingPingType = "none"
@@ -107,7 +107,7 @@ for type, data in testingData.items():
         notificationData = Notification(
             sq1Database,
             type,
-            1657925290,
+            int(time.time()),
             yaml.dump(data, Dumper=yaml.SafeDumper),
             "Relay Test",
             testingPlatform,
@@ -124,7 +124,7 @@ for type, data in testingData.items():
         notificationData = Notification(
             sq1Database,
             type,
-            1657925290,
+            int(time.time()),
             data,
             "Relay Test",
             testingPlatform,
@@ -145,7 +145,7 @@ for type, data in testingData.items():
                 notificationData = Notification(
                     sq1Database,
                     type,
-                    1657925290,
+                    int(time.time()),
                     yaml.dump(nestedData, Dumper=yaml.SafeDumper),
                     "Relay Test",
                     testingPlatform,
@@ -162,7 +162,7 @@ for type, data in testingData.items():
                 notificationData = Notification(
                     sq1Database,
                     type,
-                    1657925290,
+                    int(time.time()),
                     nestedData,
                     "Relay Test",
                     testingPlatform,

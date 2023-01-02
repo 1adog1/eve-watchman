@@ -1,10 +1,10 @@
-# [WIP] Eve Watchman
+# Eve Watchman
 
 Eve Watchman is a web app for Eve Online allowing corporations and alliances to receive notifications relating to their structures and sovereignty. It includes a GUI allowing for the management of notifications at the corporation and alliance levels, and can send notifications to both Discord and Slack through their respective Webhook functionalities.
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Firetower - 2 - 3**
+**Current Version: Firetower – 3 – 0**
 
 ## Requirements
 
@@ -95,6 +95,13 @@ The following notifications are supported and configured according to the follow
 ### POS Management Events
 * TowerResourceAlertMsg
 * AllAnchoringMsg
+### Corporation Management Events
+* CorpTaxChangeMsg
+* CorpNewCEOMsg
+* CorpVoteCEORevokedMsg
+### Shareholder Events
+* CorpVoteMsg
+* CorpNewsMsg
 
 ## Credits
 * Much of the relay is based on the [reconbot](https://github.com/flakas/reconbot) project by flakas.

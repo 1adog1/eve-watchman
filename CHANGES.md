@@ -2,7 +2,42 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
-## Patch Version Firetower-2-3 Update
+## Minor Version Firetower – 3 – 0 Update
+
+### Relay Script
+
+* Fixed a time complexity oversight that could result in massive delays to the relay.
+* Simplified the process of detecting a notification parse failure.
+* Notifications which are not approved for relaying are now logged as Suppressed and registered to avoid duplicate checking.
+
+### Notification Testing Script
+
+* Notifications now display the correct time sent.
+* Removed reference to print-only mode, which is no longer supported.
+
+### Documentation
+
+* Fixed Version Formatting
+
+### Notification Parsing
+
+* The following corporation related notifications are now supported:
+  * `CorpTaxChangeMsg`
+  * `CorpNewCEOMsg`
+  * `CorpVoteCEORevokedMsg`
+
+* The following shareholder related notifications are now supported:
+  * `CorpVoteMsg`
+  * `CorpNewsMsg`
+
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
+
+## Patch Version Firetower – 2 – 3 Update
 
 ### Relay Script
 
@@ -14,50 +49,54 @@ Changes for each version along with any requirements to update from the previous
 * The app no longer logs first-time connections to the homepage.
 * Fixed deprecated code involving passing null to the subject argument of preg_split.
 
-### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.
 2. Sync up files with the repository.
 3. Restart operation of the Relay.
 
-## Patch Version Firetower-2-2 Update
+
+## Patch Version Firetower – 2 – 2 Update
 
 ### Web App
 
 * Fixed deprecated code involving passing null to non-nullable functions.
 
-### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.
 2. Sync up files with the repository.
 3. Restart operation of the Relay.
 
-## Patch Version Firetower-2-1 Update
+
+## Patch Version Firetower – 2 – 1 Update
 
 ### Web App
 
 * Fixed deprecated code in the page handler.
 
-### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.
 2. Sync up files with the repository.
 3. Restart operation of the Relay.
 
-## Minor Version Firetower-2-0 Update
+
+## Minor Version Firetower – 2 – 0 Update
 
 ### App Core
 
 * Added support for the use of Environment Variables instead of a Config file.
 
-### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.
 2. Sync up files with the repository.
 3. See the [Configuration File](/config/config.ini.dist) for a list of environment keys if you'd like to switch.
 4. Restart operation of the Relay.
 
-## Minor Version Firetower-1-0 Update
+
+## Minor Version Firetower – 1 – 0 Update
 
 ### Relay Script
 
@@ -65,13 +104,14 @@ Changes for each version along with any requirements to update from the previous
 * Added blanket logging of all exceptions that occur within the Relay.
 * Relay will now attempt to gracefully shutdown in the event of an uncaught exception.
 
-### UPDATE INSTRUCTIONS (From Version Firetower-0-*)
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.
 2. Sync up files with the repository.
 3. Restart operation of the Relay.
 
-## Major Version Firetower-0-0 Update
+
+## Major Version Firetower – 0 – 0 Update
 
 ### App Core
 

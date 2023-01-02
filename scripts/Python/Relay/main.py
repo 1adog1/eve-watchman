@@ -225,6 +225,24 @@ def run():
 
                                 registerNotification(sq1Database, eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
 
+                            else:
+
+                                print("[{Time}] Not approved to relay, suppressing...".format(Time=getTimeMark()))
+
+                                suppressionNotice = "A(n) {type} notification for {corp} bound for the {channel} channel of the {server} {platform} server was suppressed.".format(
+                                    type=eachNotification["type"],
+                                    corp=relayCorp,
+                                    channel=relaychannel,
+                                    server=relayserver,
+                                    platform=relaytype
+                                )
+
+                                print(suppressionNotice)
+
+                                makeLogEntry(sq1Database, "Relay Suppressed", suppressionNotice)
+
+                                registerNotification(sq1Database, eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
+
                 relayCursor.close()
                 currentCorporation.progressStagger()
 

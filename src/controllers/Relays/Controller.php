@@ -60,6 +60,15 @@
             "Starbase_Management" => [
                 "TowerResourceAlertMsg" => ["Name" => "Tower Fuel Alert", "Tooltip" => "Sent once per hour whilst a tower has less than 24 hours of fuel remaining."],
                 "AllAnchoringMsg" => ["Name" => "Tower Anchoring", "Tooltip" => "Sent when a tower belonging to the corporation begins anchoring, or when a tower begins anchoring in a system that the corporation owns the Territorial Claim Unit for."]
+            ], 
+            "Corporation_Management" => [
+                "CorpNewCEOMsg" => ["Name" => "CEO Retired", "Tooltip" => "Sent when a CEO manually retires and names their successor."],
+                "CorpVoteCEORevokedMsg" => ["Name" => "CEO Vote Called", "Tooltip" => "Sent only to a CEO when they lose their privileges due to a CEO vote being initiated."],
+                "CorpTaxChangeMsg" => ["Name" => "Tax Rate Changed"]
+            ],
+            "Corporation_Shareholder_Events" => [
+                "CorpVoteMsg" => ["Name" => "Vote Called"],
+                "CorpNewsMsg" => ["Name" => "Vote Implemented", "Tooltip" => "Sent when certain vote types (Creation of Shares and Expulsion of a Shareholder) are implemented by the CEO."]
             ]
         ];
 

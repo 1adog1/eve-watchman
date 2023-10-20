@@ -126,13 +126,15 @@ def run():
                 ))
 
                 newNotifications = currentCorporation.characters[currentCorporation.valids[currentCorporation.currentposition]].getCharacterNotifications()
+                setPlaceholders = ", ".join(["%s" for x in range(len(newNotifications) + 1)])
+                setValues = tuple([0] + [int(x["notification_id"]) for x in newNotifications])
 
                 relayCursor = sq1Database.cursor(buffered=True)
 
-                relayStatement = "SELECT relays.id, relays.type, relays.url, relays.pingtype, relays.whitelist, relays.timestamp, relays.corporationname, channels.name, servers.name FROM relays LEFT JOIN channels ON relays.channelid = channels.id AND relays.type = channels.type LEFT JOIN servers ON channels.serverid = servers.id AND channels.type = servers.type WHERE relays.corporationid=%s"
+                relayStatement = "SELECT relays.id, relays.type, relays.url, relays.pingtype, relays.whitelist, relays.timestamp, relays.corporationid, relays.corporationname, channels.name, servers.name FROM relays LEFT JOIN channels ON relays.channelid = channels.id AND relays.type = channels.type LEFT JOIN servers ON channels.serverid = servers.id AND channels.type = servers.type WHERE relays.corporationid=%s"
                 relayCursor.execute(relayStatement, (eachID,))
 
-                for relayid, relaytype, relayurl, relayping, relaywhitelist, relaytime, relayCorp, relaychannel, relayserver in relayCursor:
+                for relayid, relaytype, relayurl, relayping, relaywhitelist, relaytime, relayCorpID, relayCorp, relaychannel, relayserver in relayCursor:
 
                     print("[{Time}] Loading known {Corporation} Notifications for {Channel} ({Server})".format(
                         Time=getTimeMark(),
@@ -145,8 +147,8 @@ def run():
 
                     notificationsCursor = sq1Database.cursor(buffered=True)
 
-                    notificationsStatement = "SELECT DISTINCT id FROM notifications WHERE relayid=%s ORDER BY id DESC LIMIT 500"
-                    notificationsCursor.execute(notificationsStatement, (relayid,))
+                    notificationsStatement = "SELECT DISTINCT id FROM notifications WHERE relayid=%s AND id IN (" + setPlaceholders + ") ORDER BY id"
+                    notificationsCursor.execute(notificationsStatement, ((relayid,) + setValues))
 
                     alreadySent = [notificationid for notificationid, in notificationsCursor]
 
@@ -164,17 +166,20 @@ def run():
                                 eachNotification["type"],
                                 notificationTimestamp,
                                 eachNotification["text"],
+                                relayCorpID, 
                                 relayCorp,
                                 relaytype,
                                 relayping,
                                 ESIAuth.getAccessToken(currentCorporation.valids[currentCorporation.currentposition], retries=1)
                             )
 
+                            print("[{Time}] Formatting...".format(Time=getTimeMark()))
+                            notificationData.formatForRelaying()
+                            print("[{Time}] Formatting Complete.".format(Time=getTimeMark()))
+
                             if notificationData.shouldItRelay():
 
-                                print("[{Time}] Approved to relay, formatting...".format(Time=getTimeMark()))
-                                notificationData.formatForRelaying()
-                                print("[{Time}] Formatting Complete.".format(Time=getTimeMark()))
+                                print("[{Time}] Approved to relay, sending...".format(Time=getTimeMark()))
 
                                 if notificationData.parseFailure:
 
@@ -244,7 +249,6 @@ def run():
                                 registerNotification(sq1Database, eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
 
                 relayCursor.close()
-                currentCorporation.progressStagger()
 
                 print("[{Time}] Done Pulling notifications from {name} ({corp}){alliance}.\n".format(
                     Time=getTimeMark(),
@@ -252,6 +256,8 @@ def run():
                     corp=currentCorporation.characters[currentCorporation.valids[currentCorporation.currentposition]].corporation,
                     alliance=((" [" + currentCorporation.characters[currentCorporation.valids[currentCorporation.currentposition]].alliance + "]") if currentCorporation.characters[currentCorporation.valids[currentCorporation.currentposition]].alliance is not None else "")
                 ))
+
+                currentCorporation.progressStagger()
 
         initialCursor.close()
 

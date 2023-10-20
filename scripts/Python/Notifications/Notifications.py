@@ -26,6 +26,7 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
         incoming_type,
         incoming_time,
         incoming_text,
+        relay_for_id,
         relay_for,
         relay_platform,
         relay_ping,
@@ -49,12 +50,21 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
         self.ping_type = relay_ping
         self.platform = relay_platform
 
+        self.relay_owner = relay_for_id
+        self.verified_owner = None
+
         NotificationUtilities.__init__(self, database_connection, access_token)
         TypeRegister.__init__(self)
 
     def shouldItRelay(self, recent_pos_fuel_alerts = []):
 
         return (
+            (
+                self.verified_owner is None
+                or self.type == "OwnershipTransferred"
+                or int(self.verified_owner) == int(self.relay_owner)
+            )
+            and
             (
                 self.type != "StructureImpendingAbandonmentAssetsAtRisk"
                 or self.data["isCorpOwned"]

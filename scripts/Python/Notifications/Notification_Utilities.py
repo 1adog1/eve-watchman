@@ -336,6 +336,7 @@ class NotificationUtilities(object):
             if structureCall["Success"]:
 
                 structureName = structureCall["Data"]["name"]
+                self.verified_owner = structureCall["Data"]["owner_id"]
 
             else:
 

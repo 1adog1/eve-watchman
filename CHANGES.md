@@ -2,6 +2,26 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Minor Version Firetower – 4 – 0 Update
+
+### Relay Script
+
+* Changed how notifications pulled from ESI are checked against those in the database.
+  * Notifications are now only pulled from the database if their ID is in the list of those pulled from ESI, rather than in the list of the relay's 500 most recent notifications.
+  * This is the first half of the fix for a rare but significant bug, caused by a character with a large relayable notification history moving to a relay corporation with long-lived, highly active relays. The bug caused the character's old notifications to be relayed repeatedly, until the affected relays were deleted and recreated.
+* Fixed a bug where the relay console output didn't accurately reflect what characters were being checked.
+
+### Notification Parsing
+
+* Notifications for Upwell Structures that do not belong to the corporation owning the relay are now suppressed, unless the notification type is `OwnershipTransferred`.
+  * This is the second half of the fix to the first bug mentioned in the above section. 
+
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Minor Version Firetower – 3 – 0 Update
 
 ### Relay Script

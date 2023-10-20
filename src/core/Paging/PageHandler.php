@@ -272,6 +272,8 @@
 
             $this->updateLastPage($this->pageTable["unknown"]["Name"]);
 
+            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+
             $this->pageHandlingLogger->make_log_entry("Page Not Found", $pageString, $this->userName, ("The Page '" . $pageString . "' does not exist."));
 
             $this->setPageDetails($this->pageTable["unknown"]);
@@ -281,6 +283,8 @@
         private function denyAccess($pageData) {
 
             $this->updateLastPage($this->pageTable["unknown"]["Name"]);
+
+            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
 
             $this->pageHandlingLogger->make_log_entry("Access Denied", $pageData["Name"], $this->userName, ("Login Status (Required / Provided): " . ($pageData["Login Required"] ? "True" : "False") . " / " . ($this->isLoggedIn ? "True" : "False") . "\nRoles (Required / Provided): (" . implode(", ", $pageData["Access Roles"]) . ") / (" . implode(", ", $this->userAccessRoles) . ")"));
 

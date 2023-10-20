@@ -16,6 +16,10 @@ Changes for each version along with any requirements to update from the previous
 * Notifications for Upwell Structures that do not belong to the corporation owning the relay are now suppressed, unless the notification type is `OwnershipTransferred`.
   * This is the second half of the fix to the first bug mentioned in the above section. 
 
+### Web App
+
+* Attempting to access a page that doesn't exist or for which the user doesn't have sufficient privileges now results in a `404 Not Found` Status Code.
+
 ### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
 
 1. Pause operation of the Relay.

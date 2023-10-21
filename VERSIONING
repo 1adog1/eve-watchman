@@ -3,7 +3,7 @@
 [App]
 ; These values denote your application's current version. The major, minor, and patch versions will be shown joined by the chosen delimiter symbol(s).
 major_version = Firetower
-minor_version = 3
+minor_version = 4
 patch_version = 0
 delimiter = " – "
 github_link = https://github.com/1adog1/eve-watchman/

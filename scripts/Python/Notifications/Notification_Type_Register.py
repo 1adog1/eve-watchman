@@ -195,6 +195,26 @@ class TypeRegister(object):
         )
 
         self.register(
+            type = "SkyhookOnline",
+            method = "SkyhookOnline"
+        )
+
+        self.register(
+            type = "SkyhookLostShields",
+            method = "SkyhookReinforced"
+        )
+
+        self.register(
+            type = "SkyhookUnderAttack",
+            method = "SkyhookUnderAttack"
+        )
+
+        self.register(
+            type = "SkyhookDeployed",
+            method = "SkyhookAnchoring"
+        )
+
+        self.register(
             type = "unknown notification type (281)",
             method = "SkyhookOnline"
         )

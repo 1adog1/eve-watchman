@@ -2,6 +2,18 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Patch Version Firetower – 4 – 2 Update
+
+### Notification Parsing
+
+* Added upcoming names for the new skyhook notifications
+
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Patch Version Firetower – 4 – 1 Update
 
 ### Notification Parsing

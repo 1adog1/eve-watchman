@@ -4,7 +4,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Firetower – 4 – 1**
+**Current Version: Firetower – 4 – 2**
 
 ## Requirements
 
@@ -87,6 +87,11 @@ The following notifications are supported and configured according to the follow
 * SovStructureSelfDestructRequested
 * SovStructureSelfDestructFinished
 * SovStructureSelfDestructCancel
+### Skyhook Events
+* SkyhookOnline
+* SkyhookLostShields
+* SkyhookUnderAttack
+* SkyhookDeployed
 ### Skyhook Events (TEMP)
 * (Skyhook Online) - unknown notification type (281)
 * (Skyhook Reinforced) - unknown notification type (282)

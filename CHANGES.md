@@ -16,6 +16,12 @@ Changes for each version along with any requirements to update from the previous
 
 * The notification parse testing script is functional again. 
 
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Minor Version Firetower – 4 – 0 Update
 
 ### Relay Script

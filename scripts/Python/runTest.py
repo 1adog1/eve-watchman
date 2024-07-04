@@ -92,6 +92,9 @@ testingPingType = "none"
 
 #The character ID of a relay character authed into the webapp. Your choice will impact the test's ability to evaluate structure names.
 relayCharacterID = 0
+#The corporation ID and name being relayed for. If it doesn't match the owner of a notification's structure the notification may be suppressed.
+relayForID = 0
+relayForName = ""
 
 ESIAuth = ESI.AuthHandler(
     sq1Database,
@@ -109,7 +112,8 @@ for type, data in testingData.items():
             type,
             int(time.time()),
             yaml.dump(data, Dumper=yaml.SafeDumper),
-            "Relay Test",
+            relayForID,
+            relayForName,
             testingPlatform,
             testingPingType,
             ESIAuth.getAccessToken(relayCharacterID, retries=1)
@@ -126,7 +130,8 @@ for type, data in testingData.items():
             type,
             int(time.time()),
             data,
-            "Relay Test",
+            relayForID,
+            relayForName,
             testingPlatform,
             testingPingType,
             ESIAuth.getAccessToken(relayCharacterID, retries=1)
@@ -147,7 +152,8 @@ for type, data in testingData.items():
                     type,
                     int(time.time()),
                     yaml.dump(nestedData, Dumper=yaml.SafeDumper),
-                    "Relay Test",
+                    relayForID,
+                    relayForName,
                     testingPlatform,
                     testingPingType,
                     ESIAuth.getAccessToken(relayCharacterID, retries=1)
@@ -164,7 +170,8 @@ for type, data in testingData.items():
                     type,
                     int(time.time()),
                     nestedData,
-                    "Relay Test",
+                    relayForID,
+                    relayForName,
                     testingPlatform,
                     testingPingType,
                     ESIAuth.getAccessToken(relayCharacterID, retries=1)

@@ -50,6 +50,12 @@
                 "SovStructureSelfDestructFinished" => ["Name" => "Sovereignty Structure Self Destruct Finished"],
                 "SovStructureSelfDestructCancel" => ["Name" => "Sovereignty Structure Self Destruct Cancelled"]
             ],
+            "Skyhook_TEMP" => [
+                "unknown notification type (281)" => ["Name" => "Skyhook Online"],
+                "unknown notification type (282)" => ["Name" => "Skyhook Reinforced"],
+                "unknown notification type (283)" => ["Name" => "Skyhook Under Attack", "Tooltip" => "Sent when an orbital skyhook drops below 95% shield, or 100% armor / structure."],
+                "unknown notification type (285)" => ["Name" => "Skyhook Anchoring"]
+            ],
             "Customs_Office" => [
                 "OrbitalAttacked" => ["Name" => "Customs Office Under Attack"],
                 "OrbitalReinforced" => ["Name" => "Customs Office Reinforced"]

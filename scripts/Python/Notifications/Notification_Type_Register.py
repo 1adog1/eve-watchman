@@ -194,6 +194,26 @@ class TypeRegister(object):
             method = "CorpNewsMessage"
         )
 
+        self.register(
+            type = "unknown notification type (281)",
+            method = "SkyhookOnline"
+        )
+
+        self.register(
+            type = "unknown notification type (282)",
+            method = "SkyhookReinforced"
+        )
+
+        self.register(
+            type = "unknown notification type (283)",
+            method = "SkyhookUnderAttack"
+        )
+
+        self.register(
+            type = "unknown notification type (285)",
+            method = "SkyhookAnchoring"
+        )
+
 
     def register(self, type, method):
 

@@ -384,3 +384,35 @@ class TypeFormatter(object):
             self.outputData["Fields"]["Character to Expel"] = self.getEntityLink(notificationData["parameter"])
 
         self.outputData["Fields"]["Corporation"] = self.getCorpLink(corpData)
+
+    def SkyhookOnline(self, notificationData):
+
+        self.outputData["Title"] = "A Skyhook is Online!"
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"], planetID=notificationData["planetID"])
+
+    def SkyhookReinforced(self, notificationData):
+
+        self.outputData["Title"] = "A Skyhook Has Been Reinforced!"
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"], planetID=notificationData["planetID"])
+        self.outputData["Fields"]["Vulnerable At"] = self.parseTimestamp(notificationData["timestamp"])
+
+    def SkyhookUnderAttack(self, notificationData):
+
+        self.outputData["Title"] = "A Skyhook is Under Attack!"
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"], planetID=notificationData["planetID"])
+        self.outputData["Fields"]["Attacker"] = self.getEntityLink(notificationData["charID"])
+        self.outputData["Fields"]["Sovereignty Services Active"] = str(notificationData["isActive"])
+        self.outputData["Fields"]["Health Remaining"] = "{shield:.2f}% Shield | {armor:.2f}% Armor | {structure:.2f}% Structure".format(
+            shield=notificationData["shieldPercentage"],
+            armor=notificationData["armorPercentage"],
+            structure=notificationData["hullPercentage"]
+        )
+
+    def SkyhookAnchoring(self, notificationData):
+
+        corpData = self.getCorporationAffiliation(notificationData["ownerCorpLinkData"][2])
+
+        self.outputData["Title"] = "A Skyhook Has Started Anchoring!"
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"], planetID=notificationData["planetID"])
+        self.outputData["Fields"]["Owner"] = self.getCorpLink(corpData)
+        self.outputData["Fields"]["Anchored At"] = self.parseTimestamp(self.ldap_timestamp + notificationData["timeLeft"])

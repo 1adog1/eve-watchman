@@ -2,6 +2,20 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Patch Version Firetower – 4 – 1 Update
+
+### Notification Parsing
+
+* The following skyhook related notifications are now supported - note their type names will change in the near future:
+  * (Skyhook Online) `unknown notification type (281)`
+  * (Skyhook Reinforced) `unknown notification type (282)`
+  * (Skyhook Under Attack) `unknown notification type (283)`
+  * (Skyhook Anchoring) `unknown notification type (285)`
+
+### Testing
+
+* The notification parse testing script is functional again. 
+
 ## Minor Version Firetower – 4 – 0 Update
 
 ### Relay Script

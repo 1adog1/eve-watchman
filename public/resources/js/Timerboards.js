@@ -238,7 +238,7 @@ function buildCreationRequest() {
         "Action": "Create_Timerboard",
         "Timerboard_Type": $("input[name=new_type]:checked").val(),
         "URL": $("#new_url").val(),
-        "Token": $("#new_url").val(),
+        "Token": $("#new_token").val(),
         "Corporation_ID": $("#new_corporation").val(),
         "Notification_Whitelist": selectedNotifications
     };

@@ -408,6 +408,11 @@ class TypeFormatter(object):
             structure=notificationData["hullPercentage"]
         )
 
+    def SkyhookDestroyed(self, notificationData):
+
+        self.outputData["Title"] = "A Skyhook Has Been Destroyed!"
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"], planetID=notificationData["planetID"])
+
     def SkyhookAnchoring(self, notificationData):
 
         corpData = self.getCorporationAffiliation(notificationData["ownerCorpLinkData"][2])

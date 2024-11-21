@@ -1,5 +1,5 @@
-from Notifications import Notification
-from Terminus import Terminus
+from Timers import Timers
+from Terminus import TimerTerminus
 import ESI
 
 import time
@@ -81,14 +81,9 @@ Values can be one of the following:
 """
 testingData = {}
 
-#Slack or Discord
-testingPlatform = "Slack"
-
-#Webhook URL corresponding to the platform in testingPlatform.
-testingWebhook = ""
-
-#none (string), here, channel, or everyone
-testingPingType = "none"
+timerboardPlatform = "RC2"
+timerboardURL = ""
+timerboardToken = ""
 
 #The character ID of a relay character authed into the webapp. Your choice will impact the test's ability to evaluate structure names.
 relayCharacterID = 0
@@ -107,39 +102,37 @@ for type, data in testingData.items():
 
     if isinstance(data, dict):
 
-        notificationData = Notification(
+        timerData = Timers(
             sq1Database,
             type,
             int(time.time()),
             yaml.dump(data, Dumper=yaml.SafeDumper),
             relayForID,
-            relayForName,
-            testingPlatform,
-            testingPingType,
+            timerboardPlatform,
             ESIAuth.getAccessToken(relayCharacterID, retries=1)
         )
 
-        notificationData.formatForRelaying()
-        sender = Terminus(notificationData.outputData, testingPlatform, testingWebhook)
-        sender.send(2)
+        timerData.formatTimer()
+        postData = timerData.getPostData()
+        poster = TimerTerminus(postData, timerboardPlatform, timerboardURL, timerboardToken)
+        poster.post(2)
 
     elif isinstance(data, str):
 
-        notificationData = Notification(
+        timerData = Timers(
             sq1Database,
             type,
             int(time.time()),
             data,
             relayForID,
-            relayForName,
-            testingPlatform,
-            testingPingType,
+            timerboardPlatform,
             ESIAuth.getAccessToken(relayCharacterID, retries=1)
         )
 
-        notificationData.formatForRelaying()
-        sender = Terminus(notificationData.outputData, testingPlatform, testingWebhook)
-        sender.send(2)
+        timerData.formatTimer()
+        postData = timerData.getPostData()
+        poster = TimerTerminus(postData, timerboardPlatform, timerboardURL, timerboardToken)
+        poster.post(2)
 
     elif isinstance(data, list):
 
@@ -147,36 +140,34 @@ for type, data in testingData.items():
 
             if isinstance(nestedData, dict):
 
-                notificationData = Notification(
+                timerData = Timers(
                     sq1Database,
                     type,
                     int(time.time()),
                     yaml.dump(nestedData, Dumper=yaml.SafeDumper),
                     relayForID,
-                    relayForName,
-                    testingPlatform,
-                    testingPingType,
+                    timerboardPlatform,
                     ESIAuth.getAccessToken(relayCharacterID, retries=1)
                 )
 
-                notificationData.formatForRelaying()
-                sender = Terminus(notificationData.outputData, testingPlatform, testingWebhook)
-                sender.send(2)
+                timerData.formatTimer()
+                postData = timerData.getPostData()
+                poster = TimerTerminus(postData, timerboardPlatform, timerboardURL, timerboardToken)
+                poster.post(2)
 
             elif isinstance(nestedData, str):
 
-                notificationData = Notification(
+                timerData = Timers(
                     sq1Database,
                     type,
                     int(time.time()),
                     nestedData,
                     relayForID,
-                    relayForName,
-                    testingPlatform,
-                    testingPingType,
+                    timerboardPlatform,
                     ESIAuth.getAccessToken(relayCharacterID, retries=1)
                 )
 
-                notificationData.formatForRelaying()
-                sender = Terminus(notificationData.outputData, testingPlatform, testingWebhook)
-                sender.send(2)
+                timerData.formatTimer()
+                postData = timerData.getPostData()
+                poster = TimerTerminus(postData, timerboardPlatform, timerboardURL, timerboardToken)
+                poster.post(2)

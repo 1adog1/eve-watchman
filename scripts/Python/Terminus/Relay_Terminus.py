@@ -4,7 +4,7 @@ import requests
 
 from datetime import datetime
 
-class Terminus:
+class RelayTerminus:
 
     def __init__(self, data, platform, url):
 

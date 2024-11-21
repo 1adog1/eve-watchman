@@ -1,5 +1,5 @@
 import ESI
-from datetime import datetime
+from datetime import datetime, UTC
 
 class NotificationUtilities(object):
 
@@ -317,6 +317,11 @@ class NotificationUtilities(object):
         elif int(structureTypeID) in [2233, 3962]:
 
             return fallBackName
+        
+        #Skyhooks
+        elif int(structureTypeID) == 81080:
+
+            return "An Orbital Skyhook"
 
         #Upwell Structures
         else:
@@ -446,4 +451,4 @@ class NotificationUtilities(object):
 
             unixTime = int(timestamp)
 
-        return datetime.utcfromtimestamp(unixTime).strftime("%d %B, %Y - %H:%M:%S EVE")
+        return datetime.fromtimestamp(unixTime, UTC).strftime("%d %B, %Y - %H:%M:%S EVE")

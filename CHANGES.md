@@ -2,6 +2,28 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Major Version Radar – 0 – 0 Update
+
+### Functionality
+
+* Added a new Timerboard Management page, allowing some notifications to automatically create timers on a separate timerboard app.
+  * This manager currently supports an RC2 timerboard.
+
+### Notification Parsing
+
+* The following skyhook related notifications are now supported:
+  * (Skyhook Destroyed) `SkyhookDestroyed` and `unknown notification type (284)`
+* Transfers involving skyhooks no longer list them as unknown structures.
+* A method deprecated with Python 3.12 has been replaced.
+
+### UPDATE INSTRUCTIONS (From Version Firetower – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Update configuration file or ENVs with the new Timerboard settings.
+4. Connect to the Web App to update the database.
+5. Restart operation of the Relay.
+
 ## Patch Version Firetower – 4 – 2 Update
 
 ### Notification Parsing

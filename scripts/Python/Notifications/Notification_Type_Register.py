@@ -210,6 +210,11 @@ class TypeRegister(object):
         )
 
         self.register(
+            type = "SkyhookDestroyed",
+            method = "SkyhookDestroyed"
+        )
+
+        self.register(
             type = "SkyhookDeployed",
             method = "SkyhookAnchoring"
         )
@@ -227,6 +232,11 @@ class TypeRegister(object):
         self.register(
             type = "unknown notification type (283)",
             method = "SkyhookUnderAttack"
+        )
+
+        self.register(
+            type = "unknown notification type (284)",
+            method = "SkyhookDestroyed"
         )
 
         self.register(

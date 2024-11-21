@@ -54,12 +54,14 @@
                 "SkyhookOnline" => ["Name" => "Skyhook Online"],
                 "SkyhookLostShields" => ["Name" => "Skyhook Reinforced"],
                 "SkyhookUnderAttack" => ["Name" => "Skyhook Under Attack", "Tooltip" => "Sent when an orbital skyhook drops below 95% shield, or 100% armor / structure."],
+                "SkyhookDestroyed" => ["Name" => "Skyhook Destroyed"],
                 "SkyhookDeployed" => ["Name" => "Skyhook Anchoring"]
             ],
             "Skyhook_TEMP" => [
                 "unknown notification type (281)" => ["Name" => "Skyhook Online"],
                 "unknown notification type (282)" => ["Name" => "Skyhook Reinforced"],
                 "unknown notification type (283)" => ["Name" => "Skyhook Under Attack", "Tooltip" => "Sent when an orbital skyhook drops below 95% shield, or 100% armor / structure."],
+                "unknown notification type (284)" => ["Name" => "Skyhook Destroyed"],
                 "unknown notification type (285)" => ["Name" => "Skyhook Anchoring"]
             ],
             "Customs_Office" => [

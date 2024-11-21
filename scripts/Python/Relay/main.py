@@ -1,6 +1,8 @@
 from Notifications import Notification
+from Timers import Timers
 from EntityControl import Character, Corporation
-from Terminus import Terminus
+from Terminus import RelayTerminus
+from Terminus import TimerTerminus
 import ESI
 
 import inspect
@@ -36,6 +38,7 @@ if Path(configPath + "/config.ini").is_file():
 
     databaseInfo = config["Database"]
     EveAuthInfo = config["Eve Authentication"]
+    TimerboardInfo = config["Timerboards"]
 
 else:
 
@@ -57,6 +60,11 @@ else:
         EveAuthInfo["AuthType"] = os.environ["ENV_WATCHMAN_EVE_AUTH_TYPE"] if "ENV_WATCHMAN_EVE_AUTH_TYPE" in os.environ else "Eve"
         EveAuthInfo["SuperAdmins"] = os.environ["ENV_WATCHMAN_EVE_SUPER_ADMINS"]
 
+        TimerboardInfo = {}
+        TimerboardInfo["TimerboardsEnabled"] = os.environ["ENV_WATCHMAN_TIMERBOARDS_ENABLED"] if "ENV_WATCHMAN_TIMERBOARDS_ENABLED" in os.environ else 0
+        TimerboardInfo["ApprovedTimerboardTypes"] = os.environ["ENV_WATCHMAN_TIMERBOARDS_APPROVED_TYPES"]
+        TimerboardInfo["ApprovedTimerboardDomains"] = os.environ["ENV_WATCHMAN_TIMERBOARDS_APPROVED_DOMAINS"]
+
     except:
 
         raise Warning("No Configuration File or Required Environment Variables Found!")
@@ -76,11 +84,14 @@ def makeLogEntry(passedDatabase, logType, logStatement):
 
     loggingCursor.close()
 
-def registerNotification(passedDatabase, registerID, registerRelayID, registerType, registerTimestamp):
+def registerNotification(passedDatabase, tableType, registerID, registerRelayID, registerType, registerTimestamp):
 
     registrationCursor = passedDatabase.cursor(buffered=True)
 
-    notificationInsert = "INSERT INTO notifications (id, relayid, type, timestamp) VALUES (%s, %s, %s, %s)"
+    if tableType == "Notification":
+        notificationInsert = "INSERT INTO notifications (id, relayid, type, timestamp) VALUES (%s, %s, %s, %s)"
+    elif tableType == "Timer":
+        notificationInsert = "INSERT INTO timers (id, timerboardid, type, timestamp) VALUES (%s, %s, %s, %s)"
     registrationCursor.execute(notificationInsert, (registerID, registerRelayID, registerType, registerTimestamp))
     passedDatabase.commit()
 
@@ -128,6 +139,122 @@ def run():
                 newNotifications = currentCorporation.characters[currentCorporation.valids[currentCorporation.currentposition]].getCharacterNotifications()
                 setPlaceholders = ", ".join(["%s" for x in range(len(newNotifications) + 1)])
                 setValues = tuple([0] + [int(x["notification_id"]) for x in newNotifications])
+
+                if TimerboardInfo["TimerboardsEnabled"]:
+
+                    timerboardCursor = sq1Database.cursor(buffered=True)
+
+                    timerStatement = "SELECT id, type, url, token, whitelist, timestamp, corporationid, corporationname FROM timerboards WHERE corporationid=%s"
+                    timerboardCursor.execute(timerStatement, (eachID,))
+
+                    for timerboardid, timerboardtype, timerboardurl, timerboardtoken, timerboardwhitelist, timerboardtime, relayCorpID, relayCorp in timerboardCursor:
+
+                        print("[{Time}] Loading known {Corporation} Notifications for {Type} Timerboard".format(
+                            Time=getTimeMark(),
+                            Corporation=relayCorp,
+                            Type=timerboardtype
+                        ))
+
+                        notificationWhitelist = json.loads(timerboardwhitelist)
+
+                        timerCursor = sq1Database.cursor(buffered=True)
+
+                        timerStatement = "SELECT DISTINCT id FROM timers WHERE timerboardid=%s AND id IN (" + setPlaceholders + ") ORDER BY id"
+                        timerCursor.execute(timerStatement, ((timerboardid,) + setValues))
+
+                        alreadyPosted = [timerid for timerid, in timerCursor]
+
+                        timerCursor.close()
+
+                        print("[{Time}] Looping through notifications...".format(Time=getTimeMark()))
+                        for eachNotification in newNotifications:
+
+                            notificationTimestamp = int(datetime.strptime(eachNotification["timestamp"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp())
+
+                            if notificationTimestamp >= timerboardtime and eachNotification["type"] in notificationWhitelist and int(eachNotification["notification_id"]) not in alreadyPosted and "text" in eachNotification:
+
+                                timerData = Timers(
+                                    sq1Database,
+                                    eachNotification["type"],
+                                    notificationTimestamp,
+                                    eachNotification["text"],
+                                    relayCorpID, 
+                                    timerboardtype,
+                                    ESIAuth.getAccessToken(currentCorporation.valids[currentCorporation.currentposition], retries=1)
+                                )
+
+                                print("[{Time}] Formatting...".format(Time=getTimeMark()))
+                                timerData.formatTimer()
+                                print("[{Time}] Formatting Complete.".format(Time=getTimeMark()))
+
+                                if timerData.shouldItPost():
+
+                                    print("[{Time}] Approved to post, doing so...".format(Time=getTimeMark()))
+
+                                    if timerData.parseFailure:
+
+                                        parseFailureNotice = "A(n) {type} notification for {corp} failed to parse when being formatted for posting to a {platform} timerboard.".format(
+                                            type=eachNotification["type"],
+                                            corp=relayCorp,
+                                            platform=timerboardtype
+                                        )
+
+                                        print(parseFailureNotice)
+
+                                        makeLogEntry(sq1Database, "Notification Parse Failure", parseFailureNotice)
+
+                                    else:
+
+                                        postData = timerData.getPostData()
+
+                                        poster = TimerTerminus(postData, timerboardtype, timerboardurl, timerboardtoken)
+                                        wasPosted = poster.post(2)
+
+                                        if wasPosted:
+
+                                            postedNotice = "A(n) {type} notification was posted for {corp} to a {platform} timerboard.".format(
+                                                type=eachNotification["type"],
+                                                corp=relayCorp,
+                                                platform=timerboardtype
+                                            )
+
+                                            print(postedNotice)
+
+                                            makeLogEntry(sq1Database, "Timer Created", postedNotice)
+
+                                            time.sleep(1)
+
+                                        else:
+
+                                            failureNotice = "A(n) {type} notification failed to post for {corp} to a {platform} timerboard.".format(
+                                                type=eachNotification["type"],
+                                                corp=relayCorp,
+                                                platform=timerboardtype
+                                            )
+
+                                            print(failureNotice)
+
+                                            makeLogEntry(sq1Database, "Unknown Relay Error", failureNotice)
+
+                                    registerNotification(sq1Database, "Timer", eachNotification["notification_id"], timerboardid, eachNotification["type"], notificationTimestamp)
+
+                                else:
+
+                                    print("[{Time}] Not approved to post, suppressing...".format(Time=getTimeMark()))
+
+                                    suppressionNotice = "A(n) {type} notification for {corp} bound for a {platform} timerboard was suppressed.".format(
+                                        type=eachNotification["type"],
+                                        corp=relayCorp,
+                                        platform=timerboardtype
+                                    )
+
+                                    print(suppressionNotice)
+
+                                    makeLogEntry(sq1Database, "Timer Suppressed", suppressionNotice)
+
+                                    registerNotification(sq1Database, "Timer", eachNotification["notification_id"], timerboardid, eachNotification["type"], notificationTimestamp)
+
+                    timerboardCursor.close()
 
                 relayCursor = sq1Database.cursor(buffered=True)
 
@@ -195,7 +322,7 @@ def run():
 
                                     makeLogEntry(sq1Database, "Notification Parse Failure", parseFailureNotice)
 
-                                sender = Terminus(notificationData.outputData, relaytype, relayurl)
+                                sender = RelayTerminus(notificationData.outputData, relaytype, relayurl)
                                 wasSent = sender.send(2)
 
                                 if wasSent:
@@ -228,7 +355,7 @@ def run():
 
                                     makeLogEntry(sq1Database, "Unknown Relay Error", failureNotice)
 
-                                registerNotification(sq1Database, eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
+                                registerNotification(sq1Database, "Notification", eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
 
                             else:
 
@@ -246,7 +373,7 @@ def run():
 
                                 makeLogEntry(sq1Database, "Relay Suppressed", suppressionNotice)
 
-                                registerNotification(sq1Database, eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
+                                registerNotification(sq1Database, "Notification", eachNotification["notification_id"], relayid, eachNotification["type"], notificationTimestamp)
 
                 relayCursor.close()
 

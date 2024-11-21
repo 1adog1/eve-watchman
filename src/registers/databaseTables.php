@@ -70,6 +70,28 @@
     );
 
     $siteDatabase->register(
+        "timerboards",
+        ["Name" => "id", "Type" => "TEXT"],
+        ["Name" => "type", "Type" => "TEXT"],
+        ["Name" => "url", "Type" => "TEXT"],
+        ["Name" => "token", "Type" => "TEXT"],
+        ["Name" => "whitelist", "Type" => "LONGTEXT"],
+        ["Name" => "timestamp", "Type" => "BIGINT"],
+        ["Name" => "corporationid", "Type" => "BIGINT"],
+        ["Name" => "corporationname", "Type" => "TEXT"],
+        ["Name" => "allianceid", "Type" => "BIGINT"],
+        ["Name" => "alliancename", "Type" => "TEXT"]
+    );
+
+    $siteDatabase->register(
+        "timers",
+        ["Name" => "id", "Type" => "BIGINT"],
+        ["Name" => "timerboardid", "Type" => "TEXT"],
+        ["Name" => "type", "Type" => "TEXT"],
+        ["Name" => "timestamp", "Type" => "BIGINT"]
+    );
+
+    $siteDatabase->register(
         "notifications",
         ["Name" => "id", "Type" => "BIGINT"],
         ["Name" => "relayid", "Type" => "TEXT"],

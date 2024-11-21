@@ -56,6 +56,17 @@
         loginRequired: true, 
         accessRoles: ["Super Admin", "Configure Corporation", "Configure Alliance"]
     );
+
+    $this->registerPage(
+        linkToUse: "timerboard_management",
+        nameToUse: "Timerboard Management",
+        codeToUse: "Timerboards",
+        useModel: true,
+        useController: true,
+        useAPI: true,
+        loginRequired: true, 
+        accessRoles: ["Super Admin", "Configure Corporation", "Configure Alliance"]
+    );
     
     $this->registerPage(
         linkToUse: "character_management",

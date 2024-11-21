@@ -48,6 +48,13 @@
             );
 
             $siteLogger->register(
+                "timerboard-management",
+                "Timerboard Management",
+                "Timerboard Created",
+                "Timerboard Deleted"
+            );
+
+            $siteLogger->register(
                 "relayed-notifications",
                 "Relayed Notifications",
                 "Relay Sent"
@@ -57,6 +64,18 @@
                 "suppressed-notifications",
                 "Suppressed Notifications",
                 "Relay Suppressed"
+            );
+            
+            $siteLogger->register(
+                "created-timers",
+                "Created Timers",
+                "Timer Created"
+            );
+
+            $siteLogger->register(
+                "suppressed-timers",
+                "Suppressed Timers",
+                "Timer Suppressed"
             );
 
             $siteLogger->register(

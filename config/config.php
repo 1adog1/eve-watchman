@@ -28,6 +28,11 @@
         //DATABASE NAME CONFIGURATION
         $configVariables["Database Name"] = $configData["DatabaseName"];
 
+        //TIMERBOARD CONFIGURATION
+        $configVariables["Timerboards Enabled"] = boolval($configData["TimerboardsEnabled"]);
+        $configVariables["Approved Timerboard Types"] = explode(",", str_replace(" ", "", $configData["ApprovedTimerboardTypes"]));
+        $configVariables["Approved Timerboard Domains"] = explode(",", str_replace(" ", "", $configData["ApprovedTimerboardDomains"]));
+
         //SITE CONFIGURATION
         $configVariables["Auth Cookie Name"] = $configData["AuthCookieName"];
         $configVariables["Session Time"] = $configData["SessionTime"];
@@ -61,6 +66,11 @@
 
         //DATABASE NAME CONFIGURATION
         $configVariables["Database Name"] = $ENVS["ENV_WATCHMAN_DATABASE_NAME"];
+
+        //TIMERBOARD CONFIGURATION
+        $configVariables["Timerboards Enabled"] = boolval(($ENVS["ENV_WATCHMAN_TIMERBOARDS_ENABLED"] ?? 0));
+        $configVariables["Approved Timerboard Types"] = explode(",", str_replace(" ", "", $ENVS["ENV_WATCHMAN_TIMERBOARDS_APPROVED_TYPES"]));
+        $configVariables["Approved Timerboard Domains"] = explode(",", str_replace(" ", "", $ENVS["ENV_WATCHMAN_TIMERBOARDS_APPROVED_DOMAINS"]));
 
         //SITE CONFIGURATION
         $configVariables["Auth Cookie Name"] = $ENVS["ENV_WATCHMAN_WEBSITE_AUTH_COOKIE"] ?? "WatchmanAuthID";

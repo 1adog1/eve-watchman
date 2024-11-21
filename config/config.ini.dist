@@ -46,6 +46,19 @@ DatabaseName =
 ;When Using Environment Variables: ENV_WATCHMAN_DATABASE_NAME - (REQUIRED)
 ;This database will be created automatically on connection, it does not need to be created manually.
 
+[Timerboards]
+TimerboardsEnabled = 0
+;When Using Environment Variables: ENV_WATCHMAN_TIMERBOARDS_ENABLED - (DEFAULT "0")
+;Evaluates using boolval, assuming input is a string.
+ApprovedTimerboardTypes = 
+;When Using Environment Variables: ENV_WATCHMAN_TIMERBOARDS_APPROVED_TYPES - (REQUIRED WHEN USING TIMERBOARDS)
+;A comma-separated list of approved timerboard types. No comma is required for only one type. Currently Supported:
+;RC2
+ApprovedTimerboardDomains = 
+;When Using Environment Variables: ENV_WATCHMAN_TIMERBOARDS_APPROVED_DOMAINS - (REQUIRED WHEN USING TIMERBOARDS)
+;A comma-separated list of approved timerboard URL domains. No comma is required for only one domain. 
+;Approved domains should take the form of example.example.com
+
 [Website]
 AuthCookieName = WatchmanAuthID
 ;When Using Environment Variables: ENV_WATCHMAN_WEBSITE_AUTH_COOKIE - (DEFAULT "WatchmanAuthID")

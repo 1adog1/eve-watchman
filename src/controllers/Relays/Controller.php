@@ -19,6 +19,8 @@
             "Upwell_Management" => [
                 "StructureAnchoring" => ["Name" => "Structure Anchoring"],
                 "StructureFuelAlert" => ["Name" => "Structure Fuel Alert", "Tooltip" => "Sent when a citadel drops below 24 hours of fuel remaining."],
+                "StructureLowReagentsAlert" => ["Name" => "Structure Low Reagents", "Tooltip" => "Sent when a citadel drops below 24 hours of reagents remaining."],
+                "StructureNoReagentsAlert" => ["Name" => "Structure No Reagents"],
                 "StructureOnline" => ["Name" => "Structure Online"],
                 "StructureUnanchoring" => ["Name" => "Structure Unanchoring"],
                 "StructureServicesOffline" => ["Name" => "Structure Services Offline"],

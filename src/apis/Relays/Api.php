@@ -24,6 +24,8 @@
             "StructureWentLowPower",
             "StructureImpendingAbandonmentAssetsAtRisk",
             "StructuresReinforcementChanged",
+            "StructureLowReagentsAlert",
+            "StructureNoReagentsAlert",
             "OwnershipTransferred",
             "MoonminingLaserFired",
             "MoonminingAutomaticFracture",

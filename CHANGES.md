@@ -2,6 +2,20 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Minor Version Radar – 1 – 0 Update
+
+### Notification Parsing
+
+* The following reagent related notifications are now supported:
+  * `StructureLowReagentsAlert`
+  * `StructureNoReagentsAlert`
+
+### UPDATE INSTRUCTIONS (From Version Radar – 0 – *)
+
+1. Pause operation of the Relay.
+2. Sync up files with the repository.
+3. Restart operation of the Relay.
+
 ## Major Version Radar – 0 – 0 Update
 
 ### Functionality

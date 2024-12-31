@@ -205,6 +205,20 @@ class TypeFormatter(object):
         self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"])
         self.outputData["Fields"]["Offline Services"] = "```\n" + "\n".join([self.getTypeName(type) for type in notificationData["listOfServiceModuleIDs"]]) + "\n```"
 
+    def LowReagents(self, notificationData):
+
+        structureName = self.getStructure(notificationData["structureID"], notificationData["structureTypeID"], notificationData["solarsystemID"])
+
+        self.outputData["Title"] = "{structure} is Low on Reagents!".format(structure=structureName)
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"])
+
+    def NoReagents(self, notificationData):
+
+        structureName = self.getStructure(notificationData["structureID"], notificationData["structureTypeID"], notificationData["solarsystemID"])
+
+        self.outputData["Title"] = "{structure} Has No Remaining Reagents!".format(structure=structureName)
+        self.outputData["Fields"]["Location"] = self.getLocationLink(notificationData["solarsystemID"])
+
     def OwnershipTransferred(self, notificationData):
 
         structureName = self.getStructure(notificationData["structureID"], notificationData["structureTypeID"], notificationData["solarSystemID"], notificationData["structureName"])

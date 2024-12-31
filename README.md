@@ -4,7 +4,7 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Radar – 0 – 0**
+**Current Version: Radar – 1 – 0**
 
 ## Requirements
 

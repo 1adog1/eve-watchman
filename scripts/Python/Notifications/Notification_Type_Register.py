@@ -115,6 +115,16 @@ class TypeRegister(object):
         )
 
         self.register(
+            type = "StructureLowReagentsAlert",
+            method = "LowReagents"
+        )
+
+        self.register(
+            type = "StructureNoReagentsAlert",
+            method = "NoReagents"
+        )
+
+        self.register(
             type = "OwnershipTransferred",
             method = "OwnershipTransferred"
         )

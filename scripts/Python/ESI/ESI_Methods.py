@@ -8,7 +8,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/alliances/{alliance_id}/",
-            url = (self.esiURL + "latest/alliances/" + str(arguments["alliance_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "alliances/" + str(arguments["alliance_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -16,7 +16,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/corporations/{corporation_id}/",
-            url = (self.esiURL + "latest/corporations/" + str(arguments["corporation_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "corporations/" + str(arguments["corporation_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -24,7 +24,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/characters/{character_id}/",
-            url = (self.esiURL + "latest/characters/" + str(arguments["character_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "characters/" + str(arguments["character_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -32,7 +32,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/characters/{character_id}/roles/",
-            url = (self.esiURL + "latest/characters/" + str(arguments["character_id"]) + "/roles/?datasource=tranquility"),
+            url = (self.esiURL + "characters/" + str(arguments["character_id"]) + "/roles/?datasource=tranquility"),
             accessToken = self.accessToken,
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
@@ -41,7 +41,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/characters/{character_id}/notifications/",
-            url = (self.esiURL + "latest/characters/" + str(arguments["character_id"]) + "/notifications/?datasource=tranquility"),
+            url = (self.esiURL + "characters/" + str(arguments["character_id"]) + "/notifications/?datasource=tranquility"),
             accessToken = self.accessToken,
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
@@ -50,7 +50,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/characters/affiliation/",
-            url = (self.esiURL + "latest/characters/affiliation/?datasource=tranquility"),
+            url = (self.esiURL + "characters/affiliation/?datasource=tranquility"),
             method = "POST",
             payload = arguments["characters"],
             cacheTime = 3600,
@@ -61,7 +61,8 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/sovereignty/structures/",
-            url = (self.esiURL + "latest/sovereignty/structures/?datasource=tranquility"),
+            url = (self.esiURL + "sovereignty/structures/?datasource=tranquility"),
+            compatibilityDate = "2025-12-16",
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -69,7 +70,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/names/",
-            url = (self.esiURL + "latest/universe/names/?datasource=tranquility"),
+            url = (self.esiURL + "universe/names/?datasource=tranquility"),
             method = "POST",
             payload = arguments["ids"],
             cacheTime = 3600,
@@ -80,7 +81,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/constellations/{constellation_id}/",
-            url = (self.esiURL + "latest/universe/constellations/" + str(arguments["constellation_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/constellations/" + str(arguments["constellation_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -88,7 +89,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/moons/{moon_id}/",
-            url = (self.esiURL + "latest/universe/moons/" + str(arguments["moon_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/moons/" + str(arguments["moon_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -96,7 +97,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/planets/{planet_id}/",
-            url = (self.esiURL + "latest/universe/planets/" + str(arguments["planet_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/planets/" + str(arguments["planet_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -104,7 +105,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/regions/{region_id}/",
-            url = (self.esiURL + "latest/universe/regions/" + str(arguments["region_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/regions/" + str(arguments["region_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -112,7 +113,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/structures/{structure_id}/",
-            url = (self.esiURL + "latest/universe/structures/" + str(arguments["structure_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/structures/" + str(arguments["structure_id"]) + "/?datasource=tranquility"),
             accessToken = self.accessToken,
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
@@ -121,7 +122,7 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/systems/{system_id}/",
-            url = (self.esiURL + "latest/universe/systems/" + str(arguments["system_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/systems/" + str(arguments["system_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )
 
@@ -129,6 +130,6 @@ class Methods(ESI_Base.Base):
 
         return self.makeRequest(
             endpoint = "/universe/types/{type_id}/",
-            url = (self.esiURL + "latest/universe/types/" + str(arguments["type_id"]) + "/?datasource=tranquility"),
+            url = (self.esiURL + "universe/types/" + str(arguments["type_id"]) + "/?datasource=tranquility"),
             retries = (arguments["retries"] if "retries" in arguments else 0)
         )

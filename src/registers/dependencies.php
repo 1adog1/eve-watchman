@@ -20,6 +20,7 @@
     $dependencyManager->register("Authorization Control", $userAuthorization);
     $dependencyManager->register("Log Type Groups", $siteLogger->getTypeGroups());
     $dependencyManager->register("Configuration Variables", $configVariables);
+    $dependencyManager->register("Version Variables", $versionVariables);
     $dependencyManager->register("Nav Links", $pageHandler->getNavLinks());
     $dependencyManager->register("Page Names", $pageHandler->getPageNames());
     $dependencyManager->register("URL Data", $pageHandler->getURLData());

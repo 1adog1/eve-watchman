@@ -3,9 +3,9 @@ from datetime import datetime, UTC
 
 class TimerUtilities(object):
 
-    def __init__(self, database_connection, access_token):
+    def __init__(self, database_connection, version_variables, access_token):
 
-        self.ESIHandler = ESI.Handler(database_connection, access_token)
+        self.ESIHandler = ESI.Handler(database_connection, version_variables, access_token)
 
     def getCorporationAffiliation(self, corporationID):
 

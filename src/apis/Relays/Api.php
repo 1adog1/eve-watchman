@@ -2,9 +2,13 @@
 
     namespace Ridley\Apis\Relays;
 
+use Exception;
+use Ridley\Core\Exceptions\UserInputException;
+
     class Api implements \Ridley\Interfaces\Api {
 
         private $databaseConnection;
+        private $versionVariables;
         private $logger;
         private $accessRoles;
         private $characterStats;
@@ -75,10 +79,11 @@
         ) {
 
             $this->databaseConnection = $this->dependencies->get("Database");
+            $this->versionVariables = $this->dependencies->get("Version Variables");
             $this->logger = $this->dependencies->get("Logging");
             $this->accessRoles = $this->dependencies->get("Access Roles");
             $this->characterStats = $this->dependencies->get("Character Stats");
-            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->databaseConnection);
+            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->databaseConnection, $this->versionVariables);
 
             if (isset($_POST["Action"])) {
 
@@ -104,7 +109,12 @@
                     }
                     else {
 
-                        header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+                        throw new UserInputException(
+                            inputs: ["URL"], 
+                            expected_values: ["A valid webhook URL"], 
+                            hard_coded_inputs: false,
+                            value_missing: false
+                        );
 
                     }
 
@@ -155,16 +165,24 @@
                 }
                 else {
 
-                    header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                    trigger_error("No valid combination of action and required secondary arguments was received.", E_USER_ERROR);
+                    throw new UserInputException(
+                        inputs: ["Action", "Secondary Arguments"], 
+                        expected_values: ["A valid action command", "The action's arguments"], 
+                        hard_coded_inputs: true,
+                        value_missing: true
+                    );
 
                 }
 
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                trigger_error("Request is missing the action argument.", E_USER_ERROR);
+                throw new UserInputException(
+                    inputs: "Action", 
+                    expected_values: "An action command", 
+                    hard_coded_inputs: true,
+                    value_missing: true
+                );
 
             }
 
@@ -188,7 +206,12 @@
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+                throw new UserInputException(
+                    inputs: ["Corporation ID"], 
+                    expected_values: ["A valid relay corporation ID"], 
+                    hard_coded_inputs: true,
+                    value_missing: false
+                );
 
             }
 
@@ -318,12 +341,19 @@
                                             [
                                                 "fields" => [
                                                     ["name" => "Relay For", "value" => ($relayAffiliation["corporation"]["Name"] . (!is_null($relayAffiliation["alliance"]["Name"]) ? (" [" . $relayAffiliation["alliance"]["Name"] . "]") : "")), "inline" => false],
-                                                    ["name" => "Ping Type", "value" => $incomingPingType, "inline" => false],
-                                                    ["name" => "Approved Notifications", "value" => ("```\n" . implode("\n", $incomingWhitelist) . "\n```"), "inline" => false]
+                                                    ["name" => "Ping Type", "value" => $incomingPingType, "inline" => false]
                                                 ]
                                             ]
                                         ]
                                     ];
+                                    $notificationList = array_chunk($incomingWhitelist, 30);
+                                    $totalLists = count($notificationList);
+                                    $listCounter = 1;
+                                    foreach ($notificationList as $eachSublist) {
+
+                                        $confirmationMessageData["embeds"][0]["fields"][] = ["name" => "Approved Notifications (" . $listCounter++ . "/" . $totalLists . ")", "value" => ("```\n" . implode("\n", $eachSublist) . "\n```"), "inline" => false];
+
+                                    }
                                     break;
                             }
 
@@ -360,18 +390,48 @@
                                 $success = true;
 
                             }
+                            else {
+
+                                throw new Exception("A message failed to send to a valid webhook URL.");
+
+                            }
 
                         }
+                        else {
+
+                            throw new Exception("Failed to get names of a corporation / alliance targeted for relaying.");
+
+                        }
+
+                    }
+                    else {
+
+                        throw new UserInputException(
+                            inputs: ["Corporation ID"], 
+                            expected_values: ["A valid corporation ID that the user has access to."], 
+                            hard_coded_inputs: true,
+                            value_missing: false
+                        );
 
                     }
 
                 }
 
             }
+            else {
+
+                throw new UserInputException(
+                    inputs: ["URL", "Server Name", "Channel Name"], 
+                    expected_values: ["A valid webhook URL", "A valid server name", "A valid channel name"], 
+                    hard_coded_inputs: false,
+                    value_missing: false
+                );
+
+            }
 
             if (!$success) {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+                throw new Exception("A relay failed to be created with valid inputs.");
 
             }
 
@@ -386,7 +446,7 @@
                 LEFT JOIN servers
                 ON relays.type = servers.type AND relays.serverid = servers.id
                 LEFT JOIN channels
-                ON relays.type = channels.type AND relays.channelid = channels.id
+                ON relays.type = channels.type AND relays.channelid = channels.id AND servers.id = channels.serverid
                 WHERE relays.id=:id;"
             );
             $deletionQuery->bindParam(":id", $incomingID);
@@ -421,7 +481,12 @@
 
             if (!$success) {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+                throw new UserInputException(
+                    inputs: ["Relay ID"], 
+                    expected_values: ["A valid relay ID to delete"], 
+                    hard_coded_inputs: true,
+                    value_missing: false
+                );
 
             }
 
@@ -436,10 +501,11 @@
                 LEFT JOIN servers
                 ON relays.type = servers.type AND relays.serverid = servers.id
                 LEFT JOIN channels
-                ON relays.type = channels.type AND relays.channelid = channels.id
+                ON relays.type = channels.type AND relays.channelid = channels.id AND servers.id = channels.serverid
                 LEFT JOIN relaycharacters
                 ON relays.corporationid = relaycharacters.corporationid
-                WHERE relays.id=:id;"
+                WHERE relays.id=:id
+                GROUP BY relays.id;"
             );
             $dataQuery->bindParam(":id", $incomingID);
 
@@ -467,7 +533,12 @@
 
             if (!$success) {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+                throw new UserInputException(
+                    inputs: ["Relay ID"], 
+                    expected_values: ["A valid relay ID to query"], 
+                    hard_coded_inputs: true,
+                    value_missing: false
+                );
 
             }
 

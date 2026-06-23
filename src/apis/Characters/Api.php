@@ -5,6 +5,7 @@
     class Api implements \Ridley\Interfaces\Api {
 
         private $databaseConnection;
+        private $versionVariables;
         private $logger;
         private $accessRoles;
         private $characterStats;
@@ -15,10 +16,11 @@
         ) {
 
             $this->databaseConnection = $this->dependencies->get("Database");
+            $this->versionVariables = $this->dependencies->get("Version Variables");
             $this->logger = $this->dependencies->get("Logging");
             $this->accessRoles = $this->dependencies->get("Access Roles");
             $this->characterStats = $this->dependencies->get("Character Stats");
-            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->databaseConnection);
+            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->databaseConnection, $this->versionVariables);
 
             if (isset($_POST["Action"])) {
 

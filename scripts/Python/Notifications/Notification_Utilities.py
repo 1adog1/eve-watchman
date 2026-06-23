@@ -3,9 +3,9 @@ from datetime import datetime, UTC
 
 class NotificationUtilities(object):
 
-    def __init__(self, database_connection, access_token):
+    def __init__(self, database_connection, version_variables, access_token):
 
-        self.ESIHandler = ESI.Handler(database_connection, access_token)
+        self.ESIHandler = ESI.Handler(database_connection, version_variables, access_token)
 
     def getTypeName(self, typeID):
 

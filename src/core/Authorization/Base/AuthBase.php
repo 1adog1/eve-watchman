@@ -13,15 +13,16 @@
         protected $esiHandler;
         
         public function __construct(
-            protected $authorizationLogger, 
-            protected $authorizationConnection, 
-            protected $authorizationVariables
+            protected $authorizationLogger,
+            protected $authorizationConnection,
+            protected $authorizationVariables,
+            protected $authorizationVersionVariables
         ) {
-            
-            $this->esiHandler = new \Ridley\Objects\ESI\Handler($authorizationConnection);
-            
+
+            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->authorizationConnection, $this->authorizationVersionVariables);
+
             $this->cleanupLogins();
-            
+
         }
         
         public function login($loginType, $loginScopes) {
@@ -444,7 +445,7 @@
                 "Roles" => null
             ];
             
-            $authedEsiHandler = new \Ridley\Objects\ESI\Handler($this->authorizationConnection, $accessToken);
+            $authedEsiHandler = new \Ridley\Objects\ESI\Handler($this->authorizationConnection, $this->authorizationVersionVariables, $accessToken);
             
             $affiliationsCall = $authedEsiHandler->call(endpoint: "/characters/affiliation/", characters: [$characterID], retries: 1);
             

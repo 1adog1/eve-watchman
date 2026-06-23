@@ -2,7 +2,7 @@ from ESI import ESI_Methods
 
 class MethodRegister(ESI_Methods.Methods):
 
-    def initalizeMethodList(self):
+    def initializeMethodList(self):
 
         self.methodList = {}
 

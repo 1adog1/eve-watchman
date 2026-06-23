@@ -19,35 +19,36 @@
         protected $esiHandler;
         
         public function __construct(
-            protected $authorizationLogger, 
-            protected $authorizationConnection, 
-            protected $authorizationVariables
+            protected $authorizationLogger,
+            protected $authorizationConnection,
+            protected $authorizationVariables,
+            protected $authorizationVersionVariables
         ) {
-            
-            $this->esiHandler = new \Ridley\Objects\ESI\Handler($authorizationConnection);
-            
-            $this->cookieName = $authorizationVariables["Auth Cookie Name"];
-            
+
+            $this->esiHandler = new \Ridley\Objects\ESI\Handler($this->authorizationConnection, $this->authorizationVersionVariables);
+
+            $this->cookieName = $this->authorizationVariables["Auth Cookie Name"];
+
             $this->cleanupLogins();
             $this->cleanupSessions();
             $this->getSession();
-            
+
             if (isset($_GET["core_action"]) and $_GET["core_action"] == "login") {
-                
-                $this->login("Default", $authorizationVariables["Default Scopes"]);
-                
+
+                $this->login("Default", $this->authorizationVariables["Default Scopes"]);
+
             }
             if (isset($_GET["core_action"]) and $_GET["core_action"] == "callback") {
-                
+
                 $this->receiveCallback();
-                
+
             }
             if (isset($_GET["core_action"]) and $_GET["core_action"] == "logout") {
-                
+
                 $this->logout();
-                
+
             }
-            
+
         }
         
         private function determineAccessRoles() {
@@ -235,7 +236,7 @@
             $csrfBytes = random_bytes(16);
             $this->csrfToken = bin2hex($csrfBytes);
             $sessionExpiration = time() + $this->authorizationVariables["Session Time"];
-            setcookie($this->cookieName, $SessionID, ["expires" => $sessionExpiration, "path"=> "/", "samesite" => "Lax"]);
+            setcookie($this->cookieName, $SessionID, ["expires" => $sessionExpiration, "path"=> "/", "httponly" => true, "samesite" => "Lax"]);
             
             $convertedLoginStatus = (int)$this->isLoggedIn;
             $convertedAccessRoles = json_encode($this->accessRoles);

@@ -2,11 +2,16 @@
 
     namespace Ridley\Core\Site;
 
+    use Ridley\Core\Exceptions\UserInputException;
+
     class SiteCore {
+
+        private $logger;
         
         private $navArray;
         private $pageLink;
         private $pageCode;
+        private $csrfToken;
         private $loginStatus;
         private $characterStats;
         private $hasModel;
@@ -21,6 +26,8 @@
         function __construct(
             private $dependencies
         ) {
+
+            $this->logger = $this->dependencies->get("Logging");
             
             $this->navArray = $this->dependencies->get("Nav Links");
             $this->pageLink = $this->dependencies->get("Page Link");
@@ -53,8 +60,40 @@
                 
                 if (isset($_SERVER["HTTP_CSRF_TOKEN"]) and $_SERVER["HTTP_CSRF_TOKEN"] === $this->csrfToken) {
                 
-                    $apiClassName = "\\Ridley\\Apis\\" . $this->pageCode . "\\Api";
-                    $this->pageAPI = new $apiClassName($this->dependencies);
+                    try {
+                        $apiClassName = "\\Ridley\\Apis\\" . $this->pageCode . "\\Api";
+                        $this->pageAPI = new $apiClassName($this->dependencies);
+                    }
+                    catch (UserInputException $e) {
+
+                        if ($e->wasInputNotFound()) {
+
+                            $logType = "User Input Not Found";
+                            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+
+                        }
+                        else if ($e->wasInputHardcoded()) {
+
+                            $logType = ($e->wasInputMissing() ? "Missing Hardcoded Input" : "Bad Hardcoded Input");
+                            header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+
+                        }
+                        else if (!$e->wasInputHardcoded()) {
+
+                            $logType = ($e->wasInputMissing() ? "Missing User Input" : "Bad User Input");
+                            header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+
+                        }
+
+                        $this->logger->make_log_entry(logType: $logType, logDetails: $e->getMessage());
+
+                        if ($e->wasExceptionThrownIncorrectly()) {
+                            
+                            throw new \DomainException(message: implode("\n", $e->getImplementationMessages()), previous: $e);
+
+                        }
+
+                    }
                     
                 }
                 else {

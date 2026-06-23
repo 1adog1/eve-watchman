@@ -15,6 +15,12 @@ DefaultScopes = esi-search.search_structures.v1
 ClientRedirect =
 ;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_REDIRECT - (REQUIRED)
 ;The callback is handled by the backend rather than a specific page. It can be any page, but MUST include the URL Parameter 'core_action=callback'.
+ClientContactInfo = 
+;When Using Environment Variables: ENV_WATCHMAN_EVE_CLIENT_CONTACT_INFO - (REQUIRED)
+;This allows CCP to identify who's running the application. Use one of the following patterns:
+; foo@example.com
+; discord:username
+; eve:charactername
 AuthType = Eve
 ;When Using Environment Variables: ENV_WATCHMAN_EVE_AUTH_TYPE - (DEFAULT "Eve")
 ;Eve: Controls access by character, corporation, and alliance.

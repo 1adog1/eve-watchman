@@ -9,6 +9,7 @@ class Timers(TimerUtilities, TimerRegister, TimerFormatter):
     def __init__(
         self,
         database_connection,
+        version_variables,
         incoming_type,
         incoming_time,
         incoming_text,
@@ -30,7 +31,7 @@ class Timers(TimerUtilities, TimerRegister, TimerFormatter):
         self.timer_owner = relay_for_id
         self.verified_owner = None
 
-        TimerUtilities.__init__(self, database_connection, access_token)
+        TimerUtilities.__init__(self, database_connection, version_variables, access_token)
         TimerRegister.__init__(self)
 
     def shouldItPost(self):

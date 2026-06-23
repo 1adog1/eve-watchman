@@ -18,7 +18,7 @@
     
     
     $authorizationClass = "\\Ridley\\Core\\Authorization\\" . $configVariables["Auth Type"] . "\\AuthHandler";
-    $userAuthorization = new $authorizationClass($siteLogger, $masterDatabaseConnection, $configVariables);
+    $userAuthorization = new $authorizationClass($siteLogger, $masterDatabaseConnection, $configVariables, $versionVariables);
     
     
     $pageHandler = new \Ridley\Core\Paging\PageHandler($siteLogger, $masterDatabaseConnection, $userAuthorization->getLoginStatus(), $userAuthorization->getCharacterStats(), $userAuthorization->getAccessRoles(), $configVariables["Auth Cookie Name"]);

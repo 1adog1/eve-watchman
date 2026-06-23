@@ -2,12 +2,15 @@
 
     namespace Ridley\Apis\Admin;
 
+    use Ridley\Core\Exceptions\UserInputException;
+
     class Api implements \Ridley\Interfaces\Api {
 
         private $availableRoles = [];
         private $databaseConnection;
         private $logger;
         private $configVariables;
+        private $versionVariables;
         private $characterStats;
         private $userAuthorization;
         private $esiHandler;
@@ -19,11 +22,13 @@
             $this->databaseConnection = $this->dependencies->get("Database");
             $this->logger = $this->dependencies->get("Logging");
             $this->configVariables = $this->dependencies->get("Configuration Variables");
+            $this->versionVariables = $this->dependencies->get("Version Variables");
             $this->characterStats = $this->dependencies->get("Character Stats");
             $this->userAuthorization = $this->dependencies->get("Authorization Control");
 
             $this->esiHandler = new \Ridley\Objects\ESI\Handler(
                 $this->databaseConnection,
+                $this->versionVariables,
                 $this->userAuthorization->getAccessToken("Default", $this->characterStats["Character ID"])
             );
 
@@ -74,16 +79,24 @@
                 }
                 else {
 
-                    header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                    trigger_error("No valid combination of action and required secondary arguments was received.", E_USER_ERROR);
+                    throw new UserInputException(
+                        inputs: ["Action", "Secondary Arguments"], 
+                        expected_values: ["A valid action command", "The action's arguments"], 
+                        hard_coded_inputs: true,
+                        value_missing: true
+                    );
 
                 }
 
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                trigger_error("Request is missing the action argument.", E_USER_ERROR);
+                throw new UserInputException(
+                    inputs: "Action", 
+                    expected_values: "An action command", 
+                    hard_coded_inputs: true,
+                    value_missing: true
+                );
 
             }
 
@@ -197,7 +210,7 @@
                             else {
 
                                 header($_SERVER["SERVER_PROTOCOL"] . " 500 Internal Server Error");
-                                trigger_error("A valid list of IDs from a search failed to convert to names.", E_USER_ERROR);
+                                throw new \Exception("A valid list of IDs from a search failed to convert to names.", 12001);
 
                             }
 
@@ -218,15 +231,23 @@
                 }
                 else {
 
-                    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-
+                    throw new UserInputException(
+                        inputs: "Term", 
+                        expected_values: "A search term", 
+                        value_missing: true
+                    );
+                    
                 }
 
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                trigger_error("Unapproved Search Type Requested.", E_USER_ERROR);
+                throw new UserInputException(
+                    inputs: "Type", 
+                    expected_values: "A valid type of entity to search for", 
+                    hard_coded_inputs: true,
+                    value_missing: true
+                );
 
             }
 
@@ -253,16 +274,22 @@
                 }
                 else {
 
-                    header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                    trigger_error("A group that was requested to be added already exists.", E_USER_ERROR);
+                    throw new UserInputException(
+                        inputs: "Type / ID Combination", 
+                        expected_values: "A type and id combination not already in the database", 
+                        hard_coded_inputs: true
+                    );
 
                 }
 
             }
             else {
-
-                header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-                trigger_error("The ID or Name of a group that was requested to be added does not exist.", E_USER_ERROR);
+                
+                throw new UserInputException(
+                    inputs: ["Type", "ID", "Name"], 
+                    expected_values: ["A valid type of entity to add", "A valid entity id", "The name matching the id"], 
+                    hard_coded_inputs: true
+                );
 
             }
 
@@ -284,8 +311,11 @@
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-                trigger_error("The group that was requested to be removed does not exist.", E_USER_ERROR);
+                throw new UserInputException(
+                    inputs: ["Type", "ID"], 
+                    expected_values: ["A valid type of group to remove", "A valid group id"], 
+                    hard_coded_inputs: true
+                );
 
             }
 
@@ -321,8 +351,11 @@
 
                         default:
 
-                            header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                            trigger_error("Invalid type of change was received for an access group.", E_USER_ERROR);
+                            throw new UserInputException(
+                                inputs: "Change", 
+                                expected_values: "Added or Removed", 
+                                hard_coded_inputs: true
+                            );
 
                     }
 
@@ -341,16 +374,22 @@
                 }
                 else {
 
-                    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-                    trigger_error("The group for which a change was requested does not exist.", E_USER_ERROR);
+                    throw new UserInputException(
+                        inputs: ["Type", "ID"], 
+                        expected_values: ["A valid type of group", "A valid group id"], 
+                        hard_coded_inputs: true
+                    );
 
                 }
 
             }
             else {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-                trigger_error("A change was requested using an invalid role.", E_USER_ERROR);
+                throw new UserInputException(
+                    inputs: "Role", 
+                    expected_values: "A valid role", 
+                    hard_coded_inputs: true
+                );
 
             }
 

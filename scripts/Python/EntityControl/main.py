@@ -10,7 +10,7 @@ def getEntityTimeMark():
 
 class Corporation:
 
-    def __init__(self, id, client_id, client_secret, database_connection):
+    def __init__(self, id, client_id, client_secret, version_variables, database_connection):
 
         self.id = id
         self.name = None
@@ -18,6 +18,7 @@ class Corporation:
         self.database = database_connection
         self.client_id = client_id
         self.client_secret = client_secret
+        self.version_variables = version_variables
 
         self.initialized = False
         self.frequency = 0
@@ -108,7 +109,7 @@ class Corporation:
 
             self.name = corpName
 
-            self.characters[eachID] = Character(eachID, self.client_id, self.client_secret, self.database)
+            self.characters[eachID] = Character(eachID, self.client_id, self.client_secret, self.version_variables, self.database)
 
             if self.characters[eachID].valid:
 
@@ -220,13 +221,14 @@ class Corporation:
 
 class Character:
 
-    def __init__(self, id, client_id, client_secret, database_connection):
+    def __init__(self, id, client_id, client_secret, version_variables, database_connection):
 
         self.id = id
 
         self.database = database_connection
         self.client_id = client_id
         self.client_secret = client_secret
+        self.version_variables = version_variables
 
         self.valid = False
 
@@ -293,6 +295,7 @@ class Character:
 
         self.ESIHandler = ESI.Handler(
             self.database,
+            self.version_variables,
             self.access_token
         )
 

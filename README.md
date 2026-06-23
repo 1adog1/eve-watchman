@@ -4,23 +4,28 @@ Eve Watchman is a web app for Eve Online allowing corporations and alliances to 
 
 This Branch is a rewrite of the application using a new custom framework. **Versions prior to Firetower - 0 - 0 cannot be upgraded to this version while still retaining data!**
 
-**Current Version: Radar – 1 – 1**
+**Current Version: Radar - 2 - 0**
 
 ## Requirements
 
 The core of this framework requires the following:
 
-* Apache ≥ 2.4
-  * The `DocumentRoot` config option to set `/public`
-  * The `FallbackResource` config option set to `/index.php`
-* PHP ≥ 8.0
+* A Web Server Such As:
+  * NGINX ≥ 1.18
+    * The `root` option pointing to the `/public` folder
+    * The `index` option set to `index.php`
+    * The `try_files` option set to `$uri /index.php$is_args$args`
+  * Apache ≥ 2.4
+    * The `DocumentRoot` config option set to `/public`
+    * The `FallbackResource` config option set to `/index.php`
+* PHP ≥ 8.1
   * The `curl` Built-In Extension
   * The `pdo_mysql` Built-In Extension
   * The `openssl` Built-In Extension
-  * Python ≥ 3.9
-    * [requests](https://pypi.org/project/requests/)
-    * [PyYaml](https://pypi.org/project/PyYAML/)
-    * [Python MySQL Connector](https://dev.mysql.com/downloads/connector/python/)
+* Python ≥ 3.11
+  * [requests](https://pypi.org/project/requests/)
+  * [PyYaml](https://pypi.org/project/PyYAML/)
+  * [Python MySQL Connector](https://dev.mysql.com/downloads/connector/python/)
 * An SQL Server
   * If you are using MySQL, the Authentication Method **MUST** be the Legacy Version. PDO does not support the use of `caching_sha2_password` Authentication.
 * A Registered Eve Online Application.
@@ -40,9 +45,9 @@ The core of this framework requires the following:
 
 ### To Deploy the Relay on a Separate Server
    In the event that it's not easy to deploy the entire app to one server, the Python-Based Relay can be transferred to another server by following the instructions below:
-* Make sure to copy the `/config/config.ini` file somewhere python can access it.
+* Make sure to copy the `/config` folder somewhere python can access it.
 * Move the `/scripts/Python/` folder to wherever you'll be running it from.
-* In `/Relay/main.py` change the `CONFIG_PATH_OVERRIDE` variable to an absolute path where your copy of `config.ini` is being stored.
+* In `/OverhaulConfig/Overhaul_Config.py` change the `CONFIG_DIRECTORY` variable to an absolute path to your copied `/config` directory.
 
 ## Using Environment Variables Instead of a Config File
 * You can find environment variable keys associated with each config value in the comments of `/config/config.ini.dist`.

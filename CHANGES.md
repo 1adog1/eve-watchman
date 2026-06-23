@@ -2,6 +2,59 @@
 
 Changes for each version along with any requirements to update from the previous version will be listed below.
 
+## Minor Version Radar - 2 - 0 Update
+
+### Framework
+
+* Updated to Project Overhaul version Brick - 0 - 0
+
+### Database
+
+* Optimized various data types, added primary keys and indexes.
+
+### Bugfixes
+* Fixed a longstanding `this is incompatible with sql_mode=only_full_group_by` error with some MySQL Installations.
+* Fixed a problem with Discord's field value character limit when creating relays with large notification type lists.
+
+### UPDATE INSTRUCTIONS (From Version Radar – 0 – *)
+
+1. Pause operation of the Website and Relay.
+2. Sync up files with the repository.
+3. Populate the `ClientContactInfo` config option.
+4. Execute the following SQL Commands:
+    * > ALTER TABLE servers MODIFY id VARCHAR(32);
+    * > ALTER TABLE servers MODIFY type ENUM('Discord', 'Slack');
+    * > ALTER TABLE servers ADD PRIMARY KEY (type, id);
+    * > ALTER TABLE channels MODIFY id VARCHAR(32);
+    * > ALTER TABLE channels MODIFY type ENUM('Discord', 'Slack');
+    * > ALTER TABLE channels MODIFY serverid VARCHAR(32);
+    * > ALTER TABLE channels ADD PRIMARY KEY (type, id, serverid);
+    * > ALTER TABLE relaycharacters MODIFY status ENUM('Valid', 'Invalid');
+    * > ALTER TABLE relaycharacters ADD PRIMARY KEY (id);
+    * > ALTER TABLE relaycharacters ADD INDEX relaycharacter_corporationid (corporationid);
+    * > ALTER TABLE relaycharacters ADD INDEX relaycharacter_allianceid (allianceid);
+    * > ALTER TABLE relays MODIFY id VARCHAR(64);
+    * > ALTER TABLE relays MODIFY type ENUM('Discord', 'Slack');
+    * > ALTER TABLE relays MODIFY channelid VARCHAR(32);
+    * > ALTER TABLE relays MODIFY serverid VARCHAR(32);
+    * > ALTER TABLE relays MODIFY pingtype ENUM('everyone', 'channel', 'here', 'none');
+    * > ALTER TABLE relays ADD PRIMARY KEY (id);
+    * > ALTER TABLE relays ADD INDEX relay_corporationid (corporationid);
+    * > ALTER TABLE relays ADD INDEX relay_allianceid (allianceid);
+    * > ALTER TABLE timerboards MODIFY id VARCHAR(64);
+    * > ALTER TABLE timerboards MODIFY type ENUM('RC2');
+    * > ALTER TABLE timerboards ADD PRIMARY KEY (id);
+    * > ALTER TABLE timerboards ADD INDEX timerboard_corporationid (corporationid);
+    * > ALTER TABLE timerboards ADD INDEX timerboard_allianceid (allianceid);
+    * > ALTER TABLE timers MODIFY timerboardid VARCHAR(64);
+    * > ALTER TABLE timers ADD PRIMARY KEY (timerboardid, id);
+    * > ALTER TABLE notifications MODIFY relayid VARCHAR(64);
+    * > ALTER TABLE notifications ADD PRIMARY KEY (relayid, id);
+    * > ALTER TABLE staggering ADD PRIMARY KEY (corporationid);
+    * > ALTER TABLE staggering ADD INDEX staggering_nextrun (nextrun);
+    * > ALTER TABLE staggering ADD INDEX staggering_nextcleanup (nextcleanup);
+5. Restart operation of the Website and Relay.
+
 ## Patch Version Radar – 1 – 1 Update
 
 ### Relay Script

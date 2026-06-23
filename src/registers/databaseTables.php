@@ -28,51 +28,57 @@
 
     $siteDatabase->register(
         "servers",
-        ["Name" => "id", "Type" => "TEXT"],
-        ["Name" => "type", "Type" => "TEXT"],
-        ["Name" => "name", "Type" => "TEXT"]
+        ["Name" => "id", "Type" => "VARCHAR(32)"],
+        ["Name" => "type", "Type" => "ENUM('Discord', 'Slack')"],
+        ["Name" => "name", "Type" => "TEXT"],
+        ["Name" => "", "Type" => "", "Special" => "CONSTRAINT server_pk PRIMARY KEY (type, id)"]
     );
 
     $siteDatabase->register(
         "channels",
-        ["Name" => "id", "Type" => "TEXT"],
-        ["Name" => "type", "Type" => "TEXT"],
-        ["Name" => "serverid", "Type" => "TEXT"],
-        ["Name" => "name", "Type" => "TEXT"]
+        ["Name" => "id", "Type" => "VARCHAR(32)"],
+        ["Name" => "type", "Type" => "ENUM('Discord', 'Slack')"],
+        ["Name" => "serverid", "Type" => "VARCHAR(32)"],
+        ["Name" => "name", "Type" => "TEXT"],
+        ["Name" => "", "Type" => "", "Special" => "CONSTRAINT channel_pk PRIMARY KEY (type, id, serverid)"]
     );
 
     $siteDatabase->register(
         "relaycharacters",
-        ["Name" => "id", "Type" => "BIGINT"],
+        ["Name" => "id", "Type" => "BIGINT", "Special" => "primary key"],
         ["Name" => "name", "Type" => "TEXT"],
-        ["Name" => "status", "Type" => "TEXT"],
+        ["Name" => "status", "Type" => "ENUM('Valid', 'Invalid')"],
         ["Name" => "corporationid", "Type" => "BIGINT"],
         ["Name" => "corporationname", "Type" => "TEXT"],
         ["Name" => "allianceid", "Type" => "BIGINT"],
         ["Name" => "alliancename", "Type" => "TEXT"],
-        ["Name" => "roles", "Type" => "LONGTEXT"]
+        ["Name" => "roles", "Type" => "LONGTEXT"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (corporationid)"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (allianceid)"]
     );
 
     $siteDatabase->register(
         "relays",
-        ["Name" => "id", "Type" => "TEXT"],
-        ["Name" => "type", "Type" => "TEXT"],
-        ["Name" => "channelid", "Type" => "TEXT"],
-        ["Name" => "serverid", "Type" => "TEXT"],
+        ["Name" => "id", "Type" => "VARCHAR(64)", "Special" => "primary key"],
+        ["Name" => "type", "Type" => "ENUM('Discord', 'Slack')"],
+        ["Name" => "channelid", "Type" => "VARCHAR(32)"],
+        ["Name" => "serverid", "Type" => "VARCHAR(32)"],
         ["Name" => "url", "Type" => "TEXT"],
-        ["Name" => "pingtype", "Type" => "TEXT"],
+        ["Name" => "pingtype", "Type" => "ENUM('everyone', 'channel', 'here', 'none')"],
         ["Name" => "whitelist", "Type" => "LONGTEXT"],
         ["Name" => "timestamp", "Type" => "BIGINT"],
         ["Name" => "corporationid", "Type" => "BIGINT"],
         ["Name" => "corporationname", "Type" => "TEXT"],
         ["Name" => "allianceid", "Type" => "BIGINT"],
-        ["Name" => "alliancename", "Type" => "TEXT"]
+        ["Name" => "alliancename", "Type" => "TEXT"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (corporationid)"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (allianceid)"]
     );
 
     $siteDatabase->register(
         "timerboards",
-        ["Name" => "id", "Type" => "TEXT"],
-        ["Name" => "type", "Type" => "TEXT"],
+        ["Name" => "id", "Type" => "VARCHAR(64)", "Special" => "primary key"],
+        ["Name" => "type", "Type" => "ENUM('RC2')"],
         ["Name" => "url", "Type" => "TEXT"],
         ["Name" => "token", "Type" => "TEXT"],
         ["Name" => "whitelist", "Type" => "LONGTEXT"],
@@ -80,33 +86,39 @@
         ["Name" => "corporationid", "Type" => "BIGINT"],
         ["Name" => "corporationname", "Type" => "TEXT"],
         ["Name" => "allianceid", "Type" => "BIGINT"],
-        ["Name" => "alliancename", "Type" => "TEXT"]
+        ["Name" => "alliancename", "Type" => "TEXT"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (corporationid)"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (allianceid)"]
     );
 
     $siteDatabase->register(
         "timers",
         ["Name" => "id", "Type" => "BIGINT"],
-        ["Name" => "timerboardid", "Type" => "TEXT"],
+        ["Name" => "timerboardid", "Type" => "VARCHAR(64)"],
         ["Name" => "type", "Type" => "TEXT"],
-        ["Name" => "timestamp", "Type" => "BIGINT"]
+        ["Name" => "timestamp", "Type" => "BIGINT"],
+        ["Name" => "", "Type" => "", "Special" => "CONSTRAINT timer_pk PRIMARY KEY (timerboardid, id)"]
     );
 
     $siteDatabase->register(
         "notifications",
         ["Name" => "id", "Type" => "BIGINT"],
-        ["Name" => "relayid", "Type" => "TEXT"],
+        ["Name" => "relayid", "Type" => "VARCHAR(64)"],
         ["Name" => "type", "Type" => "TEXT"],
-        ["Name" => "timestamp", "Type" => "BIGINT"]
+        ["Name" => "timestamp", "Type" => "BIGINT"],
+        ["Name" => "", "Type" => "", "Special" => "CONSTRAINT notification_pk PRIMARY KEY (relayid, id)"]
     );
 
     $siteDatabase->register(
         "staggering",
-        ["Name" => "corporationid", "Type" => "BIGINT"],
+        ["Name" => "corporationid", "Type" => "BIGINT", "Special" => "primary key"],
         ["Name" => "characters", "Type" => "LONGTEXT"],
         ["Name" => "frequency", "Type" => "BIGINT"],
         ["Name" => "nextrun", "Type" => "BIGINT"],
         ["Name" => "currentposition", "Type" => "BIGINT"],
-        ["Name" => "nextcleanup", "Type" => "BIGINT"]
+        ["Name" => "nextcleanup", "Type" => "BIGINT"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (nextrun)"],
+        ["Name" => "", "Type" => "", "Special" => "INDEX (nextcleanup)"]
     );
 
 ?>

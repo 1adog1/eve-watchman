@@ -2,18 +2,19 @@
 
 [App]
 ; These values denote your application's current version. The major, minor, and patch versions will be shown joined by the chosen delimiter symbol(s).
+app_name = Eve-Watchman
 major_version = Radar
-minor_version = 1
-patch_version = 1
-delimiter = " – "
+minor_version = 2
+patch_version = 0
+delimiter = " - "
 github_link = https://github.com/1adog1/eve-watchman/
 
 [Overhaul]
 ; These values denote the version of the Project Overhaul Template your app is based on.
-major_version = Clay
+major_version = Brick
 minor_version = 0
 patch_version = 0
-delimiter = " – "
+delimiter = " - "
 github_link = https://github.com/1adog1/project-overhaul/
 
 [Bootstrap]

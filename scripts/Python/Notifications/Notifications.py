@@ -23,6 +23,7 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
     def __init__(
         self,
         database_connection,
+        version_variables,
         incoming_type,
         incoming_time,
         incoming_text,
@@ -53,7 +54,7 @@ class Notification(NotificationUtilities, TypeRegister, TypeFormatter):
         self.relay_owner = relay_for_id
         self.verified_owner = None
 
-        NotificationUtilities.__init__(self, database_connection, access_token)
+        NotificationUtilities.__init__(self, database_connection, version_variables, access_token)
         TypeRegister.__init__(self)
 
     def shouldItRelay(self, recent_pos_fuel_alerts = []):

@@ -28,6 +28,13 @@
                 "User Notice",
                 "User Deprecated Code Error"
             ]],
+            "bad-input" => ["Name" => "Bad Input", "Types" => [
+                "Missing User Input",
+                "Bad User Input",
+                "User Input Not Found",
+                "Missing Hardcoded Input",
+                "Bad Hardcoded Input"
+            ]],
             "core-database-update" => ["Name" => "Core Database Updates", "Types" => [
                 "Access Group Created",
                 "Access Group Updated",
@@ -117,7 +124,7 @@
         }
 
         public function make_log_entry($logType, $logPage = null, $logActor = null, $logDetails = null) {
-
+            
             $currentTime = time();
 
             $writtenLogType = $logType;
